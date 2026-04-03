@@ -1,0 +1,93 @@
+/* Shiv Travel - Modern React Design System */
+:root {
+  --primary: #f39c12;
+  --secondary: #2c3e50;
+  --accent: #3498db;
+  --background: #f8f9fa;
+  --text: #2c3e50;
+  --text-muted: #7f8c8d;
+  --white: #ffffff;
+  --black: #000000;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --container: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text);
+  background-color: var(--background);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 50px;
+  background-color: var(--primary);
+  color: var(--white);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 16px;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+}
+
+.section-title {
+  text-align: center;
+  margin: 80px 0 50px;
+}
+
+.section-title h2 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.section-title .divider {
+  width: 60px;
+  height: 5px;
+  background-color: var(--primary);
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
