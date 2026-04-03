@@ -12,3 +12,6 @@ python-jose[cryptography]
 cors
 gunicorn
 uvicorn
+motor
+pymongo
+certifi

@@ -1,15 +1,18 @@
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, BeforeValidator
 from datetime import datetime
-from typing import Optional, List
+from typing import Optional, List, Annotated, Union
+
+# Helper to handle MongoDB ObjectId as a string
+PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class PackageImageBase(BaseModel):
     image_url: str
 
 class PackageImage(PackageImageBase):
-    id: int
-    package_id: int
+    id: Union[int, PyObjectId]
+    package_id: Union[int, PyObjectId]
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
 class PackageBase(BaseModel):
     title: str
@@ -42,11 +45,15 @@ class PackageUpdate(PackageBase):
     gallery: Optional[List[str]] = None
 
 class Package(PackageBase):
-    id: int
-    created_at: datetime
+    id: Union[int, PyObjectId] = Field(alias="_id")
+    created_at: datetime = Field(default_factory=datetime.now)
     gallery: List[PackageImage] = []
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True,
+        json_encoders={datetime: lambda v: v.isoformat()}
+    )
 
 class AdminUserBase(BaseModel):
     username: str
@@ -55,13 +62,13 @@ class AdminUserCreate(AdminUserBase):
     password: str
 
 class AdminUser(AdminUserBase):
-    id: int
-    created_at: datetime
+    id: Union[int, PyObjectId] = Field(alias="_id")
+    created_at: datetime = Field(default_factory=datetime.now)
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
 class EnquiryBase(BaseModel):
-    package_id: Optional[int] = None
+    package_id: Optional[Union[int, PyObjectId]] = None
     name: str
     email: str
     phone: Optional[str] = None
@@ -73,11 +80,11 @@ class EnquiryCreate(EnquiryBase):
     pass
 
 class Enquiry(EnquiryBase):
-    id: int
-    created_at: datetime
+    id: Union[int, PyObjectId] = Field(alias="_id")
+    created_at: datetime = Field(default_factory=datetime.now)
     package: Optional[Package] = None
 
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
 class Token(BaseModel):
     access_token: str
