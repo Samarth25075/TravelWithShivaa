@@ -35,9 +35,9 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       const [pkgsRes, enqRes, statsRes] = await Promise.all([
-        axios.get('/api/admin/packages'),
-        axios.get('/api/admin/enquiries'),
-        axios.get('/api/admin/stats')
+        axios.get('admin/packages'),
+        axios.get('admin/enquiries'),
+        axios.get('admin/stats')
       ]);
       setPackages(pkgsRes.data);
       setEnquiries(enqRes.data);
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
     uploadFormData.append('file', file);
 
     try {
-      const res = await axios.post('/api/upload', uploadFormData);
+      const res = await axios.post('upload', uploadFormData);
       if (field === 'main') {
         setFormData({ ...formData, image: res.data.filename });
       }
@@ -105,9 +105,9 @@ const AdminDashboard = () => {
       }
 
       if (editingPackage) {
-        await axios.put(`/api/admin/packages/${editingPackage.id}`, payload);
+        await axios.put(`admin/packages/${editingPackage.id}`, payload);
       } else {
-        await axios.post('/api/admin/packages', payload);
+        await axios.post('admin/packages', payload);
       }
       setShowModal(false);
       setEditingPackage(null);
@@ -121,7 +121,7 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this package?')) {
       try {
-        await axios.delete(`/api/admin/packages/${id}`);
+        await axios.delete(`admin/packages/${id}`);
         fetchData();
       } catch (err) {
         console.error(err);
@@ -131,7 +131,7 @@ const AdminDashboard = () => {
 
   const handleUpdateEnquiryStatus = async (id, status) => {
     try {
-      await axios.put(`/api/admin/enquiries/${id}?status=${status}`);
+      await axios.put(`admin/enquiries/${id}?status=${status}`);
       fetchData();
     } catch (err) {
       console.error(err);

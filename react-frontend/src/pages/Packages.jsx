@@ -11,7 +11,7 @@ const Packages = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get('/api/packages')
+    axios.get('packages')
       .then(res => {
         setPackages(res.data);
         setLoading(false);

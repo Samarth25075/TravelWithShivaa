@@ -8,7 +8,7 @@ const Home = () => {
   const [featured, setFeatured] = useState([]);
 
   useEffect(() => {
-    axios.get('/api/packages/featured')
+    axios.get('packages/featured')
       .then(res => setFeatured(res.data))
       .catch(err => console.error(err));
   }, []);

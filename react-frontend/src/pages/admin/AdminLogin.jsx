@@ -20,7 +20,7 @@ const AdminLogin = () => {
     setError('');
     
     try {
-      const response = await axios.post('/api/admin/login', credentials);
+      const response = await axios.post('admin/login', credentials);
       if (response.data.status === 'success') {
         localStorage.setItem('admin_token', response.data.token);
         navigate('/admin/packages');

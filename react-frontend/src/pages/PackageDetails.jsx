@@ -19,7 +19,7 @@ const PackageDetails = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    axios.get(`/api/packages/${id}`)
+    axios.get(`packages/${id}`)
       .then(res => setPackageData(res.data))
       .catch(err => console.error(err));
   }, [id]);
@@ -34,7 +34,7 @@ const PackageDetails = () => {
     e.preventDefault();
     setEnquiryStatus('loading');
     try {
-      await axios.post('/api/enquiries', {
+      await axios.post('enquiries', {
         ...enquiryForm,
         package_id: id,
         subject: `Booking Enquiry: ${packageData.title}`
