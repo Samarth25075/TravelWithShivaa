@@ -9,8 +9,8 @@ class PackageImageBase(BaseModel):
     image_url: str
 
 class PackageImage(PackageImageBase):
-    id: Union[int, PyObjectId]
-    package_id: Union[int, PyObjectId]
+    id: Optional[PyObjectId] = Field(None, validation_alias="_id")
+    package_id: Optional[PyObjectId] = None
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
@@ -45,7 +45,7 @@ class PackageUpdate(PackageBase):
     gallery: Optional[List[str]] = None
 
 class Package(PackageBase):
-    id: Union[int, PyObjectId] = Field(alias="_id")
+    id: Optional[PyObjectId] = Field(None, validation_alias="_id")
     created_at: datetime = Field(default_factory=datetime.now)
     gallery: List[PackageImage] = []
 
@@ -62,13 +62,13 @@ class AdminUserCreate(AdminUserBase):
     password: str
 
 class AdminUser(AdminUserBase):
-    id: Union[int, PyObjectId] = Field(alias="_id")
+    id: Optional[PyObjectId] = Field(None, validation_alias="_id")
     created_at: datetime = Field(default_factory=datetime.now)
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
 
 class EnquiryBase(BaseModel):
-    package_id: Optional[Union[int, PyObjectId]] = None
+    package_id: Optional[PyObjectId] = None
     name: str
     email: str
     phone: Optional[str] = None
@@ -80,7 +80,7 @@ class EnquiryCreate(EnquiryBase):
     pass
 
 class Enquiry(EnquiryBase):
-    id: Union[int, PyObjectId] = Field(alias="_id")
+    id: Optional[PyObjectId] = Field(None, validation_alias="_id")
     created_at: datetime = Field(default_factory=datetime.now)
     package: Optional[Package] = None
 

@@ -1,33 +1,50 @@
-/* Shiv Travel - Modern React Design System */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* Shiv Travel - Premium Modern Design System */
 :root {
-  --primary: #f39c12;
-  --secondary: #2c3e50;
-  --accent: #3498db;
-  --background: #f8f9fa;
-  --text: #2c3e50;
-  --text-muted: #7f8c8d;
+  /* Colors - Sleek & High Contrast */
+  --primary: #f59e0b; /* Amber 500 */
+  --primary-hover: #d97706;
+  --secondary: #0f172a; /* Slate 900 */
+  --accent: #3b82f6; /* Blue 500 */
+  --background: #fdfdfd;
+  --surface: #ffffff;
+  --text: #1e293b; /* Slate 800 */
+  --text-muted: #64748b; /* Slate 500 */
+  --border: #f1f5f9; /* Slate 100 */
+  
+  /* Shared Tokens */
   --white: #ffffff;
   --black: #000000;
-  --radius: 16px;
-  --radius-lg: 24px;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --container: 1200px;
+  --radius-sm: 12px;
+  --radius: 20px;
+  --radius-lg: 32px;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --container: 1280px;
+  --nav-height: 80px;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter', sans-serif;
   color: var(--text);
   background-color: var(--background);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Outfit', sans-serif;
 }
 
 .container {
@@ -36,58 +53,109 @@ body {
   padding: 0 24px;
 }
 
+/* Button System */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 28px;
+  padding: 16px 36px;
   border-radius: 50px;
   background-color: var(--primary);
   color: var(--white);
-  font-weight: 700;
+  font-weight: 800;
   border: none;
   cursor: pointer;
   transition: var(--transition);
   font-size: 16px;
+  text-decoration: none;
+  letter-spacing: -0.2px;
 }
 
 .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(243, 156, 18, 0.4);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
   filter: brightness(1.05);
+}
+
+.btn:active {
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background-color: var(--secondary);
 }
 
+.btn-secondary:hover {
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.25);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 4px solid var(--primary);
+  color: var(--text);
+}
+
+/* Section Structure */
 .section-title {
   text-align: center;
-  margin: 80px 0 50px;
+  margin-bottom: 60px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .section-title h2 {
-  font-size: 42px;
-  font-weight: 800;
-  margin-bottom: 15px;
-  letter-spacing: -1px;
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 900;
+  margin-bottom: 20px;
+  color: var(--secondary);
+  line-height: 1.1;
+  letter-spacing: -2px;
 }
 
 .section-title .divider {
-  width: 60px;
-  height: 5px;
+  width: 80px;
+  height: 8px;
   background-color: var(--primary);
   margin: 0 auto;
   border-radius: 10px;
 }
 
+/* Responsive Grid Helpers */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(280px, 30vw, 400px), 1fr));
+  gap: 40px;
+}
+
+@media (max-width: 768px) {
+  .section-title h2 {
+    font-size: 36px;
+    letter-spacing: -1px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 15px;
+  }
+}
+
+/* Layout Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 /* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease forwards;
+.animate-slide-up {
+  animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
+

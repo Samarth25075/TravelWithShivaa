@@ -2,17 +2,32 @@ from bson import ObjectId
 from typing import Union, List
 
 def fix_id(doc):
-    "Converts _id (ObjectId) to id (str or int)"
-    if doc and "_id" in doc:
+    """
+    Ensures MongoDB document has 'id' field as string.
+    Keeps '_id' for backend use if needed.
+    """
+    if not doc:
+        return doc
+    
+    # Ensure _id exists (from database)
+    if "_id" in doc:
         doc["id"] = str(doc["_id"])
-        # No need to remove _id as we use aliases in schemas
+    elif "id" in doc and not "_id" in doc:
+        # If it came from some other source and only has id
+        try:
+            doc["_id"] = ObjectId(doc["id"])
+        except:
+            pass
+            
     return doc
 
 def fix_ids(docs):
     return [fix_id(doc) for doc in docs]
 
-def to_object_id(id_str: Union[str, int]) -> Union[ObjectId, int]:
+def to_object_id(id_val: Union[str, int, ObjectId]) -> Union[ObjectId, int]:
+    if isinstance(id_val, ObjectId):
+        return id_val
     try:
-        return ObjectId(id_str)
+        return ObjectId(str(id_val))
     except:
-        return id_str
+        return id_val
