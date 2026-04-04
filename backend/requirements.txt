@@ -1,17 +1,12 @@
 fastapi
 uvicorn
-sqlalchemy[asyncio]
-asyncpg
-aiomysql
 pydantic
 pydantic-settings
 python-dotenv
 passlib[bcrypt]
 python-multipart
 python-jose[cryptography]
-cors
 gunicorn
-uvicorn
 motor
 pymongo
 certifi
