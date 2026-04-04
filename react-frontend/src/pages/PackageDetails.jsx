@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Users, MapPin, CheckCircle, XCircle, Share2, Shield, CalendarCheck, Send, X, ArrowLeft } from 'lucide-react';
+import { Clock, Users, MapPin, CheckCircle, XCircle, Share2, Shield, CalendarCheck, Send, X, ArrowLeft, MessageSquare } from 'lucide-react';
 
 const PackageDetails = () => {
   const { id } = useParams();
@@ -49,6 +49,12 @@ const PackageDetails = () => {
       console.error(err);
       setEnquiryStatus('error');
     }
+  };
+
+  const handleWhatsAppBook = () => {
+    const adminPhone = "919313634723";
+    const text = `*Booking Enquiry for Shiv Travel*%0A%0A*Package:* ${packageData.title}%0A*Price:* ₹${packageData.price.toLocaleString()}%0A%0A*Name:* ${enquiryForm.name}%0A*Message:* I'm interested in booking the ${packageData.title} package. Please share more details.`;
+    window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
   };
 
   const tabs = [
@@ -203,6 +209,10 @@ const PackageDetails = () => {
 
               <button onClick={() => setShowEnquiryModal(true)} className="btn btn-booking">
                 Plan My Journey
+              </button>
+              
+              <button onClick={handleWhatsAppBook} className="btn" style={{ width: '100%', marginTop: '15px', padding: '18px', borderRadius: '16px', backgroundColor: '#25D366', color: 'white', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontSize: '16px', fontWeight: 800 }}>
+                WhatsApp Booking <MessageSquare size={20} />
               </button>
             </div>
           </aside>
