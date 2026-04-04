@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Globe } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Mountain } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -25,20 +25,22 @@ const Footer = () => {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link to="/" style={{
-              fontSize: '32px',
-              fontWeight: 900,
-              color: 'white',
-              letterSpacing: '-1.5px',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '12px',
+              gap: '14px',
               marginBottom: '30px'
             }}>
-              <div style={{ width: '45px', height: '45px', background: 'var(--primary)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Globe size={26} color="white" />
-              </div>
-              SHIV<span style={{ color: 'var(--primary)' }}>TRAVEL</span>
+              <img 
+                src="/logo.png" 
+                alt="Shiv Travel Logo" 
+                style={{ 
+                  height: '75px', 
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: 'brightness(1.2)' // Slight boost for visibility on dark footer
+                }} 
+              />
             </Link>
             <p style={{ opacity: 0.6, lineHeight: 1.8, marginBottom: '40px', fontSize: '16px', maxWidth: '400px' }}>
               Shiv Travel is a premier tour agency dedicated to crafting bespoke travel experiences that inspire and exhilarate. We bridge the gap between dreams and reality.

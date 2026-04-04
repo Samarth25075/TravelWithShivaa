@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Menu, X, Phone, Globe } from 'lucide-react';
+import { Menu, X, Phone, Mountain } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
@@ -49,19 +49,21 @@ const Navbar = () => {
             alignItems: 'center'
           }}>
             <Link to="/" style={{
-              fontSize: '28px',
-              fontWeight: 900,
-              color: 'var(--secondary)',
-              letterSpacing: '-1.5px',
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px'
+              gap: '12px'
             }}>
-              <div style={{ width: '40px', height: '40px', background: 'var(--primary)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-                <Globe size={24} />
-              </div>
-              <span className="logo-text">SHIV<span style={{ color: 'var(--primary)' }}>TRAVEL</span></span>
+              <img 
+                src="/logo.png" 
+                alt="Shiv Travel Logo" 
+                style={{ 
+                  height: scrolled ? '60px' : '85px', 
+                  width: 'auto',
+                  transition: 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  objectFit: 'contain'
+                }} 
+              />
             </Link>
 
             {/* Desktop Nav */}

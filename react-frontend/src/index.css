@@ -3,10 +3,10 @@
 /* Shiv Travel - Premium Modern Design System */
 :root {
   /* Colors - Sleek & High Contrast */
-  --primary: #f59e0b; /* Amber 500 */
-  --primary-hover: #d97706;
-  --secondary: #0f172a; /* Slate 900 */
-  --accent: #3b82f6; /* Blue 500 */
+  --primary: #ff6600; /* Vibrant Orange from Logo */
+  --primary-hover: #e65c00;
+  --secondary: #2d2d2d; /* Professional Dark Grey from Logo */
+  --accent: #ff8533; 
   --background: #fdfdfd;
   --surface: #ffffff;
   --text: #1e293b; /* Slate 800 */

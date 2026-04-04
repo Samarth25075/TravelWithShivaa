@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, MessageSquare, Settings, LogOut, Globe } from 'lucide-react';
+import { LayoutDashboard, Package, MessageSquare, Settings, LogOut, Mountain } from 'lucide-react';
 
 const AdminSidebar = () => {
   const location = useLocation();
@@ -31,17 +31,15 @@ const AdminSidebar = () => {
       zIndex: 100
     }}>
       <div style={{ marginBottom: '50px', padding: '0 20px' }}>
-        <h2 style={{ 
-          fontSize: '28px', 
-          fontWeight: 900, 
-          color: 'var(--primary)', 
-          letterSpacing: '-1.5px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          SHIV<span style={{ color: 'white' }}>ADMIN</span>
-        </h2>
+          <img 
+            src="/logo.png" 
+            alt="Shiv Travel Logo" 
+            style={{ 
+              height: '60px', 
+              width: 'auto',
+              objectFit: 'contain'
+            }} 
+          />
       </div>
 
       <nav style={{ flex: 1 }}>
@@ -87,7 +85,7 @@ const AdminSidebar = () => {
           borderRadius: '16px',
           transition: '0.3s'
         }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.6}>
-          <Globe size={20} /> View Website
+          <Mountain size={20} /> View Website
         </Link>
         
         <button 

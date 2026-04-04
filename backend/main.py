@@ -6,6 +6,10 @@ import os
 import shutil
 from pydantic import BaseModel
 from datetime import datetime
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from fastapi import BackgroundTasks
 
 # Local imports
 import schemas, database
@@ -65,8 +69,49 @@ async def login(request: LoginRequest, db_mongo = Depends(get_mongo_db)):
         
     return {"status": "success", "token": "shiv_travel_token_secure_" + admin["username"]}
 
+# --- Email Notification Logic ---
+def send_admin_notification(enquiry_data: dict):
+    mail_user = os.getenv("MAIL_USERNAME")
+    mail_pass = os.getenv("MAIL_PASSWORD")
+    admin_email = os.getenv("ADMIN_EMAIL", mail_user)
+    
+    if not mail_user or not mail_pass:
+        print("⚠️ [MAIL] Skipping notification: Credentials not set in .env")
+        return
+
+    try:
+        msg = MIMEMultipart()
+        msg['From'] = mail_user
+        msg['To'] = admin_email
+        msg['Subject'] = f"🚀 New Enquiry: {enquiry_data.get('subject', 'General')}"
+
+        body = f"""
+        🔔 New Enquiry Received via Shiv Travel Website
+
+        -------------------------------------------
+        👤 Name: {enquiry_data.get('name')}
+        📧 Email: {enquiry_data.get('email')}
+        📌 Subject: {enquiry_data.get('subject')}
+        💬 Message:
+        {enquiry_data.get('message')}
+        -------------------------------------------
+
+        *Sent automatically by Shiv Travel Backend*
+        """
+        msg.attach(MIMEText(body, 'plain'))
+
+        # Standard Gmail SMTP configuration
+        with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.starttls()
+            server.login(mail_user, mail_pass)
+            server.send_message(msg)
+            print(f"✅ [MAIL] Notification sent to {admin_email}")
+
+    except Exception as e:
+        print(f"❌ [MAIL] Failed to send email: {e}")
+
 # Ensure uploads directory exists
-UPLOAD_DIRECTORY = "../uploads"
+UPLOAD_DIRECTORY = "uploads"
 if not os.path.exists(UPLOAD_DIRECTORY):
     os.makedirs(UPLOAD_DIRECTORY, exist_ok=True)
 
@@ -93,11 +138,15 @@ async def get_package(package_id: str, db_mongo = Depends(get_mongo_db)):
 
 # Enquiry Routes
 @app.post("/api/enquiries", response_model=schemas.Enquiry)
-async def create_enquiry(enquiry: schemas.EnquiryCreate, db_mongo = Depends(get_mongo_db)):
+async def create_enquiry(enquiry: schemas.EnquiryCreate, background_tasks: BackgroundTasks, db_mongo = Depends(get_mongo_db)):
     new_enquiry_data = enquiry.dict()
     new_enquiry_data["created_at"] = datetime.now()
     result = await db_mongo["enquiries"].insert_one(new_enquiry_data)
     new_enquiry_data["_id"] = result.inserted_id
+    
+    # Send email notification in the background to avoid blocking the response
+    background_tasks.add_task(send_admin_notification, new_enquiry_data)
+    
     return fix_id(new_enquiry_data)
 
 # Admin Package Management

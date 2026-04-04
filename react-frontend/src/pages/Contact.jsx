@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, MessageSquare } from 'lucide-react';
 import axios from 'axios';
 
 const Contact = () => {
@@ -16,7 +16,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      await axios.post('/api/enquiries', formData);
+      await axios.post('/enquiries', formData);
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
@@ -24,6 +24,12 @@ const Contact = () => {
       console.error(err);
       setStatus('error');
     }
+  };
+
+  const handleWhatsAppShare = () => {
+    const adminPhone = "919313634723"; // Updated to your personal number
+    const text = `*New Enquiry for Shiv Travel*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
+    window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
   };
 
   return (
@@ -114,9 +120,14 @@ const Contact = () => {
                         <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Detailed Message</label>
                         <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required rows="5" placeholder="Tell us what you're looking for..." style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none', resize: 'none' }}></textarea>
                     </div>
-                    <button disabled={status === 'loading'} className="btn" style={{ gridColumn: '1 / 2', padding: '22px', borderRadius: '18px', fontSize: '17px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                      {status === 'loading' ? 'Sending...' : <>Send Message <Send size={20} /></>}
-                    </button>
+                    <div style={{ gridColumn: '1 / 3', display: 'flex', gap: '15px' }}>
+                      <button disabled={status === 'loading'} className="btn" style={{ flex: 1, padding: '22px', borderRadius: '18px', fontSize: '17px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                        {status === 'loading' ? 'Sending...' : <>Send Message <Send size={20} /></>}
+                      </button>
+                      <button type="button" onClick={handleWhatsAppShare} className="btn btn-secondary" style={{ flex: 1, padding: '22px', borderRadius: '18px', fontSize: '17px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', backgroundColor: '#25D366', border: 'none' }}>
+                        WhatsApp Us <MessageSquare size={20} />
+                      </button>
+                    </div>
                     {status === 'error' && <p style={{ color: '#ef4444', fontWeight: 700, marginTop: '10px' }}>Error sending message. Please try again.</p>}
                   </form>
                 </motion.div>

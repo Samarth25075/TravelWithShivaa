@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AdminSidebar from './components/AdminSidebar';
+import WhatsAppButton from './components/WhatsAppButton';
 import Home from './pages/Home';
 import Packages from './pages/Packages';
 import PackageDetails from './pages/PackageDetails';
@@ -27,6 +28,9 @@ function App() {
     <div className="app" style={{ display: 'flex', flexDirection: showAdminSide ? 'row' : 'column' }}>
       {showAdminSide ? <AdminSidebar /> : (location.pathname !== '/admin/login' && <Navbar />)}
       
+      {/* Floating WhatsApp Button - Visible site-wide except on login */}
+      {location.pathname !== '/admin/login' && <WhatsAppButton />}
+
       <div style={{ flex: 1, marginLeft: showAdminSide ? '280px' : '0' }}>
         <Routes>
           <Route path="/" element={<Home />} />
