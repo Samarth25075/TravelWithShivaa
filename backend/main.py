@@ -91,6 +91,7 @@ def send_admin_notification(enquiry_data: dict):
         -------------------------------------------
         👤 Name: {enquiry_data.get('name')}
         📧 Email: {enquiry_data.get('email')}
+        📞 Phone: {enquiry_data.get('phone')}
         📌 Subject: {enquiry_data.get('subject')}
         💬 Message:
         {enquiry_data.get('message')}

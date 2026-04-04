@@ -46,8 +46,13 @@ const Footer = () => {
               Shiv Travel is a premier tour agency dedicated to crafting bespoke travel experiences that inspire and exhilarate. We bridge the gap between dreams and reality.
             </p>
             <div style={{ display: 'flex', gap: '15px' }}>
-              {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
-                <a key={i} href="#" style={{ 
+              {[
+                { Icon: Facebook, url: 'https://www.facebook.com/share/1BKC9JVHAL/' },
+                { Icon: Instagram, url: 'https://www.instagram.com/travel_book_shiva?igsh=MWh6bXhnZXhlNnh2Zw==' },
+                { Icon: Twitter, url: '#' },
+                { Icon: Youtube, url: '#' }
+              ].map((item, i) => (
+                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" style={{ 
                   width: '50px', 
                   height: '50px', 
                   backgroundColor: 'rgba(255,255,255,0.05)', 
@@ -64,7 +69,7 @@ const Footer = () => {
                 }} onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)';
                   e.currentTarget.style.transform = 'translateY(0)';
-                }}><Icon size={20} /></a>
+                }}><item.Icon size={20} /></a>
               ))}
             </div>
           </div>
@@ -108,14 +113,14 @@ const Footer = () => {
                 <div style={{ width: '45px', height: '45px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
                   <MapPin size={20} />
                 </div>
-                <p style={{ opacity: 0.6, fontSize: '15px', lineHeight: 1.6 }}>101, Shiv Tower, Near Central Park, Ahmedabad, Gujarat - 380001</p>
+                <p style={{ opacity: 0.6, fontSize: '15px', lineHeight: 1.6 }}>208, Sahitya Arcade, Haridarshan Cross Rd, Naroda, Ahmedabad, Gujarat 382330</p>
               </div>
               <div style={{ display: 'flex', gap: '15px' }}>
                 <div style={{ width: '45px', height: '45px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', flexShrink: 0 }}>
                   <Phone size={20} />
                 </div>
                 <div>
-                  <p style={{ fontSize: '16px', fontWeight: 800 }}>+91 91040 10214</p>
+                  <p style={{ fontSize: '16px', fontWeight: 800 }}>+91 93136 34723</p>
                   <p style={{ opacity: 0.4, fontSize: '12px' }}>Support available 24/7</p>
                 </div>
               </div>

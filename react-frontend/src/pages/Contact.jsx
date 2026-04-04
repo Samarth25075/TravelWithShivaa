@@ -8,6 +8,7 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   });
@@ -18,7 +19,7 @@ const Contact = () => {
     try {
       await axios.post('/enquiries', formData);
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (err) {
       console.error(err);
@@ -28,7 +29,7 @@ const Contact = () => {
 
   const handleWhatsAppShare = () => {
     const adminPhone = "919313634723"; // Updated to your personal number
-    const text = `*New Enquiry for Shiv Travel*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
+    const text = `*New Enquiry for Shiv Travel*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Phone:* ${formData.phone}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
     window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
   };
 
@@ -59,9 +60,9 @@ const Contact = () => {
           <div>
             <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '50px', letterSpacing: '-1px' }}>Contact Details</h2>
             {[
-              { icon: <Phone size={24} />, title: 'Call Us', value: '+91 98765 43210', detail: 'Mon-Sat: 10am - 7pm' },
-              { icon: <Mail size={24} />, title: 'Email Us', value: 'hello@shivtravel.com', detail: 'We reply within 24 hours' },
-              { icon: <MapPin size={24} />, title: 'Visit Us', value: '123 Adventure St, Mumbai, India', detail: 'Near Gateway of India' }
+              { icon: <Phone size={24} />, title: 'Call Us', value: '+91 93136 34723', detail: 'Mon-Sat: 10am - 8pm' },
+              { icon: <Mail size={24} />, title: 'Email Us', value: 'saxenashivkumar7@gmail.com', detail: 'We reply within 2 hours' },
+              { icon: <MapPin size={24} />, title: 'Visit Us', value: '208, Sahitya Arcade, Naroda, Ahmedabad', detail: 'Near Shalby Multi-Specialty Hospital' }
             ].map((item, index) => (
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
@@ -111,6 +112,10 @@ const Contact = () => {
                     <div style={{ gridColumn: '2 / 3' }}>
                         <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Email Address</label>
                         <input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required type="email" placeholder="john@example.com" style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none' }} />
+                    </div>
+                    <div style={{ gridColumn: '1 / 3' }}>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Phone Number</label>
+                        <input value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required type="tel" placeholder="+91 98765 43210" style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none' }} />
                     </div>
                     <div style={{ gridColumn: '1 / 3' }}>
                         <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Subject</label>
