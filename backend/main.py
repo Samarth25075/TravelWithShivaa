@@ -36,17 +36,16 @@ class LoginRequest(BaseModel):
     password: str
 
 # Allow CORS
-ALLOWED_ORIGIN = os.getenv("ALLOWED_ORIGIN", "http://localhost:5173")
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    ALLOWED_ORIGIN,
+    os.getenv("ALLOWED_ORIGIN", "*"), # Default to * for easiest cloud deployment
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False, # Must be False if using allow_origins=["*"]
     allow_methods=["*"],
     allow_headers=["*"],
 )
