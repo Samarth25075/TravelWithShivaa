@@ -2,8 +2,9 @@
   "name": "shiv-travel-modern",
   "version": "1.0.0",
   "scripts": {
+    "dev": "npm run dev:frontend",
     "dev:frontend": "cd react-frontend && npm run dev",
-    "dev:backend": "cd backend && python -m uvicorn main:app --reload",
+    "dev:backend": "cd backend && python main.py",
     "install:all": "cd backend && python -m pip install -r requirements.txt && cd ../react-frontend && npm install"
   }
 }

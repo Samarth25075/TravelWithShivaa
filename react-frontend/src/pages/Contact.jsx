@@ -1,147 +1,112 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle, MessageSquare } from 'lucide-react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Search, MapPin, Phone, Mail, Clock, Send, Instagram, Facebook, Twitter, ShieldCheck } from 'lucide-react';
 
-const Contact = () => {
-  const [status, setStatus] = useState('idle');
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
-  });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      await axios.post('/enquiries', formData);
-      setStatus('success');
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 5000);
-    } catch (err) {
-      console.error(err);
-      setStatus('error');
-    }
-  };
-
-  const handleWhatsAppShare = () => {
-    const adminPhone = "919313634723"; // Updated to your personal number
-    const text = `*New Enquiry for Shiv Travel*%0A%0A*Name:* ${formData.name}%0A*Email:* ${formData.email}%0A*Phone:* ${formData.phone}%0A*Subject:* ${formData.subject}%0A*Message:* ${formData.message}`;
-    window.open(`https://wa.me/${adminPhone}?text=${text}`, '_blank');
-  };
+const Contact = ({ isGujarati }) => {
+  const [formSent, setFormSent] = useState(false);
 
   return (
-    <main>
-      <section style={{ backgroundColor: 'var(--secondary)', color: 'white', padding: '140px 0 100px' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            style={{ fontSize: '64px', fontWeight: 900, marginBottom: '20px', letterSpacing: '-1px' }}
-          >
-            Get in <span style={{ color: 'var(--primary)' }}>Touch</span>
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            style={{ fontSize: '22px', opacity: 0.8, maxWidth: '700px', margin: '0 auto' }}
-          >
-            Have questions? We're here to help you plan your next dream vacation with Shiv Travel.
-          </motion.p>
+    <div className="contact-page">
+      <header className="page-header">
+        <div className="container">
+          <h1 className="page-title">{isGujarati ? 'સંપર્ક કરો' : 'Connect With Us'}</h1>
+          <p className="page-subtitle">{isGujarati ? 'તમારી આગામી સફર માટે અમે તૈયાર છીએ.' : "Ready for your next adventure? Let's talk travel."}</p>
+        </div>
+      </header>
+
+      <section className="contact-section">
+        <div className="container">
+           <div className="contact-grid">
+              <div className="contact-info card">
+                 <h2>{isGujarati ? 'અમને શોધો' : 'Find Us At'}</h2>
+                 <div className="info-item">
+                    <div className="icon-circle"><MapPin size={24} /></div>
+                    <div className="text-info">
+                       <h4>Office Address</h4>
+                       <p>508/608, 3rd Eye Vision, Above Nexa Showroom, IIM Road, Ahmedabad – 380015</p>
+                    </div>
+                 </div>
+                 <div className="info-item">
+                    <div className="icon-circle"><Phone size={24} /></div>
+                    <div className="text-info">
+                       <h4>Call / WhatsApp</h4>
+                       <p>+91 90995 99331</p>
+                    </div>
+                 </div>
+                 <div className="info-item">
+                    <div className="icon-circle"><Mail size={24} /></div>
+                    <div className="text-info">
+                       <h4>Email Us</h4>
+                       <p>travelbookshiva@gmail.com</p>
+                    </div>
+                 </div>
+                 <div className="info-item">
+                    <div className="icon-circle"><Clock size={24} /></div>
+                    <div className="text-info">
+                       <h4>Office Hours</h4>
+                       <p>Mon - Sat: 11:00 AM - 08:30 PM</p>
+                    </div>
+                 </div>
+
+                 <hr />
+                 <div className="social-connect">
+                    <p>{isGujarati ? 'અમને ફોલો કરો' : 'Follow our journey'}</p>
+                    <div className="social-links-row">
+                       <a href="#"><Instagram /></a>
+                       <a href="#"><Facebook /></a>
+                       <a href="#"><Twitter /></a>
+                    </div>
+                 </div>
+              </div>
+
+              <div className="contact-form-container card">
+                 {formSent ? (
+                   <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="success-msg">
+                      <div className="success-icon"><ShieldCheck size={48} /></div>
+                      <h3>Thank You!</h3>
+                      <p>We've received your message and will get back to you within 24 hours.</p>
+                      <button className="btn-primary" onClick={() => setFormSent(false)}>Send another</button>
+                   </motion.div>
+                 ) : (
+                   <>
+                     <h2>{isGujarati ? 'સંદેશ મોકલો' : 'Send a Message'}</h2>
+                     <form className="contact-form" onSubmit={(e) => { e.preventDefault(); setFormSent(true); }}>
+                        <div className="form-group">
+                           <input type="text" placeholder={isGujarati ? 'તમારું નામ' : 'Your Full Name'} required />
+                        </div>
+                        <div className="form-group">
+                           <input type="email" placeholder={isGujarati ? 'તમારો ઇમેલ' : 'Your Email Address'} required />
+                        </div>
+                        <div className="form-group">
+                           <input type="tel" placeholder={isGujarati ? 'તમારો મોબાઈલ' : 'Phone Number'} required />
+                        </div>
+                        <div className="form-group">
+                           <textarea placeholder={isGujarati ? 'સંદેશ...' : 'How can we help you?'} rows="5" required></textarea>
+                        </div>
+                        <button type="submit" className="btn-primary-full">
+                           {isGujarati ? 'સંદેશ મોકલો' : 'Send Inquiry'} <Send size={18} />
+                        </button>
+                     </form>
+                   </>
+                 )}
+              </div>
+           </div>
         </div>
       </section>
 
-      <section className="container" style={{ padding: '120px 0' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '100px' }}>
-          <div>
-            <h2 style={{ fontSize: '36px', fontWeight: 900, marginBottom: '50px', letterSpacing: '-1px' }}>Contact Details</h2>
-            {[
-              { icon: <Phone size={24} />, title: 'Call Us', value: '+91 93136 34723', detail: 'Mon-Sat: 10am - 8pm' },
-              { icon: <Mail size={24} />, title: 'Email Us', value: 'saxenashivkumar7@gmail.com', detail: 'We reply within 2 hours' },
-              { icon: <MapPin size={24} />, title: 'Visit Us', value: '208, Sahitya Arcade, Naroda, Ahmedabad', detail: 'Near Shalby Multi-Specialty Hospital' }
-            ].map((item, index) => (
-              <motion.div 
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                key={index} 
-                style={{ display: 'flex', gap: '25px', marginBottom: '45px' }}
-              >
-                <div style={{ width: '64px', height: '64px', backgroundColor: '#fff7ed', color: 'var(--primary)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 20px rgba(255, 126, 95, 0.1)' }}>{item.icon}</div>
-                <div>
-                  <h4 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '6px' }}>{item.title}</h4>
-                  <p style={{ fontWeight: 600, fontSize: '16px', color: 'var(--secondary)' }}>{item.value}</p>
-                  <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>{item.detail}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            style={{ backgroundColor: 'white', padding: '60px', borderRadius: '40px', boxShadow: '0 30px 60px rgba(0,0,0,0.05)', border: '1px solid #f1f5f9' }}
-          >
-            <AnimatePresence mode="wait">
-              {status === 'success' ? (
-                <motion.div 
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  style={{ textAlign: 'center', padding: '40px 0' }}
-                >
-                  <div style={{ width: '80px', height: '80px', background: '#ecfdf5', color: '#10b981', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 25px' }}>
-                    <CheckCircle size={40} />
-                  </div>
-                  <h3 style={{ fontSize: '32px', fontWeight: 900, marginBottom: '15px' }}>Message Sent!</h3>
-                  <p style={{ color: '#64748b', fontSize: '18px' }}>We've received your message and will get back to you shortly.</p>
-                  <button onClick={() => setStatus('idle')} className="btn btn-secondary" style={{ marginTop: '30px', padding: '12px 30px' }}>Send Another</button>
-                </motion.div>
-              ) : (
-                <motion.div key="form">
-                  <h3 style={{ fontSize: '32px', fontWeight: 900, marginBottom: '35px', letterSpacing: '-1px' }}>Message Us</h3>
-                  <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px' }}>
-                    <div style={{ gridColumn: '1 / 2' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Your Name</label>
-                        <input value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required type="text" placeholder="John Doe" style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none' }} />
-                    </div>
-                    <div style={{ gridColumn: '2 / 3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Email Address</label>
-                        <input value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required type="email" placeholder="john@example.com" style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none' }} />
-                    </div>
-                    <div style={{ gridColumn: '1 / 3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Phone Number</label>
-                        <input value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required type="tel" placeholder="+91 98765 43210" style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none' }} />
-                    </div>
-                    <div style={{ gridColumn: '1 / 3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Subject</label>
-                        <input value={formData.subject} onChange={e => setFormData({...formData, subject: e.target.value})} required type="text" placeholder="Planning a trip to Goa" style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none' }} />
-                    </div>
-                    <div style={{ gridColumn: '1 / 3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: '#64748b', marginBottom: '10px', display: 'block' }}>Detailed Message</label>
-                        <textarea value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} required rows="5" placeholder="Tell us what you're looking for..." style={{ width: '100%', padding: '18px 22px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', outline: 'none', resize: 'none' }}></textarea>
-                    </div>
-                    <div style={{ gridColumn: '1 / 3', display: 'flex', gap: '15px' }}>
-                      <button disabled={status === 'loading'} className="btn" style={{ flex: 1, padding: '22px', borderRadius: '18px', fontSize: '17px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
-                        {status === 'loading' ? 'Sending...' : <>Send Message <Send size={20} /></>}
-                      </button>
-                      <button type="button" onClick={handleWhatsAppShare} className="btn btn-secondary" style={{ flex: 1, padding: '22px', borderRadius: '18px', fontSize: '17px', fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', backgroundColor: '#25D366', border: 'none' }}>
-                        WhatsApp Us <MessageSquare size={20} />
-                      </button>
-                    </div>
-                    {status === 'error' && <p style={{ color: '#ef4444', fontWeight: 700, marginTop: '10px' }}>Error sending message. Please try again.</p>}
-                  </form>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </div>
+      <section className="map-section">
+         <div className="container">
+            <div className="map-wrapper card">
+               <iframe 
+                  title="TravelBookShiva Office Location"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.884179344443!2d72.54013111500!3d23.0270034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDAxJzM3LjIiTiA3MsKwMzInMzIuNSJF!5e0!3m2!1sen!2sin!4v1617000000000!5m2!1sen!2sin" 
+                  width="100%" height="450" style={{ border: 0 }} allowFullScreen="" loading="lazy"
+               ></iframe>
+            </div>
+         </div>
       </section>
-    </main>
+
+    </div>
   );
 };
 

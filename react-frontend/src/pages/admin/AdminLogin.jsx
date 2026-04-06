@@ -1,144 +1,158 @@
-import { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User, LogIn } from 'lucide-react';
+import axios from 'axios';
 import { motion } from 'framer-motion';
+import { Lock, User, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const AdminLogin = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
-  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
     try {
-      const response = await axios.post('admin/login', credentials);
-      if (response.data.status === 'success') {
-        localStorage.setItem('admin_token', response.data.token);
-        navigate('/admin/packages');
-      }
+      const res = await axios.post('admin/login', { username, password });
+      localStorage.setItem('admin_token', res.data.token);
+      navigate('/admin/dashboard');
     } catch (err) {
-      setError('Invalid username or password');
+      setError('Access Denied. Check your credentials.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="login-container" style={{
+    <div style={{
       height: '100vh',
       width: '100vw',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, var(--primary) 0%, #3498db 100%)'
+      backgroundColor: 'var(--primary-green)',
+      backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(232, 160, 32, 0.15) 0%, transparent 25%), radial-gradient(circle at 80% 80%, rgba(232, 160, 32, 0.15) 0%, transparent 25%)',
+      padding: '20px',
+      overflow: 'hidden'
     }}>
       <motion.div 
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
         style={{
-          backgroundColor: 'white',
-          padding: '50px',
-          borderRadius: 'var(--radius-lg)',
-          boxShadow: 'var(--shadow-lg)',
           width: '100%',
-          maxWidth: '450px'
+          maxWidth: '500px',
+          backgroundColor: 'white',
+          padding: '60px',
+          borderRadius: '40px',
+          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+          position: 'relative'
         }}
       >
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <div style={{
-            backgroundColor: 'var(--primary-light)',
-            color: 'var(--primary)',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 20px'
+        <div style={{ textAlign: 'center', marginBottom: '45px' }}>
+          <div style={{ 
+            width: '80px', 
+            height: '80px', 
+            backgroundColor: 'var(--accent-amber)', 
+            borderRadius: '24px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            margin: '0 auto 25px',
+            color: 'white',
+            boxShadow: '0 10px 20px rgba(232, 160, 32, 0.3)',
+            transform: 'rotate(-5deg)'
           }}>
-            <Lock size={30} />
+            <ShieldCheck size={40} />
           </div>
-          <h2 style={{ fontSize: '28px', fontWeight: 800 }}>Admin Portal</h2>
-          <p style={{ color: 'var(--text-muted)' }}>Shiv Travel Agency Management</p>
+          <h1 style={{ fontSize: '32px', fontWeight: 900, color: 'var(--primary-green)', marginBottom: '10px' }}>Admin Panel</h1>
+          <p style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Shiv Travel Control Center</p>
         </div>
 
         {error && (
-          <div style={{
-            backgroundColor: '#fee2e2',
-            color: '#ef4444',
-            padding: '12px',
-            borderRadius: 'var(--radius)',
-            marginBottom: '20px',
-            fontSize: '14px',
-            textAlign: 'center'
-          }}>
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+            style={{ backgroundColor: '#fef2f2', border: '1px solid #fee2e2', color: '#ef4444', padding: '15px', borderRadius: '16px', marginBottom: '30px', textAlign: 'center', fontSize: '14px', fontWeight: 700 }}>
             {error}
-          </div>
+          </motion.div>
         )}
 
-        <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, fontSize: '14px' }}>Username</label>
-            <div style={{ position: 'relative' }}>
-              <User size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="text" 
-                name="username"
-                value={credentials.username}
-                onChange={handleChange}
-                placeholder="Enter username"
-                required
-                style={{
-                  width: '100%',
-                  padding: '12px 15px 12px 45px',
-                  borderRadius: 'var(--radius)',
-                  border: '1px solid #ddd',
-                  outline: 'none'
-                }}
-              />
-            </div>
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ position: 'relative' }}>
+            <User size={20} style={{ position: 'absolute', left: '20px', top: '20px', color: '#94a3b8' }} />
+            <input 
+              type="text" 
+              placeholder="Username" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '18px 18px 18px 55px',
+                borderRadius: '16px',
+                border: '2px solid #f1f5f9',
+                backgroundColor: '#f8fafc',
+                fontSize: '16px',
+                fontWeight: 600,
+                outline: 'none',
+                transition: '0.3s'
+              }}
+              required
+            />
           </div>
-
-          <div style={{ marginBottom: '30px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, fontSize: '14px' }}>Password</label>
-            <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-              <input 
-                type="password" 
-                name="password"
-                value={credentials.password}
-                onChange={handleChange}
-                placeholder="Enter password"
-                required
-                style={{
-                  width: '100%',
-                  padding: '12px 15px 12px 45px',
-                  borderRadius: 'var(--radius)',
-                  border: '1px solid #ddd',
-                  outline: 'none'
-                }}
-              />
-            </div>
+          <div style={{ position: 'relative' }}>
+            <Lock size={20} style={{ position: 'absolute', left: '20px', top: '20px', color: '#94a3b8' }} />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '18px 18px 18px 55px',
+                borderRadius: '16px',
+                border: '2px solid #f1f5f9',
+                backgroundColor: '#f8fafc',
+                fontSize: '16px',
+                fontWeight: 600,
+                outline: 'none',
+                transition: '0.3s'
+              }}
+              required
+            />
           </div>
 
           <button 
             type="submit" 
             disabled={loading}
-            className="btn" 
-            style={{ width: '100%', padding: '15px', display: 'flex', justifyContent: 'center', gap: '10px' }}
+            style={{
+              marginTop: '15px',
+              backgroundColor: 'var(--primary-green)',
+              color: 'white',
+              padding: '20px',
+              borderRadius: '50px',
+              border: 'none',
+              fontSize: '16px',
+              fontWeight: 800,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              transition: '0.3s',
+              boxShadow: '0 10px 15px rgba(26,60,52,0.2)'
+            }}
           >
-            {loading ? 'Logging in...' : <><LogIn size={18} /> Sign In</>}
+            {loading ? 'Authorizing...' : 'Authorize Entry'} <ArrowRight size={20} />
           </button>
         </form>
+
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <p style={{ fontSize: '12px', color: '#cbd5e1', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px' }}>
+            &copy; 2024 Shiv Travel Official
+          </p>
+        </div>
       </motion.div>
     </div>
   );

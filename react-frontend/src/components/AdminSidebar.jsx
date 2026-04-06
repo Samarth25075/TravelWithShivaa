@@ -1,26 +1,34 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, MessageSquare, Settings, LogOut, Mountain } from 'lucide-react';
+import { 
+  LayoutDashboard, Package, MessageSquare, 
+  Settings, LogOut, Mountain, Compass,
+  BookOpen, Users, User, Image as ImageIcon
+} from 'lucide-react';
 
 const AdminSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin' },
+    { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin/dashboard' },
     { icon: <Package size={20} />, label: 'Tour Packages', path: '/admin/packages' },
+    { icon: <Compass size={20} />, label: 'Group Trips', path: '/admin/group-trips' },
+    { icon: <BookOpen size={20} />, label: 'Travel Blogs', path: '/admin/blogs' },
     { icon: <MessageSquare size={20} />, label: 'Enquiries', path: '/admin/enquiries' },
+    { icon: <ImageIcon size={20} />, label: 'Home Carousel', path: '/admin/home-carousel' },
+    { icon: <User size={20} />, label: 'Instagram Feed', path: '/admin/insta-feed' },
   ];
 
   const handleLogout = () => {
     localStorage.removeItem('admin_token');
-    window.location.href = '/admin/login'; // Hard redirect to ensure clean state
+    window.location.href = '/admin/login';
   };
 
   return (
     <div style={{
       width: '280px',
       height: '100vh',
-      backgroundColor: 'var(--secondary)',
+      backgroundColor: 'var(--primary-green)',
       color: 'white',
       position: 'fixed',
       left: 0,
@@ -28,23 +36,25 @@ const AdminSidebar = () => {
       padding: '40px 20px',
       display: 'flex',
       flexDirection: 'column',
-      zIndex: 100
+      zIndex: 100,
+      boxShadow: '4px 0 20px rgba(0,0,0,0.1)'
     }}>
-      <div style={{ marginBottom: '50px', padding: '0 20px' }}>
+      <div style={{ marginBottom: '50px', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <img 
             src="/logo.png" 
             alt="Shiv Travel Logo" 
             style={{ 
-              height: '60px', 
+              height: '45px', 
               width: 'auto',
-              objectFit: 'contain'
+              borderRadius: '8px'
             }} 
           />
+          <h2 style={{ fontSize: '18px', fontWeight: 900, color: 'white', margin: 0 }}>Shiv Travel</h2>
       </div>
 
-      <nav style={{ flex: 1 }}>
+      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
         {menuItems.map((item, index) => {
-          const isActive = location.pathname === item.path || (item.path === '/admin' && location.pathname === '/admin/dashboard');
+          const isActive = location.pathname.includes(item.path);
           return (
             <Link 
               key={index} 
@@ -57,16 +67,17 @@ const AdminSidebar = () => {
                 borderRadius: '16px',
                 textDecoration: 'none',
                 color: 'white',
-                marginBottom: '10px',
-                backgroundColor: isActive ? 'var(--primary)' : 'transparent',
-                transition: '0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                backgroundColor: isActive ? 'var(--accent-amber)' : 'transparent',
+                transition: 'var(--transition)',
                 fontWeight: 700,
-                boxShadow: isActive ? '0 10px 20px rgba(245, 158, 11, 0.2)' : 'none',
-                opacity: isActive ? 1 : 0.6
+                boxShadow: isActive ? '0 10px 20px rgba(232, 160, 32, 0.2)' : 'none',
+                opacity: isActive ? 1 : 0.65
               }}
+              onMouseEnter={e => !isActive && (e.currentTarget.style.opacity = 1)}
+              onMouseLeave={e => !isActive && (e.currentTarget.style.opacity = 0.65)}
             >
               {item.icon}
-              {item.label}
+              <span style={{ fontSize: '15px' }}>{item.label}</span>
             </Link>
           );
         })}
@@ -98,16 +109,17 @@ const AdminSidebar = () => {
             border: 'none', 
             borderRadius: '16px',
             backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            color: '#ef4444', 
+            color: '#feb2b2', 
             fontWeight: 800,
             cursor: 'pointer',
             transition: '0.3s',
-            fontSize: '15px'
+            fontSize: '15px',
+            textAlign: 'left'
           }}
           onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.2)'}
           onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'}
         >
-          <LogOut size={20} /> Logout Account
+          <LogOut size={20} /> Sign Out
         </button>
       </div>
     </div>
@@ -115,4 +127,3 @@ const AdminSidebar = () => {
 };
 
 export default AdminSidebar;
-

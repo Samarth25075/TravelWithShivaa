@@ -1,19 +1,26 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, Filter, MapPin, IndianRupee, Clock, Mountain, Palmtree, Compass, Sparkles, Footprints, ShieldCheck, LayoutGrid, List } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { MapPin, Search, Filter, SortAsc, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
 
-const Packages = () => {
+import axios from 'axios';
+
+const Packages = ({ isGujarati }) => {
   const [packages, setPackages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState('All');
+  const [priceRange, setPriceRange] = useState(150000);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
 
   useEffect(() => {
-    setLoading(true);
+    window.scrollTo(0, 0);
     axios.get('packages')
       .then(res => {
         setPackages(res.data);
+        if (res.data.length > 0) {
+          const max = Math.max(...res.data.map(p => p.price));
+          setPriceRange(max + 1000); // Set to slightly above max to show all initially
+        }
         setLoading(false);
       })
       .catch(err => {
@@ -22,136 +29,145 @@ const Packages = () => {
       });
   }, []);
 
-  const filteredPackages = packages.filter(pkg => 
-    pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    pkg.location.toLowerCase().includes(searchQuery.toLowerCase())
+  const categories = [
+    { label: isGujarati ? 'બધા' : 'All', value: 'All', icon: <Compass size={16} /> },
+    { label: isGujarati ? 'પર્વત' : 'Mountains', value: 'Mountain', icon: <Mountain size={16} /> },
+    { label: isGujarati ? 'દરિયાકાંઠો' : 'Beaches', value: 'Beach', icon: <Palmtree size={16} /> },
+    { label: isGujarati ? 'ધાર્મિક' : 'Spiritual', value: 'Spiritual', icon: <Sparkles size={16} /> },
+    { label: isGujarati ? 'સાહસ' : 'Adventure', value: 'Adventure', icon: <Footprints size={16} /> }
+  ];
+
+  const getImageUrl = (image) => {
+    if (!image) return 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80';
+    if (image.startsWith('http')) return image;
+    return `/api/uploads/${image}`;
+  };
+
+  const filtered = packages.filter(pkg => 
+    (filter === 'All' || pkg.type === filter) && 
+    pkg.price <= priceRange
   );
 
   return (
-    <main style={{ backgroundColor: '#fdfdfd', minHeight: '100vh' }}>
-      <section style={{ 
-        backgroundColor: 'var(--secondary)', 
-        color: 'white', 
-        padding: '160px 0 100px',
-        background: 'linear-gradient(to bottom, #0f172a, #1e293b)'
-      }}>
+    <div className="packages-page">
+      <header className="page-header">
         <div className="container">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
-            <span style={{ color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', fontSize: '13px', marginBottom: '15px', display: 'block' }}>Adventure Awaits</span>
-            <h1 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 900, marginBottom: '20px', letterSpacing: '-2px' }}>Pick Your <span style={{ color: 'var(--primary)' }}>Escape</span></h1>
-            <p style={{ fontSize: '18px', opacity: 0.7, maxWidth: '600px' }}>From snow-capped peaks to sun-drenched beaches, browse our collection of premium, hand-picked travel experiences.</p>
-          </motion.div>
+          <h1 className="page-title">{isGujarati ? 'ટૂર પેકેજો' : 'Explore Tour Packages'}</h1>
+          <p className="page-subtitle">{isGujarati ? 'તમારી આગામી યાદગાર સફર અહીંથી શરૂ થાય છે.' : 'Your next unforgettable journey starts here.'}</p>
+        </div>
+      </header>
+
+      {/* Filter Bar */}
+      <section className="filter-bar">
+        <div className="container">
+          <div className="filter-container">
+            <div className="category-filters">
+              {categories.map((cat, i) => (
+                <button 
+                  key={i} 
+                  className={`filter-btn ${filter === cat.value ? 'active' : ''}`}
+                  onClick={() => setFilter(cat.value)}
+                >
+                  {cat.icon} <span>{cat.label}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="price-filter">
+              <label>{isGujarati ? 'બજેટ પ્રતિ વ્યક્તિ:' : 'Max Price per Person:'} <span>₹{priceRange.toLocaleString()}</span></label>
+              <input 
+                type="range" 
+                min="0" 
+                max={packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000} 
+                step="500" 
+                value={priceRange} 
+                onChange={(e) => setPriceRange(parseInt(e.target.value))} 
+              />
+            </div>
+            <div className="view-toggles">
+                <button 
+                  className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} 
+                  onClick={() => setViewMode('grid')}
+                  title="Grid View"
+                >
+                  <LayoutGrid size={20} />
+                </button>
+                <button 
+                  className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} 
+                  onClick={() => setViewMode('list')}
+                  title="List View"
+                >
+                  <List size={20} />
+                </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="container" style={{ marginTop: '-40px', paddingBottom: '120px' }}>
-        {/* Search & Filter Bar */}
-        <div style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap',
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          gap: '20px',
-          padding: '30px',
-          backgroundColor: 'white',
-          borderRadius: '24px',
-          boxShadow: 'var(--shadow)',
-          border: '1px solid var(--border)',
-          marginBottom: '60px'
-        }}>
-          <div style={{ position: 'relative', flex: '1 1 400px' }}>
-            <Search style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} size={20} />
-            <input 
-              type="text" 
-              placeholder="Search by destination or package name..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ width: '100%', padding: '18px 15px 18px 60px', borderRadius: '16px', border: '1px solid #eef2f6', fontSize: '16px', outline: 'none', backgroundColor: '#f8fafc', transition: '0.3s' }} 
-            />
-          </div>
-          <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '15px 25px', borderRadius: '16px', border: '1px solid #eef2f6', backgroundColor: 'white', cursor: 'pointer', fontWeight: 700, fontSize: '14px', transition: '0.3s' }}>
-              <Filter size={18} /> Filters
-            </button>
-            <button style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '15px 25px', borderRadius: '16px', border: '1px solid #eef2f6', backgroundColor: 'white', cursor: 'pointer', fontWeight: 700, fontSize: '14px', transition: '0.3s' }}>
-              <SortAsc size={18} /> Price Range
-            </button>
-          </div>
+      {/* Packages Grid */}
+      <section className="packages-grid-section">
+        <div className="container">
+          {loading ? (
+            <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+               <div className="loader" style={{ width: '40px', height: '40px', border: '4px solid #eee', borderTopColor: 'var(--primary-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            </div>
+          ) : (
+            <>
+              <div className="grid-header">
+                 <p>{filtered.length} {isGujarati ? 'પેકેજો મળ્યા' : 'Packages Found'}</p>
+              </div>
+              
+              <div className={`packages-grid ${viewMode}`}>
+                <AnimatePresence mode='popLayout'>
+                  {filtered.map(pkg => (
+                    <motion.div 
+                      key={pkg.id} 
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className={`package-card-premium card ${viewMode === 'list' ? 'list-layout' : ''}`}
+                    >
+                       <div className="pkg-img">
+                         <img src={getImageUrl(pkg.image)} alt={pkg.title} />
+                         <div className="pkg-tag">{pkg.tag || 'New'}</div>
+                         <button className="wishlist-btn"><Compass size={20} /></button>
+                       </div>
+                       <div className="pkg-body">
+                          <div className="pkg-header">
+                             <h3>{pkg.title}</h3>
+                             <div className="pkg-rating"><Sparkles size={14} fill="var(--accent-amber)" color="none" /> <span>{pkg.rating || '4.8'}</span></div>
+                          </div>
+                          <div className="pkg-meta">
+                            <span><Clock size={14} /> {pkg.duration || '5 Days'}</span>
+                            <span><ShieldCheck size={14} /> {pkg.difficulty || 'Easy'}</span>
+                          </div>
+                          <hr />
+                          <div className="pkg-footer">
+                             <div className="pkg-price">
+                                <span className="from">{isGujarati ? 'શરૂઆત' : 'Starts from'}</span>
+                                <span className="price"><IndianRupee size={18} />{pkg.price.toLocaleString()}</span>
+                             </div>
+                             <Link to={`/package/${pkg.id}`} className="btn-primary-sm">{isGujarati ? 'વિગતો' : 'View Details'}</Link>
+                          </div>
+                       </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+              {filtered.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '100px 0', opacity: 0.6 }}>
+                   <Compass size={48} style={{ marginBottom: '20px' }} />
+                   <h3>No matching tours found</h3>
+                   <p>Try adjusting your search criteria</p>
+                </div>
+              )}
+            </>
+          )}
         </div>
-
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '100px 0' }}>
-            <div className="loader" style={{ width: '50px', height: '50px', border: '5px solid #eee', borderTopColor: 'var(--primary)', borderRadius: '50%', animation: 'spin 1s linear infinite', margin: '0 auto 20px' }}></div>
-            <h2 style={{ fontWeight: 800 }}>Finding adventures...</h2>
-          </div>
-        ) : (
-          <>
-            {filteredPackages.length > 0 ? (
-              <div className="grid-auto">
-                {filteredPackages.map((pkg, index) => (
-                  <motion.div 
-                    key={pkg.id} 
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    whileHover={{ y: -10 }}
-                    style={{ 
-                      backgroundColor: 'white', 
-                      borderRadius: 'var(--radius-lg)', 
-                      overflow: 'hidden', 
-                      boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-                      border: '1px solid var(--border)',
-                      display: 'flex',
-                      flexDirection: 'column'
-                    }}
-                  >
-                    <div style={{ position: 'relative', height: '280px', overflow: 'hidden' }}>
-                      <img src={`/api/uploads/${pkg.image}`} alt={pkg.title} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
-                      <div style={{ position: 'absolute', top: '20px', left: '20px', backgroundColor: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(10px)', color: 'white', padding: '8px 16px', borderRadius: '50px', fontWeight: 800, fontSize: '12px', border: '1px solid rgba(255,255,255,0.2)' }}>
-                        {pkg.duration || 'Special Tour'}
-                      </div>
-                    </div>
-                    <div style={{ padding: '35px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', marginBottom: '15px' }}>
-                        <MapPin size={16} />
-                        <p style={{ fontWeight: 800, textTransform: 'uppercase', fontSize: '12px', letterSpacing: '1px' }}>{pkg.location}</p>
-                      </div>
-                      <h3 style={{ fontSize: '24px', marginBottom: '15px', fontWeight: 900, color: 'var(--secondary)', lineHeight: 1.2 }}>{pkg.title}</h3>
-                      <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '30px', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{pkg.description}</p>
-                      
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '25px', borderTop: '1px solid #f1f5f9' }}>
-                        <div>
-                          <p style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', marginBottom: '2px' }}>Starting From</p>
-                          <p style={{ fontSize: '26px', fontWeight: 900, color: 'var(--secondary)' }}>₹{pkg.price.toLocaleString()}</p>
-                        </div>
-                        <Link to={`/package/${pkg.id}`} style={{ width: '50px', height: '50px', backgroundColor: 'var(--primary)', color: 'white', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: '0.3s', boxShadow: '0 8px 15px rgba(245, 158, 11, 0.2)' }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.1)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-                          <ArrowRight size={22} />
-                        </Link>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            ) : (
-              <div style={{ textAlign: 'center', padding: '120px 0', backgroundColor: 'white', borderRadius: '32px', boxShadow: 'var(--shadow)' }}>
-                <Search size={64} color="#e2e8f0" style={{ marginBottom: '20px' }} />
-                <h2 style={{ fontSize: '32px', fontWeight: 900, color: 'var(--secondary)' }}>No matches found</h2>
-                <p style={{ color: 'var(--text-muted)', maxWidth: '400px', margin: '15px auto 30px' }}>We couldn't find any packages matching your search. Try a different destination or check back later!</p>
-                <button onClick={() => setSearchQuery('')} className="btn">Clear Search</button>
-              </div>
-            )}
-          </>
-        )}
       </section>
-      
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-    </main>
+    </div>
   );
 };
 
 export default Packages;
-
