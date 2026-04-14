@@ -33,8 +33,8 @@ const AdminLogin = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'var(--primary-green)',
-      backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(232, 160, 32, 0.15) 0%, transparent 25%), radial-gradient(circle at 80% 80%, rgba(232, 160, 32, 0.15) 0%, transparent 25%)',
+      backgroundColor: 'var(--primary-black)',
+      backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(255, 107, 0, 0.15) 0%, transparent 25%), radial-gradient(circle at 80% 80%, rgba(255, 107, 0, 0.15) 0%, transparent 25%)',
       padding: '20px',
       overflow: 'hidden'
     }}>
@@ -56,19 +56,19 @@ const AdminLogin = () => {
           <div style={{ 
             width: '80px', 
             height: '80px', 
-            backgroundColor: 'var(--accent-amber)', 
+            backgroundColor: 'var(--primary-orange)', 
             borderRadius: '24px', 
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center', 
             margin: '0 auto 25px',
             color: 'white',
-            boxShadow: '0 10px 20px rgba(232, 160, 32, 0.3)',
+            boxShadow: '0 10px 20px rgba(255, 107, 0, 0.3)',
             transform: 'rotate(-5deg)'
           }}>
             <ShieldCheck size={40} />
           </div>
-          <h1 style={{ fontSize: '32px', fontWeight: 900, color: 'var(--primary-green)', marginBottom: '10px' }}>Admin Panel</h1>
+          <h1 style={{ fontSize: '32px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '10px' }}>Admin Panel</h1>
           <p style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Shiv Travel Control Center</p>
         </div>
 
@@ -128,7 +128,7 @@ const AdminLogin = () => {
             disabled={loading}
             style={{
               marginTop: '15px',
-              backgroundColor: 'var(--primary-green)',
+              backgroundColor: 'var(--primary-black)',
               color: 'white',
               padding: '20px',
               borderRadius: '50px',
@@ -141,7 +141,7 @@ const AdminLogin = () => {
               justifyContent: 'center',
               gap: '12px',
               transition: '0.3s',
-              boxShadow: '0 10px 15px rgba(26,60,52,0.2)'
+              boxShadow: '0 10px 15px rgba(0,0,0,0.2)'
             }}
           >
             {loading ? 'Authorizing...' : 'Authorize Entry'} <ArrowRight size={20} />

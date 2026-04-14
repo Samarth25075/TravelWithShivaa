@@ -65,44 +65,49 @@ const PackageDetails = () => {
   ];
 
   return (
-    <main style={{ backgroundColor: '#fdfdfd', paddingBottom: '100px' }}>
+    <main className="package-details-page" style={{ backgroundColor: '#fdfdfd', paddingBottom: '100px' }}>
       {/* Hero Section */}
-      <section style={{
-        height: '60vh',
-        minHeight: '400px',
-        background: `linear-gradient(rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.7)), url("/api/uploads/${packageData.image}") no-repeat center center/cover`,
+      <section className="detail-hero-premium" style={{
+        height: '65vh',
+        minHeight: '500px',
+        background: `linear-gradient(rgba(0,0,0, 0.2), rgba(0,0,0, 0.8)), url("/api/uploads/${packageData.image}") no-repeat center center/cover`,
         display: 'flex',
         alignItems: 'flex-end',
         color: 'white',
-        paddingBottom: '60px'
+        paddingBottom: '80px'
       }}>
         <div className="container">
-          <Link to="/packages" style={{ 
+          <Link to="/packages" className="btn-back-link" style={{ 
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: '8px', 
             color: 'white', 
             textDecoration: 'none', 
-            backgroundColor: 'rgba(255,255,255,0.2)', 
-            padding: '10px 20px', 
+            backgroundColor: 'rgba(255,255,255,0.1)', 
+            padding: '12px 25px', 
             borderRadius: '50px', 
             fontSize: '14px', 
-            fontWeight: 700, 
-            marginBottom: '30px',
-            backdropFilter: 'blur(10px)'
+            fontWeight: 800, 
+            marginBottom: '40px',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255,255,255,0.2)'
           }}>
             <ArrowLeft size={18} /> Back to All Tours
           </Link>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <p style={{ textTransform: 'uppercase', fontWeight: 800, letterSpacing: '4px', color: 'var(--primary)', marginBottom: '15px', fontSize: '14px' }}>{packageData.location}</p>
-            <h1 style={{ fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-2px' }}>{packageData.title}</h1>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+            <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '15px' }}>
+              <span style={{ textTransform: 'uppercase', fontWeight: 950, letterSpacing: '4px', color: 'var(--primary-orange)', fontSize: '14px' }}>{packageData.type}</span>
+              <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(255,255,255,0.4)' }}></span>
+              <span style={{ textTransform: 'uppercase', fontWeight: 900, letterSpacing: '4px', color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>{packageData.location}</span>
+            </div>
+            <h1 style={{ fontSize: 'clamp(40px, 8vw, 80px)', fontWeight: 950, lineHeight: 1, letterSpacing: '-3px', color: 'white' }}>{packageData.title}</h1>
           </motion.div>
         </div>
       </section>
 
-      <section className="container" style={{ marginTop: '40px' }}>
+      <section className="container" style={{ marginTop: '60px' }}>
         <div className="details-grid">
-          <div className="main-content">
+          <div className="main-content-area">
             {/* Tabs */}
             <div className="tabs-container">
               {tabs.map(tab => (
@@ -140,7 +145,7 @@ const PackageDetails = () => {
                         <div className="meta-icon"><Users size={24} /></div>
                         <div>
                           <p className="meta-label">Group Size</p>
-                          <p className="meta-value">{packageData.group_size || 'Selectable'}</p>
+                          <p className="meta-value">{packageData.group_size || 'Customizable'}</p>
                         </div>
                       </div>
                     </div>
@@ -180,7 +185,7 @@ const PackageDetails = () => {
                         </motion.div>
                       ))
                     ) : (
-                      <div className="empty-gallery">
+                      <div className="empty-gallery" style={{ textAlign: 'center', padding: '100px 0', opacity: 0.5 }}>
                         <p>Beautiful moments from this destination will be updated soon.</p>
                       </div>
                     )}
@@ -196,22 +201,39 @@ const PackageDetails = () => {
               <p className="price-label">Experience starts from</p>
               <h3 className="price-tag">₹{packageData.price.toLocaleString()} <span className="price-sub">/ traveler</span></h3>
               
-              <div className="trust-badges">
-                <div className="badge-item">
-                  <Shield size={18} color="var(--primary)" />
+              <div className="sidebar-badges" style={{ marginBottom: '35px' }}>
+                <div className="trust-badge-mini">
+                  <Shield size={18} color="#ffcc00" />
                   <p>Verified Experience</p>
                 </div>
-                <div className="badge-item">
-                  <CalendarCheck size={18} color="var(--primary)" />
+                <div className="trust-badge-mini">
+                  <CalendarCheck size={18} color="#ffcc00" />
                   <p>Flexible Booking</p>
                 </div>
               </div>
 
-              <button onClick={() => setShowEnquiryModal(true)} className="btn btn-booking">
+              <button onClick={() => setShowEnquiryModal(true)} className="btn-booking">
                 Plan My Journey
               </button>
               
-              <button onClick={handleWhatsAppBook} className="btn" style={{ width: '100%', marginTop: '15px', padding: '18px', borderRadius: '16px', backgroundColor: '#25D366', color: 'white', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontSize: '16px', fontWeight: 800 }}>
+              <button onClick={handleWhatsAppBook} className="btn-whatsapp-full" style={{ 
+                width: '100%', 
+                marginTop: '15px', 
+                padding: '22px', 
+                borderRadius: '20px', 
+                backgroundColor: '#25D366', 
+                color: 'white', 
+                border: 'none', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: '12px', 
+                fontSize: '16px', 
+                fontWeight: 900,
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+                cursor: 'pointer'
+              }}>
                 WhatsApp Booking <MessageSquare size={20} />
               </button>
             </div>

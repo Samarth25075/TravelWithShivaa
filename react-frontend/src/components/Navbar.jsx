@@ -45,6 +45,7 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
               key={link.path} 
               to={link.path} 
               className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
+              style={{ color: isScrolled ? '#ff6b00' : (location.pathname === '/' || location.pathname.startsWith('/package') || location.pathname.startsWith('/destination') ? 'white' : 'white') }}
             >
               {link.name}
             </Link>
@@ -55,6 +56,11 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
           <button 
             className="lang-btn" 
             onClick={() => setIsGujarati(!isGujarati)}
+            style={{ 
+              color: isScrolled ? '#ff6b00' : 'white',
+              borderColor: isScrolled ? '#ff6b00' : 'rgba(255,255,255,0.3)',
+              background: isScrolled ? 'black' : 'rgba(255,255,255,0.1)'
+            }}
           >
             <Globe size={16} />
             <span>{isGujarati ? 'GJ' : 'EN'}</span>
@@ -64,27 +70,39 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
             <Phone size={18} />
           </a>
 
-          <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: isScrolled ? 'var(--primary-green)' : 'white' }}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: isScrolled ? '#ff6b00' : 'white' }}>
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-        <button onClick={() => setIsOpen(false)} style={{ position: 'absolute', top: '30px', right: '30px', background: 'none', border: 'none', color: 'var(--primary-green)' }}>
-            <X size={32} />
-        </button>
-        {navLinks.map((link) => (
-          <Link 
-            key={link.path} 
-            to={link.path} 
-            className="mobile-link"
-            onClick={() => setIsOpen(false)}
-          >
-            {link.name}
-          </Link>
-        ))}
+        <div className="mobile-menu-header" style={{ width: '100%', padding: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'absolute', top: 0 }}>
+             <img src="/logo.png" alt="Shiv Travel" style={{ height: '40px' }} />
+             <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: '#ff6b00' }}>
+                 <X size={32} />
+             </button>
+        </div>
+        <div className="mobile-links-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', width: '100%' }}>
+            {navLinks.map((link) => (
+              <Link 
+                key={link.path} 
+                to={link.path} 
+                className="mobile-link"
+                onClick={() => setIsOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+        </div>
+        <div className="mobile-menu-footer" style={{ position: 'absolute', bottom: '50px', width: '100%', textAlign: 'center' }}>
+             <p style={{ color: '#fff', opacity: 0.5, fontSize: '13px', marginBottom: '20px' }}>{isGujarati ? 'અમને અનુસરો' : 'FOLLOW US'}</p>
+             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                 <a href="https://instagram.com/travelbookshiva" style={{ color: '#ff6b00' }}><Globe size={20} /></a>
+                 <a href="tel:+919099599331" style={{ color: '#ff6b00' }}><Phone size={20} /></a>
+             </div>
+        </div>
       </div>
     </nav>
   );

@@ -117,15 +117,22 @@ const Home = ({ isGujarati }) => {
       <WhyChooseUs isGujarati={isGujarati} />
 
       {/* Featured Destinations Section */}
-      <section className="destinations-section" style={{ padding: '100px 0', background: 'white' }}>
+      <section className="destinations-section" style={{ padding: 'clamp(60px, 10vw, 100px) 0', background: 'white' }}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '50px' }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'baseline', 
+            marginBottom: '40px',
+            flexWrap: 'wrap',
+            gap: '20px'
+          }}>
             <div>
-              <h6 style={{ color: 'var(--accent-amber)', fontSize: '14px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '15px' }}>{isGujarati ? 'સ્થળો' : 'Explore the World'}</h6>
-              <h2 style={{ fontSize: '36px', margin: 0 }}>{content.sections.destinations}</h2>
+              <h6 style={{ color: 'var(--primary-orange)', fontSize: '13px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '12px' }}>{isGujarati ? 'સ્થળો' : 'Explore the World'}</h6>
+              <h2 style={{ fontSize: 'clamp(28px, 5vw, 36px)', margin: 0 }}>{content.sections.destinations}</h2>
             </div>
-            <Link to="/packages" style={{ color: 'var(--primary-green)', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {isGujarati ? 'બધા જુઓ' : 'View All'} <ArrowRight size={18} />
+            <Link to="/packages" style={{ color: 'var(--primary-black)', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+              {isGujarati ? 'બધા જુઓ' : 'View All'} <ArrowRight size={16} />
             </Link>
           </div>
           <DestinationGrid isGujarati={isGujarati} />

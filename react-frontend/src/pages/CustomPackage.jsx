@@ -70,17 +70,20 @@ const CustomPackage = ({ isGujarati }) => {
       <section className="form-section">
         <div className="container">
            <div className="form-grid">
-              <div className="form-content card">
-                 <div className="form-header">
-                    <div className="step-indicator">
-                       {[1,2,3,4].map(s => (
-                         <div key={s} className={`step-dot ${step === s ? 'active' : ''} ${step > s ? 'completed' : ''}`}>
-                            {step > s ? <CheckCircle size={14} /> : s}
-                         </div>
-                       ))}
-                    </div>
-                    <h3>Step {step} of 4</h3>
-                 </div>
+               <div className="form-content card" style={{ position: 'relative', overflow: 'hidden' }}>
+                  <div className="progress-bar-container">
+                    <div className="progress-fill" style={{ width: `${(step / 4) * 100}%` }}></div>
+                  </div>
+                  <div className="form-header">
+                     <div className="step-indicator">
+                        {[1,2,3,4].map(s => (
+                          <div key={s} className={`step-dot ${step === s ? 'active' : ''} ${step > s ? 'completed' : ''}`}>
+                             {step > s ? <CheckCircle size={14} /> : s}
+                          </div>
+                        ))}
+                     </div>
+                     <h3>STEP {step} OF 4</h3>
+                  </div>
 
                  <div className="form-body">
                     {step === 1 && (
@@ -160,25 +163,30 @@ const CustomPackage = ({ isGujarati }) => {
                  </div>
               </div>
 
-              <div className="form-info">
-                 <div className="trust-badges">
-                    {badges.map((badge, i) => (
-                      <div key={i} className="trust-card">
-                         <div className="trust-icon">{badge.icon}</div>
-                         <p>{badge.text}</p>
-                      </div>
-                    ))}
-                 </div>
-                 <div className="why-custom card">
-                    <h4>{isGujarati ? 'શા માટે કસ્ટમાઇઝ ટ્રીપ?' : 'Why Customize?'}</h4>
-                    <ul>
-                       <li>{isGujarati ? 'તમારા સમય મુજબ પ્રવાસ' : 'Flexible Dates & Itinerary'}</li>
-                       <li>{isGujarati ? 'પસંદગી મુજબની હોટલ' : 'Your Choice of Hotels'}</li>
-                       <li>{isGujarati ? 'પ્રાઈવેટ વાહન અને ગાઈડ' : 'Private Transport & Guide'}</li>
-                       <li>{isGujarati ? 'કોઈ છુપાયેલ ખર્ચ નહીં' : 'Zero Hidden Costs'}</li>
-                    </ul>
-                 </div>
-              </div>
+               <div className="form-info" style={{ marginTop: '0' }}>
+                  <div className="trust-badges-premium" style={{ marginBottom: '40px' }}>
+                    <div className="trust-badges">
+                       {badges.map((badge, i) => (
+                         <div key={i} className="trust-card">
+                            <div className="trust-icon">{badge.icon}</div>
+                            <p>{badge.text}</p>
+                         </div>
+                       ))}
+                    </div>
+                  </div>
+                  <div className="why-custom card" style={{ padding: '40px', borderRadius: '32px', background: '#000', color: '#fff' }}>
+                     <h4 style={{ color: '#ffcc00', fontWeight: 900, marginBottom: '25px', fontSize: '22px' }}>{isGujarati ? 'શા માટે કસ્ટમાઇઝ ટ્રીપ?' : 'The Shiv Travel Edge'}</h4>
+                     <ul style={{ gap: '20px', display: 'flex', flexDirection: 'column' }}>
+                        <li style={{ color: '#fff', fontSize: '15px', fontWeight: 600 }}>{isGujarati ? 'તમારા સમય મુજબ પ્રવાસ' : 'Tailor-made Itineraries'}</li>
+                        <li style={{ color: '#fff', fontSize: '15px', fontWeight: 600 }}>{isGujarati ? 'પસંદગી મુજબની હોટલ' : 'Handpicked Luxury Stays'}</li>
+                        <li style={{ color: '#fff', fontSize: '15px', fontWeight: 600 }}>{isGujarati ? 'પ્રાઈવેટ વાહન અને ગાઈડ' : 'Private VIP Transport'}</li>
+                        <li style={{ color: '#fff', fontSize: '15px', fontWeight: 600 }}>{isGujarati ? 'કોઈ છુપાયેલ ખર્ચ નહીં' : 'No Hidden Costs, Guaranteed'}</li>
+                     </ul>
+                     <div style={{ marginTop: '40px', padding: '20px', background: 'rgba(255,255,255,0.1)', borderRadius: '16px', fontSize: '13px', opacity: 0.8 }}>
+                        {isGujarati ? 'અમારા નિષ્ણાતો તમને ૨૪ કલાકમાં સંપર્ક કરશે.' : 'Travel experts will design your quote within 24 business hours.'}
+                     </div>
+                  </div>
+               </div>
            </div>
         </div>
       </section>

@@ -50,31 +50,51 @@ const Packages = ({ isGujarati }) => {
 
   return (
     <div className="packages-page">
-      <header className="page-header">
+      <header className="page-header-premium">
         <div className="container">
-          <h1 className="page-title">{isGujarati ? 'ટૂર પેકેજો' : 'Explore Tour Packages'}</h1>
-          <p className="page-subtitle">{isGujarati ? 'તમારી આગામી યાદગાર સફર અહીંથી શરૂ થાય છે.' : 'Your next unforgettable journey starts here.'}</p>
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="page-title" 
+            style={{ fontSize: 'clamp(40px, 8vw, 64px)', fontWeight: 950, marginBottom: '15px', color: 'white' }}
+          >
+            {isGujarati ? 'ટૂર પેકેજો' : 'Explore Tour Packages'}
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="page-subtitle" 
+            style={{ fontSize: '18px', fontWeight: 600, opacity: 0.9, color: 'white' }}
+          >
+            {isGujarati ? 'તમારી આગામી યાદગાર સફર અહીંથી શરૂ થાય છે.' : 'Your next unforgettable journey starts here.'}
+          </motion.p>
         </div>
       </header>
 
       {/* Filter Bar */}
       <section className="filter-bar">
         <div className="container">
-          <div className="filter-container">
+          <div className="filter-container" style={{ borderColor: 'var(--primary-orange)' }}>
             <div className="category-filters">
               {categories.map((cat, i) => (
                 <button 
                   key={i} 
                   className={`filter-btn ${filter === cat.value ? 'active' : ''}`}
                   onClick={() => setFilter(cat.value)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
-                  {cat.icon} <span>{cat.label}</span>
+                  <span className="cat-icon" style={{ opacity: 0.6 }}>{cat.icon}</span>
+                  <span style={{ fontWeight: 800 }}>{cat.label}</span>
                 </button>
               ))}
             </div>
 
-            <div className="price-filter">
-              <label>{isGujarati ? 'બજેટ પ્રતિ વ્યક્તિ:' : 'Max Price per Person:'} <span>₹{priceRange.toLocaleString()}</span></label>
+            <div className="price-filter" style={{ background: '#f8fafc', padding: '15px 25px', borderRadius: '16px', border: '1px solid #e2e8f0' }}>
+              <label style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginBottom: '12px' }}>
+                <span style={{ fontWeight: 800, fontSize: '11px', textTransform: 'uppercase', color: '#64748b' }}>{isGujarati ? 'મહત્તમ બજેટ' : 'Max Budget'}</span>
+                <span style={{ fontWeight: 900, color: '#000' }}>₹{priceRange.toLocaleString()}</span>
+              </label>
               <input 
                 type="range" 
                 min="0" 
@@ -83,22 +103,6 @@ const Packages = ({ isGujarati }) => {
                 value={priceRange} 
                 onChange={(e) => setPriceRange(parseInt(e.target.value))} 
               />
-            </div>
-            <div className="view-toggles">
-                <button 
-                  className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`} 
-                  onClick={() => setViewMode('grid')}
-                  title="Grid View"
-                >
-                  <LayoutGrid size={20} />
-                </button>
-                <button 
-                  className={`view-btn ${viewMode === 'list' ? 'active' : ''}`} 
-                  onClick={() => setViewMode('list')}
-                  title="List View"
-                >
-                  <List size={20} />
-                </button>
             </div>
           </div>
         </div>
@@ -109,7 +113,7 @@ const Packages = ({ isGujarati }) => {
         <div className="container">
           {loading ? (
             <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-               <div className="loader" style={{ width: '40px', height: '40px', border: '4px solid #eee', borderTopColor: 'var(--primary-green)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+               <div className="loader" style={{ width: '40px', height: '40px', border: '4px solid #eee', borderTopColor: 'var(--primary-black)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
             </div>
           ) : (
             <>
@@ -133,22 +137,27 @@ const Packages = ({ isGujarati }) => {
                          <div className="pkg-tag">{pkg.tag || 'New'}</div>
                          <button className="wishlist-btn"><Compass size={20} /></button>
                        </div>
-                       <div className="pkg-body">
-                          <div className="pkg-header">
-                             <h3>{pkg.title}</h3>
-                             <div className="pkg-rating"><Sparkles size={14} fill="var(--accent-amber)" color="none" /> <span>{pkg.rating || '4.8'}</span></div>
+                       <div className="pkg-body" style={{ padding: '30px' }}>
+                          <div className="pkg-category" style={{ fontSize: '11px', fontWeight: 900, color: 'var(--primary-orange)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '8px' }}>
+                             {pkg.type}
                           </div>
-                          <div className="pkg-meta">
-                            <span><Clock size={14} /> {pkg.duration || '5 Days'}</span>
-                            <span><ShieldCheck size={14} /> {pkg.difficulty || 'Easy'}</span>
-                          </div>
-                          <hr />
-                          <div className="pkg-footer">
-                             <div className="pkg-price">
-                                <span className="from">{isGujarati ? 'શરૂઆત' : 'Starts from'}</span>
-                                <span className="price"><IndianRupee size={18} />{pkg.price.toLocaleString()}</span>
+                          <div className="pkg-header" style={{ marginBottom: '15px' }}>
+                             <h3 style={{ fontSize: '20px', fontWeight: 900, letterSpacing: '-0.5px' }}>{pkg.title}</h3>
+                             <div className="pkg-rating" style={{ background: '#fffbeb', color: '#b45309', padding: '6px 12px', borderRadius: '10px' }}>
+                                <Sparkles size={14} fill="#b45309" color="none" /> 
+                                <span style={{ fontWeight: 800 }}>{pkg.rating || '4.8'}</span>
                              </div>
-                             <Link to={`/package/${pkg.id}`} className="btn-primary-sm">{isGujarati ? 'વિગતો' : 'View Details'}</Link>
+                          </div>
+                          <div className="pkg-meta" style={{ display: 'flex', gap: '20px', marginBottom: '25px', opacity: 0.7 }}>
+                            <span style={{ fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}><Clock size={16} /> {pkg.duration || '5 Days'}</span>
+                            <span style={{ fontSize: '12px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '6px' }}><ShieldCheck size={16} /> {pkg.difficulty || 'Expert Led'}</span>
+                          </div>
+                          <div className="pkg-footer" style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                             <div className="pkg-price">
+                                <span className="from" style={{ fontSize: '10px', textTransform: 'uppercase', fontWeight: 800, letterSpacing: '1px', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>{isGujarati ? 'શરૂઆત' : 'Starts from'}</span>
+                                <span className="price" style={{ fontSize: '24px', fontWeight: 950, color: '#000' }}><IndianRupee size={20} />{pkg.price.toLocaleString()}</span>
+                             </div>
+                             <Link to={`/package/${pkg.id}`} className="btn-primary-sm" style={{ padding: '12px 25px', fontSize: '12px' }}>{isGujarati ? 'વિગતો' : 'View Adventure'}</Link>
                           </div>
                        </div>
                     </motion.div>

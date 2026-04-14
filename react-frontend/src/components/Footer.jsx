@@ -73,7 +73,7 @@ const Footer = ({ isGujarati }) => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} TravelBookShiva. All rights reserved.</p>
+          <p>&copy; {currentYear} <span style={{ color: '#ff6b00' }}>TravelBookShiva</span>. All rights reserved.</p>
           <div className="footer-legal-links">
             <Link to="/privacy">{isGujarati ? 'ગોપનીયતા' : 'Privacy'}</Link>
             <Link to="/terms">{isGujarati ? 'નિયમો' : 'Terms'}</Link>

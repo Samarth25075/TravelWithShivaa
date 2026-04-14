@@ -28,7 +28,7 @@ const AdminSidebar = () => {
     <div style={{
       width: '280px',
       height: '100vh',
-      backgroundColor: 'var(--primary-green)',
+      backgroundColor: 'var(--primary-black)',
       color: 'white',
       position: 'fixed',
       left: 0,
@@ -67,10 +67,10 @@ const AdminSidebar = () => {
                 borderRadius: '16px',
                 textDecoration: 'none',
                 color: 'white',
-                backgroundColor: isActive ? 'var(--accent-amber)' : 'transparent',
+                backgroundColor: isActive ? 'var(--primary-orange)' : 'transparent',
                 transition: 'var(--transition)',
                 fontWeight: 700,
-                boxShadow: isActive ? '0 10px 20px rgba(232, 160, 32, 0.2)' : 'none',
+                boxShadow: isActive ? '0 10px 20px rgba(255, 107, 0, 0.2)' : 'none',
                 opacity: isActive ? 1 : 0.65
               }}
               onMouseEnter={e => !isActive && (e.currentTarget.style.opacity = 1)}

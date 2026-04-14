@@ -282,7 +282,7 @@ const AdminDashboard = () => {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
       {[0, 1, 2, 3, 4].map((index) => (
         <div key={index} style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)', border: '1px solid #f1f5f9' }}>
-          <h4 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-green)', marginBottom: '20px' }}>Slide #{index + 1} Image</h4>
+          <h4 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '20px' }}>Slide #{index + 1} Image</h4>
           <div style={{ height: '220px', borderRadius: '20px', background: '#f8fafc', marginBottom: '20px', overflow: 'hidden', border: '2px dashed #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {homeImages[index] ? (
               <img src={getImageUrl(homeImages[index])} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={`Carousel ${index}`} />
@@ -291,7 +291,7 @@ const AdminDashboard = () => {
             )}
           </div>
           <label style={{ 
-            display: 'block', padding: '15px', borderRadius: '14px', background: 'var(--primary-green)', 
+            display: 'block', padding: '15px', borderRadius: '14px', background: 'var(--primary-black)', 
             color: 'white', textAlign: 'center', fontWeight: 700, cursor: 'pointer', fontSize: '14px' 
           }}>
              Upload New Slide {index + 1}
@@ -321,7 +321,7 @@ const AdminDashboard = () => {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
       {[0, 1, 2, 3, 4, 5].map((index) => (
         <div key={index} style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)', border: '1px solid #f1f5f9' }}>
-          <h4 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-green)', marginBottom: '20px' }}>Post #{index + 1}</h4>
+          <h4 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '20px' }}>Post #{index + 1}</h4>
           <div style={{ height: '300px', borderRadius: '20px', background: '#f8fafc', marginBottom: '20px', overflow: 'hidden', border: '2px dashed #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {instaPosts[index] ? (
               <img src={getImageUrl(instaPosts[index])} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={`Post ${index}`} />
@@ -330,7 +330,7 @@ const AdminDashboard = () => {
             )}
           </div>
           <label style={{ 
-            display: 'block', padding: '15px', borderRadius: '14px', background: 'var(--primary-green)', 
+            display: 'block', padding: '15px', borderRadius: '14px', background: 'var(--primary-black)', 
             color: 'white', textAlign: 'center', fontWeight: 700, cursor: 'pointer', fontSize: '14px' 
           }}>
              Upload New Post {index + 1}
@@ -350,8 +350,8 @@ const AdminDashboard = () => {
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
       <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--primary-green)' }}>Recent Enquiries</h3>
-          <button onClick={() => navigate('/admin/enquiries')} style={{ color: 'var(--accent-amber)', background: 'none', fontWeight: 800, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--primary-black)' }}>Recent Enquiries</h3>
+          <button onClick={() => navigate('/admin/enquiries')} style={{ color: 'var(--primary-orange)', background: 'none', fontWeight: 800, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '5px' }}>
             View All <ChevronRight size={16} />
           </button>
         </div>
@@ -370,7 +370,7 @@ const AdminDashboard = () => {
       </div>
 
       <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)' }}>
-         <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--primary-green)', marginBottom: '20px' }}>Content Efficiency</h3>
+         <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '20px' }}>Content Efficiency</h3>
          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             <div style={{ padding: '25px', borderRadius: '20px', background: '#ecfdf5', color: '#065f46' }}>
                <PackageIcon size={32} style={{ marginBottom: '15px' }} />
@@ -383,7 +383,7 @@ const AdminDashboard = () => {
                <h4 style={{ fontSize: '28px', fontWeight: 900 }}>{groupTrips.reduce((acc, t) => acc + t.seats, 0)} Seats</h4>
             </div>
          </div>
-         <div style={{ marginTop: '20px', padding: '20px', borderRadius: '20px', background: 'var(--primary-green)', color: 'white' }}>
+         <div style={{ marginTop: '20px', padding: '20px', borderRadius: '20px', background: 'var(--primary-black)', color: 'white' }}>
             <p style={{ fontSize: '14px', fontWeight: 600, opacity: 0.8 }}>Latest Blog Engagement</p>
             <h4 style={{ fontSize: '18px', fontWeight: 800, marginTop: '5px' }}>{blogs[0]?.title || 'No blogs published'}</h4>
             <p style={{ fontSize: '12px', marginTop: '5px', opacity: 0.7 }}>Published on {blogs[0]?.date || 'N/A'}</p>
@@ -402,8 +402,8 @@ const AdminDashboard = () => {
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
           <div>
-            <h1 style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-green)', letterSpacing: '-1px' }}>
-              Shiv Travel <span style={{ color: 'var(--accent-amber)' }}>Admin</span>
+            <h1 style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-black)', letterSpacing: '-1px' }}>
+              Shiv Travel <span style={{ color: 'var(--primary-orange)' }}>Admin</span>
             </h1>
             <p style={{ color: 'var(--text-muted)', fontSize: '16px', fontWeight: 500 }}>
               {activeTab === 'dashboard' ? 'Real-time overview of your travel business.' : `Manage ${activeTab.replace('-', ' ')} and content.`}
@@ -418,27 +418,29 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-          {[
-            { label: 'Total Packages', value: stats.total_packages, icon: <PackageIcon />, color: 'var(--primary-green)', bg: '#f0fdf4' },
-            { label: 'Total Enquiries', value: stats.total_enquiries, icon: <MessageSquare />, color: 'var(--accent-amber)', bg: '#fffbeb' },
-            { label: 'New Enquiries', value: stats.new_enquiries, icon: <Clock />, color: '#ef4444', bg: '#fef2f2' },
-            { label: 'Active Blogs', value: stats.total_blogs || 0, icon: <Mail />, color: '#6366f1', bg: '#eef2ff' },
-            { label: 'Group Trips', value: stats.total_group_trips || 0, icon: <Users />, color: '#ec4899', bg: '#fdf2f8' }
-          ].map((stat, i) => (
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} key={i} 
-              style={{ backgroundColor: 'white', padding: '25px', borderRadius: '24px', boxShadow: 'var(--shadow)', display: 'flex', alignItems: 'center', gap: '20px' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '18px', backgroundColor: stat.bg, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {stat.icon}
-              </div>
-              <div>
-                <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 700, marginBottom: '2px' }}>{stat.label}</p>
-                <h3 style={{ fontSize: '26px', fontWeight: 900, color: 'var(--primary-green)' }}>{stat.value}</h3>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Stats Grid - Show only on Dashboard */}
+        {activeTab === 'dashboard' && (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+            {[
+              { label: 'Total Packages', value: stats.total_packages, icon: <PackageIcon />, color: 'var(--primary-black)', bg: '#f0fdf4' },
+              { label: 'Total Enquiries', value: stats.total_enquiries, icon: <MessageSquare />, color: 'var(--primary-orange)', bg: '#fffbeb' },
+              { label: 'New Enquiries', value: stats.new_enquiries, icon: <Clock />, color: '#ef4444', bg: '#fef2f2' },
+              { label: 'Active Blogs', value: stats.total_blogs || 0, icon: <Mail />, color: '#6366f1', bg: '#eef2ff' },
+              { label: 'Group Trips', value: stats.total_group_trips || 0, icon: <Users />, color: '#ec4899', bg: '#fdf2f8' }
+            ].map((stat, i) => (
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} key={i} 
+                style={{ backgroundColor: 'white', padding: '25px', borderRadius: '24px', boxShadow: 'var(--shadow)', display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '18px', backgroundColor: stat.bg, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {stat.icon}
+                </div>
+                <div>
+                  <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 700, marginBottom: '2px' }}>{stat.label}</p>
+                  <h3 style={{ fontSize: '26px', fontWeight: 900, color: 'var(--primary-black)' }}>{stat.value}</h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Dynamic Content */}
         {activeTab === 'dashboard' ? renderDashboardOverview() : activeTab === 'home-carousel' ? renderHomeCarouselManager() : activeTab === 'insta-feed' ? renderInstaFeedManager() : (
@@ -466,22 +468,22 @@ const AdminDashboard = () => {
                               <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1' }}><PackageIcon size={20} /></div>
                             )}
                             <div>
-                              <p style={{ fontWeight: 900, fontSize: '17px', color: 'var(--primary-green)' }}>{pkg.title}</p>
+                              <p style={{ fontWeight: 900, fontSize: '17px', color: 'var(--primary-black)' }}>{pkg.title}</p>
                               <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>{pkg.duration} · {pkg.group_size}</p>
                             </div>
                           </div>
                         </td>
                         <td style={{ padding: '20px', fontWeight: 600, color: 'var(--text-muted)' }}>{pkg.location}</td>
-                        <td style={{ padding: '20px', fontWeight: 900, color: 'var(--primary-green)', fontSize: '18px' }}>₹{pkg.price.toLocaleString()}</td>
+                        <td style={{ padding: '20px', fontWeight: 900, color: 'var(--primary-black)', fontSize: '18px' }}>₹{pkg.price.toLocaleString()}</td>
                         <td style={{ padding: '20px' }}>
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
                              <span style={{ padding: '8px 14px', borderRadius: '50px', fontSize: '11px', fontWeight: 800, backgroundColor: pkg.status ? '#ecfdf5' : '#fef2f2', color: pkg.status ? '#059669' : '#ef4444' }}>{pkg.status ? '● LIVE' : '○ DRAFT'}</span>
-                             {pkg.is_popular && <span style={{ padding: '4px 10px', borderRadius: '5px', fontSize: '10px', fontWeight: 900, backgroundColor: 'var(--accent-amber)', color: 'white', textAlign: 'center' }}>★ POPULAR</span>}
+                             {pkg.is_popular && <span style={{ padding: '4px 10px', borderRadius: '5px', fontSize: '10px', fontWeight: 900, backgroundColor: 'var(--primary-orange)', color: 'white', textAlign: 'center' }}>★ POPULAR</span>}
                           </div>
                         </td>
                         <td style={{ padding: '20px', textAlign: 'right' }}>
                           <div style={{ display: 'inline-flex', gap: '12px' }}>
-                            <button onClick={() => openEditModal(pkg)} style={{ color: 'var(--primary-green)', background: '#f0fdf4', border: 'none', padding: '10px', borderRadius: '12px', cursor: 'pointer' }}><Edit size={18} /></button>
+                            <button onClick={() => openEditModal(pkg)} style={{ color: 'var(--primary-black)', background: '#f0fdf4', border: 'none', padding: '10px', borderRadius: '12px', cursor: 'pointer' }}><Edit size={18} /></button>
                             <button onClick={() => handleDelete(pkg.id)} style={{ color: '#ef4444', background: '#fef2f2', border: 'none', padding: '10px', borderRadius: '12px', cursor: 'pointer' }}><Trash size={18} /></button>
                           </div>
                         </td>
@@ -507,14 +509,14 @@ const AdminDashboard = () => {
                         <td style={{ padding: '20px' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
                             <img src={getImageUrl(blog.image)} style={{ width: '64px', height: '64px', borderRadius: '16px', objectFit: 'cover' }} />
-                            <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-green)' }}>{blog.title}</p>
+                            <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-black)' }}>{blog.title}</p>
                           </div>
                         </td>
                         <td style={{ padding: '20px' }}><span style={{ padding: '6px 14px', borderRadius: '50px', backgroundColor: '#f3f4f6', fontSize: '12px', fontWeight: 700 }}>{blog.category}</span></td>
                         <td style={{ padding: '20px', fontWeight: 600 }}>{blog.date}</td>
                         <td style={{ padding: '20px', textAlign: 'right' }}>
                           <div style={{ display: 'inline-flex', gap: '10px' }}>
-                            <button onClick={() => openEditModal(blog)} style={{ color: 'var(--primary-green)', background: '#f1f5f9', border: 'none', padding: '10px', borderRadius: '12px' }}><Edit size={18} /></button>
+                            <button onClick={() => openEditModal(blog)} style={{ color: 'var(--primary-black)', background: '#f1f5f9', border: 'none', padding: '10px', borderRadius: '12px' }}><Edit size={18} /></button>
                             <button onClick={() => handleDelete(blog.id)} style={{ color: '#ef4444', background: '#fef2f2', border: 'none', padding: '10px', borderRadius: '12px' }}><Trash size={18} /></button>
                           </div>
                         </td>
@@ -542,8 +544,8 @@ const AdminDashboard = () => {
                           <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
                             <img src={getImageUrl(trip.image)} style={{ width: '64px', height: '64px', borderRadius: '16px', objectFit: 'cover' }} />
                             <div>
-                               <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-green)' }}>{trip.title}</p>
-                               <p style={{ fontSize: '14px', fontWeight: 800, color: 'var(--accent-amber)' }}>₹{trip.price?.toLocaleString()}</p>
+                               <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-black)' }}>{trip.title}</p>
+                               <p style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-orange)' }}>₹{trip.price?.toLocaleString()}</p>
                             </div>
                           </div>
                         </td>
@@ -554,7 +556,7 @@ const AdminDashboard = () => {
                         </td>
                         <td style={{ padding: '20px', textAlign: 'right' }}>
                           <div style={{ display: 'inline-flex', gap: '10px' }}>
-                            <button onClick={() => openEditModal(trip)} style={{ color: 'var(--primary-green)', background: '#f1f5f9', border: 'none', padding: '10px', borderRadius: '12px' }}><Edit size={18} /></button>
+                            <button onClick={() => openEditModal(trip)} style={{ color: 'var(--primary-black)', background: '#f1f5f9', border: 'none', padding: '10px', borderRadius: '12px' }}><Edit size={18} /></button>
                             <button onClick={() => handleDelete(trip.id)} style={{ color: '#ef4444', background: '#fef2f2', border: 'none', padding: '10px', borderRadius: '12px' }}><Trash size={18} /></button>
                           </div>
                         </td>
@@ -579,9 +581,9 @@ const AdminDashboard = () => {
                       <tr key={enq.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                         <td style={{ padding: '20px' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                             <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'var(--primary-green)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900 }}>{enq.name[0]}</div>
+                             <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'var(--primary-black)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900 }}>{enq.name[0]}</div>
                              <div>
-                                <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-green)' }}>{enq.name}</p>
+                                <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-black)' }}>{enq.name}</p>
                                 <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{enq.email}</p>
                                 <p style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700 }}>{enq.phone}</p>
                              </div>
@@ -589,7 +591,7 @@ const AdminDashboard = () => {
                         </td>
                         <td style={{ padding: '20px' }}>
                           {enq.package ? (
-                            <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--accent-amber)', padding: '6px 12px', backgroundColor: '#fff7ed', borderRadius: '8px', border: '1px solid #ffedd5' }}>{enq.package.title}</span>
+                            <span style={{ fontSize: '12px', fontWeight: 800, color: 'var(--primary-orange)', padding: '6px 12px', backgroundColor: '#fff7ed', borderRadius: '8px', border: '1px solid #ffedd5' }}>{enq.package.title}</span>
                           ) : (
                             <span style={{ fontSize: '12px', fontWeight: 800, color: '#6366f1', padding: '6px 12px', backgroundColor: '#eef2ff', borderRadius: '8px', border: '1px solid #e0e7ff' }}>{enq.subject || 'Custom Trip'}</span>
                           )}
@@ -602,7 +604,7 @@ const AdminDashboard = () => {
                           <select 
                             value={enq.status} 
                             onChange={(e) => handleUpdateEnquiryStatus(enq.id, e.target.value)}
-                            style={{ padding: '10px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', fontSize: '13px', fontWeight: 800, color: 'var(--primary-green)', cursor: 'pointer', outline: 'none', background: 'white' }}
+                            style={{ padding: '10px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', fontSize: '13px', fontWeight: 800, color: 'var(--primary-black)', cursor: 'pointer', outline: 'none', background: 'white' }}
                           >
                             <option value="New">New Lead</option>
                             <option value="Contacted">Contacted</option>
@@ -624,12 +626,12 @@ const AdminDashboard = () => {
         {/* Premium Modal */}
         <AnimatePresence>
           {showModal && (
-            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(26,60,52,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(8px)' }}>
+            <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(8px)' }}>
               <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 30 }} 
                 style={{ backgroundColor: 'white', padding: '50px', borderRadius: '40px', width: '1100px', maxWidth: '95%', maxHeight: '92vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-                   <h2 style={{ fontSize: '34px', fontWeight: 900, color: 'var(--primary-green)' }}>
-                      {editingItem ? 'Refine' : 'Add New'} <span style={{ color: 'var(--accent-amber)' }}>{activeTab.replace('-', ' ')}</span>
+                   <h2 style={{ fontSize: '34px', fontWeight: 900, color: 'var(--primary-black)' }}>
+                      {editingItem ? 'Refine' : 'Add New'} <span style={{ color: 'var(--primary-orange)' }}>{activeTab.replace('-', ' ')}</span>
                    </h2>
                    <button onClick={() => setShowModal(false)} style={{ background: '#f1f5f9', border: 'none', padding: '12px', borderRadius: '50%', color: 'var(--text-muted)', cursor: 'pointer' }}><XCircle size={24} /></button>
                 </div>
@@ -639,23 +641,23 @@ const AdminDashboard = () => {
                   {activeTab === 'packages' && (
                     <>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Package Title</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Package Title</label>
                         <input value={formData.title} onChange={(e) => setFormData({...formData, title: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} placeholder="e.g. Majestic Spiti Valley Expedition" required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Primary Location</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Primary Location</label>
                         <input value={formData.location} onChange={(e) => setFormData({...formData, location: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} placeholder="e.g. Himachal Pradesh, India" required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Starting Price (₹)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Starting Price (₹)</label>
                         <input value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} type="number" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Trip Duration</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Trip Duration</label>
                         <input value={formData.duration} onChange={(e) => setFormData({...formData, duration: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} placeholder="e.g. 7 Days / 6 Nights" />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Category Type</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Category Type</label>
                         <select value={formData.type} onChange={(e) => setFormData({...formData, type: e.target.value})} style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', background: 'white', fontSize: '16px', fontWeight: 600, outline: 'none' }}>
                            <option value="Mountain">Mountain</option>
                            <option value="Beach">Beach</option>
@@ -664,28 +666,28 @@ const AdminDashboard = () => {
                         </select>
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Package Tag (Best Seller, Trending, etc.)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Package Tag (Best Seller, Trending, etc.)</label>
                         <input value={formData.tag} onChange={(e) => setFormData({...formData, tag: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Trip Difficulty</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Trip Difficulty</label>
                         <input value={formData.difficulty} onChange={(e) => setFormData({...formData, difficulty: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Initial Guest Rating (1-5)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Initial Guest Rating (1-5)</label>
                         <input value={formData.rating} onChange={(e) => setFormData({...formData, rating: parseFloat(e.target.value)})} type="number" step="0.1" max="5" min="1" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Group Size Policy</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Group Size Policy</label>
                         <input value={formData.group_size} onChange={(e) => setFormData({...formData, group_size: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} placeholder="e.g. Selectable (Private) / 12-15 (Batch)" />
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: '#f8fafc', padding: '15px 25px', borderRadius: '16px', border: '2px solid #f1f5f9' }}>
                          <input type="checkbox" id="is_popular" checked={formData.is_popular} onChange={(e) => setFormData({...formData, is_popular: e.target.checked})} style={{ width: '22px', height: '22px', cursor: 'pointer' }} />
-                         <label htmlFor="is_popular" style={{ fontWeight: 800, color: 'var(--primary-green)', cursor: 'pointer' }}>Mark as Popular Destination (Home Grid)</label>
+                         <label htmlFor="is_popular" style={{ fontWeight: 800, color: 'var(--primary-black)', cursor: 'pointer' }}>Mark as Popular Destination (Home Grid)</label>
                       </div>
                       <div style={{ gridColumn: '1/3', padding: '30px', background: 'var(--bg-white)', borderRadius: '24px', border: '2px dashed #e2e8f0' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                           <p style={{ fontWeight: 900, color: 'var(--primary-green)', fontSize: '16px' }}>Featured Cover Image</p>
+                           <p style={{ fontWeight: 900, color: 'var(--primary-black)', fontSize: '16px' }}>Featured Cover Image</p>
                            <label className="btn-secondary" style={{ padding: '10px 20px', cursor: 'pointer', borderRadius: '50px', fontSize: '13px' }}>
                               <ImageIcon size={16} /> Choose Image
                               <input type="file" hidden onChange={(e) => handleImageUpload(e, 'main')} />
@@ -697,24 +699,24 @@ const AdminDashboard = () => {
                         </div>
                       </div>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Short Overview (Marketing Hook)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Short Overview (Marketing Hook)</label>
                         <textarea value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} rows="3" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }} required></textarea>
                       </div>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Day-by-Day Itinerary (Separated by new lines)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Day-by-Day Itinerary (Separated by new lines)</label>
                         <textarea value={formData.itinerary} onChange={(e) => setFormData({...formData, itinerary: e.target.value})} rows="5" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }} placeholder="Day 1: Arrival & Briefing\nDay 2: Exploration starts..."></textarea>
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Inclusions</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Inclusions</label>
                         <textarea value={formData.inclusions} onChange={(e) => setFormData({...formData, inclusions: e.target.value})} rows="4" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }}></textarea>
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Exclusions</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Exclusions</label>
                         <textarea value={formData.exclusions} onChange={(e) => setFormData({...formData, exclusions: e.target.value})} rows="4" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }}></textarea>
                       </div>
                       <div style={{ gridColumn: '1/3', padding: '30px', background: 'white', borderRadius: '24px', border: '2px solid #f8fafc' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                           <p style={{ fontWeight: 900, color: 'var(--primary-green)', fontSize: '16px' }}>Photo Gallery</p>
+                           <p style={{ fontWeight: 900, color: 'var(--primary-black)', fontSize: '16px' }}>Photo Gallery</p>
                            <label className="btn-secondary" style={{ padding: '8px 16px', cursor: 'pointer', borderRadius: '50px', fontSize: '12px' }}>
                               <Plus size={14} /> Add Multiple Files
                               <input type="file" multiple hidden onChange={handleGalleryUpload} />
@@ -724,7 +726,7 @@ const AdminDashboard = () => {
                           {formData.gallery && formData.gallery.map((img, idx) => (
                             <div key={idx} style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', height: '90px', boxShadow: '0 4px 8px rgba(0,0,0,0.05)' }}>
                               <img src={getImageUrl(img)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                              <button type="button" onClick={() => handleRemoveGalleryImage(idx)} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(239, 68, 68, 0.9)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><Trash size={12} /></button>
+                              <button type="button" onClick={() => handleRemoveGalleryImage(idx)} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(255, 107, 0, 0.3)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><Trash size={12} /></button>
                             </div>
                           ))}
                           {(!formData.gallery || formData.gallery.length === 0) && <p style={{ fontSize: '12px', color: '#94a3b8', gridColumn: '1/-1', textAlign: 'center', padding: '20px' }}>No gallery images uploaded yet.</p>}
@@ -736,21 +738,21 @@ const AdminDashboard = () => {
                   {activeTab === 'blogs' && (
                     <>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Blog Headline</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Blog Headline</label>
                         <input value={blogFormData.title} onChange={(e) => setBlogFormData({...blogFormData, title: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Post Category</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Post Category</label>
                         <select value={blogFormData.category} onChange={(e) => setBlogFormData({...blogFormData, category: e.target.value})} style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', background: 'white', fontSize: '16px', fontWeight: 600, outline: 'none' }}>
                            {['Mountains', 'Beach', 'Culture', 'Backpacks', 'Luxury', 'Budget Travel'].map(c => <option key={c} value={c}>{c}</option>)}
                         </select>
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Reading Estimate</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Reading Estimate</label>
                         <input value={blogFormData.reading_time} onChange={(e) => setBlogFormData({...blogFormData, reading_time: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} placeholder="e.g. 5 min read" />
                       </div>
                       <div style={{ gridColumn: '1/3', padding: '30px', background: 'var(--bg-white)', borderRadius: '24px', border: '2px dashed #e2e8f0' }}>
-                        <p style={{ fontWeight: 900, color: 'var(--primary-green)', fontSize: '16px', marginBottom: '20px' }}>Blog Banner Image</p>
+                        <p style={{ fontWeight: 900, color: 'var(--primary-black)', fontSize: '16px', marginBottom: '20px' }}>Blog Banner Image</p>
                         <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
                           {blogFormData.image && <img src={getImageUrl(blogFormData.image)} style={{ width: '220px', height: '140px', borderRadius: '20px', objectFit: 'cover' }} />}
                           <label className="btn-secondary" style={{ padding: '12px 24px', cursor: 'pointer', borderRadius: '50px' }}>
@@ -760,11 +762,11 @@ const AdminDashboard = () => {
                         </div>
                       </div>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>SEO Summary / Excerpt</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>SEO Summary / Excerpt</label>
                         <textarea value={blogFormData.description} onChange={(e) => setBlogFormData({...blogFormData, description: e.target.value})} rows="2" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }} required></textarea>
                       </div>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Full Story Content (Support Markdown)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Full Story Content (Support Markdown)</label>
                         <textarea value={blogFormData.content} onChange={(e) => setBlogFormData({...blogFormData, content: e.target.value})} rows="10" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }}></textarea>
                       </div>
                     </>
@@ -773,23 +775,23 @@ const AdminDashboard = () => {
                   {activeTab === 'group-trips' && (
                     <>
                       <div style={{ gridColumn: '1/3' }}>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Batch Expedition Title</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Batch Expedition Title</label>
                         <input value={tripFormData.title} onChange={(e) => setTripFormData({...tripFormData, title: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Expedition Date (e.g. 15-22 June)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Expedition Date (e.g. 15-22 June)</label>
                         <input value={tripFormData.date} onChange={(e) => setTripFormData({...tripFormData, date: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Expedition Fee (₹)</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Expedition Fee (₹)</label>
                         <input value={tripFormData.price} onChange={(e) => setTripFormData({...tripFormData, price: e.target.value})} type="number" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Total Open Seats</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Total Open Seats</label>
                         <input value={tripFormData.seats} onChange={(e) => setTripFormData({...tripFormData, seats: parseInt(e.target.value)})} type="number" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} required />
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Batch Status</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Batch Status</label>
                         <select value={tripFormData.status} onChange={(e) => setTripFormData({...tripFormData, status: e.target.value})} style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', background: 'white', fontSize: '16px', fontWeight: 600, outline: 'none' }}>
                            <option value="upcoming">Booking Open (Upcoming)</option>
                            <option value="full">Sold Out (Full)</option>
@@ -798,11 +800,11 @@ const AdminDashboard = () => {
                         </select>
                       </div>
                       <div>
-                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-green)', marginBottom: '10px', display: 'block' }}>Group Type / Size</label>
+                        <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Group Type / Size</label>
                         <input value={tripFormData.group_size} onChange={(e) => setTripFormData({...tripFormData, group_size: e.target.value})} type="text" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 600, outline: 'none' }} placeholder="e.g. 12-15 Travellers" />
                       </div>
                       <div style={{ gridColumn: '1/3', padding: '30px', background: 'var(--bg-white)', borderRadius: '24px', border: '2px dashed #e2e8f0' }}>
-                        <p style={{ fontWeight: 900, color: 'var(--primary-green)', fontSize: '16px', marginBottom: '20px' }}>Batch Promotional Image</p>
+                        <p style={{ fontWeight: 900, color: 'var(--primary-black)', fontSize: '16px', marginBottom: '20px' }}>Batch Promotional Image</p>
                         <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
                           {tripFormData.image && <img src={getImageUrl(tripFormData.image)} style={{ width: '220px', height: '140px', borderRadius: '20px', objectFit: 'cover' }} />}
                           <label className="btn-secondary" style={{ padding: '12px 24px', cursor: 'pointer', borderRadius: '50px' }}>
