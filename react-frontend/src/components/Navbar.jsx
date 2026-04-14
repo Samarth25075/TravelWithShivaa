@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, Phone } from 'lucide-react';
+import { Menu, X, Globe, Phone, Instagram } from 'lucide-react';
 
 const Navbar = ({ isGujarati, setIsGujarati }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +25,18 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
     { name: isGujarati ? 'સંપર્ક' : 'Contact', path: '/contact' },
   ];
 
+  const iconStyle = { 
+    color: '#000', 
+    width: '40px', 
+    height: '40px', 
+    borderRadius: '10px', 
+    background: '#fff', 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    boxShadow: '0 4px 10px rgba(0,0,0,0.05)' 
+  };
+
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
@@ -45,7 +57,7 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
               key={link.path} 
               to={link.path} 
               className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
-              style={{ color: isScrolled ? '#ff6b00' : (location.pathname === '/' || location.pathname.startsWith('/package') || location.pathname.startsWith('/destination') ? 'white' : 'white') }}
+              style={{ color: isScrolled ? '#ff6b00' : 'white' }}
             >
               {link.name}
             </Link>
@@ -76,31 +88,40 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Backdrop for mobile menu */}
+      <div className={`mobile-backdrop ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}></div>
+
+      {/* Mobile Sidebar Menu */}
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-header" style={{ width: '100%', padding: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'absolute', top: 0 }}>
-             <img src="/logo.png" alt="Shiv Travel" style={{ height: '40px' }} />
-             <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: '#ff6b00' }}>
-                 <X size={32} />
+        <div className="mobile-menu-header" style={{ width: '100%', padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'absolute', top: 0, borderBottom: '1px solid #f1f5f9' }}>
+             <img src="/logo.png" alt="Shiv Travel" style={{ height: '35px' }} />
+             <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: '#000' }}>
+                 <X size={24} />
              </button>
         </div>
-        <div className="mobile-links-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', width: '100%' }}>
+        
+        <div className="mobile-links-container" style={{ width: '100%', marginTop: '20px' }}>
             {navLinks.map((link) => (
               <Link 
                 key={link.path} 
                 to={link.path} 
-                className="mobile-link"
+                className={`mobile-link ${location.pathname === link.path ? 'active' : ''}`}
                 onClick={() => setIsOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
         </div>
-        <div className="mobile-menu-footer" style={{ position: 'absolute', bottom: '50px', width: '100%', textAlign: 'center' }}>
-             <p style={{ color: '#fff', opacity: 0.5, fontSize: '13px', marginBottom: '20px' }}>{isGujarati ? 'અમને અનુસરો' : 'FOLLOW US'}</p>
-             <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-                 <a href="https://instagram.com/travelbookshiva" style={{ color: '#ff6b00' }}><Globe size={20} /></a>
-                 <a href="tel:+919099599331" style={{ color: '#ff6b00' }}><Phone size={20} /></a>
+
+        <div className="mobile-menu-footer" style={{ marginTop: 'auto', padding: '30px', width: '100%', background: '#f8fafc' }}>
+             <p style={{ color: '#64748b', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '15px' }}>{isGujarati ? 'અમને અનુસરો' : 'FOLLOW US'}</p>
+             <div style={{ display: 'flex', gap: '15px' }}>
+                 <a href="https://instagram.com/travelbookshiva" target="_blank" rel="noreferrer" style={iconStyle}>
+                    <Instagram size={18} />
+                 </a>
+                 <a href="tel:+919099599331" style={iconStyle}>
+                    <Phone size={18} />
+                 </a>
              </div>
         </div>
       </div>
