@@ -4,13 +4,17 @@ import { MessageCircle } from 'lucide-react';
 const WhatsAppButton = () => {
   return (
     <a 
-      href="https://wa.me/919099599331" 
+      href="https://wa.me/919313634723" 
       target="_blank" 
       rel="noreferrer" 
-      className="whatsapp-float"
-      aria-label="Chat on WhatsApp"
+      className="concierge-float"
+      aria-label="Contact Concierge"
     >
-      <MessageCircle size={32} fill="white" color="white" />
+      <div className="pulse-effect"></div>
+      <span className="concierge-text">Luxury Concierge</span>
+      <div className="concierge-icon-wrapper">
+        <MessageCircle size={28} />
+      </div>
     </a>
   );
 };

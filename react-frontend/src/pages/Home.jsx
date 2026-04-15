@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TripCard, DestinationGrid, Testimonials, CounterStats, WhyChooseUs, InstagramFeed } from '../components/HomeComponents';
+import { TripCard, DestinationGrid, Testimonials, CounterStats, WhyChooseUs, InstagramFeed, AdventurePlanner } from '../components/HomeComponents';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
@@ -62,29 +62,42 @@ const Home = ({ isGujarati }) => {
   return (
     <div className="home-page">
       {/* Cinematic Hero Slider */}
-      <section className="hero">
-        <div className="hero-carousel">
+      <section className="hero" style={{ height: '100vh', position: 'relative' }}>
+        <div className="hero-carousel" style={{ height: '100%' }}>
           <AnimatePresence mode="wait">
             <motion.img
               key={currentImage}
               src={getFullImageUrl(heroImages[currentImage])}
-              initial={{ scale: 1.1, opacity: 0 }}
+              initial={{ scale: 1.2, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
+              transition={{ duration: 2, ease: "easeOut" }}
               className="carousel-img"
               alt="Shiv Travel Destinations"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </AnimatePresence>
         </div>
-        <div className="hero-overlay"></div>
+        <div className="hero-overlay" style={{ 
+          background: 'linear-gradient(rgba(0,0,0,0.4) 0%, rgba(5,5,5,1) 100%)',
+          zIndex: 2 
+        }}></div>
         
-        <div className="hero-content">
+        <div className="hero-content" style={{ zIndex: 10, paddingBottom: '100px' }}>
           <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
             className="hero-headline"
+            style={{ 
+              fontSize: 'clamp(50px, 12vw, 120px)', 
+              fontWeight: 400, 
+              lineHeight: 0.9, 
+              fontFamily: 'var(--font-heading)',
+              letterSpacing: '-2px',
+              color: 'white',
+              marginBottom: '30px'
+            }}
           >
             {content.hero.headline}
           </motion.h1>
@@ -115,6 +128,9 @@ const Home = ({ isGujarati }) => {
 
       {/* Why Choose Us */}
       <WhyChooseUs isGujarati={isGujarati} />
+
+      {/* Adventure Planner - Interactive Section */}
+      <AdventurePlanner isGujarati={isGujarati} />
 
       {/* Featured Destinations Section */}
       <section className="destinations-section" style={{ padding: 'clamp(60px, 10vw, 100px) 0', background: 'white' }}>

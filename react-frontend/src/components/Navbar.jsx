@@ -57,7 +57,7 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
               key={link.path} 
               to={link.path} 
               className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
-              style={{ color: isScrolled ? '#ff6b00' : 'white' }}
+              style={{ color: isScrolled ? 'var(--primary-gold)' : 'white' }}
             >
               {link.name}
             </Link>
@@ -69,20 +69,22 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
             className="lang-btn" 
             onClick={() => setIsGujarati(!isGujarati)}
             style={{ 
-              color: isScrolled ? '#ff6b00' : 'white',
-              borderColor: isScrolled ? '#ff6b00' : 'rgba(255,255,255,0.3)',
-              background: isScrolled ? 'black' : 'rgba(255,255,255,0.1)'
+              color: isScrolled ? 'var(--primary-gold)' : 'white',
+              borderColor: isScrolled ? 'var(--primary-gold)' : 'rgba(255,255,255,0.3)',
+              background: isScrolled ? 'black' : 'rgba(255,255,255,0.1)',
+              fontFamily: 'var(--font-body)',
+              fontWeight: 800
             }}
           >
             <Globe size={16} />
             <span>{isGujarati ? 'GJ' : 'EN'}</span>
           </button>
           
-          <a href="tel:+919099599331" className="nav-phone-btn hide-mobile">
+          <a href="tel:+919313634723" className="nav-phone-btn hide-mobile" style={{ background: 'var(--gradient-gold)', color: 'black' }}>
             <Phone size={18} />
           </a>
 
-          <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: isScrolled ? '#ff6b00' : 'white' }}>
+          <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: isScrolled ? 'var(--primary-gold)' : 'white' }}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
