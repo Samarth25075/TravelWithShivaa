@@ -3,8 +3,7 @@ import time
 from datetime import datetime
 
 # URL of your Render backend
-# Example: https://shiv-travel-backend.onrender.com/api/health
-URL = "https://your-app-name.onrender.com/api/health"
+URL = "https://travelwithshivaa.onrender.com/"
 
 def ping_server():
     try:

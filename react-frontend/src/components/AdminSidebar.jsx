@@ -1,13 +1,15 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Package, MessageSquare, 
-  Settings, LogOut, Mountain, Compass,
+  Settings, LogOut, Mountain, Compass, Palette,
   BookOpen, Users, User, Image as ImageIcon
 } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const AdminSidebar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { siteLogo } = useSettings();
 
   const menuItems = [
     { icon: <LayoutDashboard size={20} />, label: 'Dashboard', path: '/admin/dashboard' },
@@ -17,6 +19,7 @@ const AdminSidebar = () => {
     { icon: <MessageSquare size={20} />, label: 'Enquiries', path: '/admin/enquiries' },
     { icon: <ImageIcon size={20} />, label: 'Home Carousel', path: '/admin/home-carousel' },
     { icon: <User size={20} />, label: 'Instagram Feed', path: '/admin/insta-feed' },
+    { icon: <Palette size={20} />, label: 'Branding', path: '/admin/branding' },
   ];
 
   const handleLogout = () => {
@@ -41,7 +44,7 @@ const AdminSidebar = () => {
     }}>
       <div style={{ marginBottom: '50px', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <img 
-            src="/logo.png" 
+            src={siteLogo} 
             alt="Shiv Travel Logo" 
             style={{ 
               height: '45px', 

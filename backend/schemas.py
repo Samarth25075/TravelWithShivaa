@@ -158,3 +158,6 @@ class GroupTrip(GroupTripBase):
     created_at: datetime = Field(default_factory=datetime.now)
 
     model_config = ConfigDict(from_attributes=True, populate_by_name=True)
+
+class SiteLogoUpdate(BaseModel):
+    logo_url: str

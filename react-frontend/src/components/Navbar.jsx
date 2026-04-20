@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Globe, Phone, Instagram } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const Navbar = ({ isGujarati, setIsGujarati }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,8 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const { siteLogo } = useSettings();
 
   const navLinks = [
     { name: isGujarati ? 'હોમ' : 'Home', path: '/' },
@@ -41,13 +44,8 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
         <Link to="/" className="nav-logo">
-          <img src="/logo.png" alt="Shiv Travel" className="header-logo" />
-          <div className="logo-text-group">
-            <span className="logo-title">
-              <span className="logo-part-1">TRAVELBOOK</span>
-              <span className="logo-part-2">SHIVA</span>
-            </span>
-          </div>
+          <img src={siteLogo} alt="TravelBookShiva" className="header-logo" />
+          <span className="logo-text">TravelBookShiva</span>
         </Link>
 
         {/* Desktop Links */}
@@ -96,7 +94,8 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
       {/* Mobile Sidebar Menu */}
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
         <div className="mobile-menu-header" style={{ width: '100%', padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'absolute', top: 0, borderBottom: '1px solid #f1f5f9' }}>
-             <img src="/logo.png" alt="Shiv Travel" style={{ height: '35px' }} />
+             <img src={siteLogo} alt="TravelBookShiva" style={{ height: '35px' }} />
+             <span className="logo-text" style={{ color: 'var(--primary-gold)', fontSize: '18px' }}>TravelBookShiva</span>
              <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: '#000' }}>
                  <X size={24} />
              </button>

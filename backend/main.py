@@ -348,6 +348,22 @@ async def update_insta_posts(images: List[str], db_mongo = Depends(get_mongo_db)
     )
     return {"status": "success", "images": images}
 
+@app.get("/api/settings/logo")
+async def get_site_logo(db_mongo = Depends(get_mongo_db)):
+    settings = await db_mongo["settings"].find_one({"key": "site_logo"})
+    if not settings:
+        return {"logo_url": "/logo.png"} # Default fallback
+    return {"logo_url": settings["logo_url"]}
+
+@app.post("/api/settings/logo")
+async def update_site_logo(data: schemas.SiteLogoUpdate, db_mongo = Depends(get_mongo_db)):
+    await db_mongo["settings"].update_one(
+        {"key": "site_logo"},
+        {"$set": {"logo_url": data.logo_url, "updated_at": datetime.now()}},
+        upsert=True
+    )
+    return {"status": "success", "logo_url": data.logo_url}
+
 # Upload image
 @app.post("/api/upload")
 async def upload_image(file: UploadFile = File(...)):

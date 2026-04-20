@@ -48,6 +48,7 @@ const AppContent = () => {
         <Route path="/admin/group-trips" element={<AdminDashboard />} />
         <Route path="/admin/home-carousel" element={<AdminDashboard />} />
         <Route path="/admin/insta-feed" element={<AdminDashboard />} />
+        <Route path="/admin/branding" element={<AdminDashboard />} />
       </Routes>
 
       {!isAdmin && <Footer isGujarati={isGujarati} />}

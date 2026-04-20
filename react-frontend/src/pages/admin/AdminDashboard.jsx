@@ -9,6 +9,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AdminSidebar from '../../components/AdminSidebar';
+import { useSettings } from '../../context/SettingsContext';
 
 const AdminDashboard = () => {
   const [packages, setPackages] = useState([]);
@@ -25,17 +26,20 @@ const AdminDashboard = () => {
   });
   const [homeImages, setHomeImages] = useState([]);
   const [instaPosts, setInstaPosts] = useState([]);
+  const [siteLogo, setSiteLogo] = useState('/logo.png');
   const [activeTab, setActiveTab] = useState('packages');
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  const { refreshSettings } = useSettings();
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const getImageUrl = (image) => {
     if (!image) return null;
-    if (image.startsWith('http')) return image;
+    if (image.startsWith('http') || image.startsWith('/')) return image;
     return `/api/uploads/${image}`;
   };
 
@@ -93,6 +97,7 @@ const AdminDashboard = () => {
     else if (path.includes('/group-trips')) setActiveTab('group-trips');
     else if (path.includes('/home-carousel')) setActiveTab('home-carousel');
     else if (path.includes('/insta-feed')) setActiveTab('insta-feed');
+    else if (path.includes('/branding')) setActiveTab('branding');
     else if (path.includes('/dashboard')) setActiveTab('dashboard');
     else setActiveTab('packages');
 
@@ -120,6 +125,9 @@ const AdminDashboard = () => {
 
       const instaRes = await axios.get('settings/insta-posts');
       setInstaPosts(instaRes.data.images);
+
+      const logoRes = await axios.get('settings/logo');
+      setSiteLogo(logoRes.data.logo_url);
     } catch (err) {
       console.error('Error fetching data:', err);
     } finally {
@@ -151,6 +159,8 @@ const AdminDashboard = () => {
          const newImages = [...instaPosts];
          newImages[field] = filename;
          setInstaPosts(newImages);
+      } else if (activeTab === 'branding') {
+         setSiteLogo(filename);
       }
     } catch (err) {
       console.error('Upload failed', err);
@@ -345,6 +355,55 @@ const AdminDashboard = () => {
       </div>
     </div>
   );
+  
+  const handleSaveBranding = async () => {
+    try {
+      await axios.post('settings/logo', { logo_url: siteLogo });
+      refreshSettings(); // Instant update in Navbar/Sidebar
+      alert('Site logo updated successfully! Some changes might require a page refresh.');
+    } catch (error) {
+      console.error('Failed to save logo', error);
+      alert('Failed to save logo.');
+    }
+  };
+
+  const renderBrandingManager = () => (
+    <div style={{ maxWidth: '800px' }}>
+      <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '32px', boxShadow: 'var(--shadow)', border: '1px solid #f1f5f9' }}>
+        <h3 style={{ fontSize: '24px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '30px' }}>Site Logo Management</h3>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '15px' }}>
+          Upload your official company logo. This will be updated across the Navbar, Footer, and Admin panel.
+        </p>
+        
+        <div style={{ display: 'flex', gap: '40px', alignItems: 'center', marginBottom: '40px' }}>
+          <div style={{ width: '200px', height: '150px', borderRadius: '24px', background: 'var(--primary-black)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '5px solid #f1f5f9' }}>
+             <img src={getImageUrl(siteLogo)} alt="Site Logo" style={{ maxWidth: '80%', maxHeight: '60%', objectFit: 'contain' }} />
+          </div>
+          
+          <div style={{ flex: 1 }}>
+             <label style={{ 
+               display: 'inline-block', padding: '16px 32px', borderRadius: '50px', background: 'var(--gradient-gold)', 
+               color: 'black', textAlign: 'center', fontWeight: 900, cursor: 'pointer', fontSize: '15px', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' 
+             }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <ImageIcon size={20} /> Upload New Logo
+                </div>
+                <input type="file" hidden onChange={(e) => handleImageUpload(e)} />
+             </label>
+             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '15px', fontWeight: 600 }}>
+               Recommended: PNG or SVG with transparent background.
+             </p>
+          </div>
+        </div>
+        
+        <hr style={{ border: 'none', borderTop: '1px solid #f1f5f9', margin: '40px 0' }} />
+        
+        <button onClick={handleSaveBranding} className="btn-primary" style={{ padding: '18px 40px', borderRadius: '50px', fontSize: '16px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <CheckCircle size={20} /> Update Site Branding
+        </button>
+      </div>
+    </div>
+  );
 
   const renderDashboardOverview = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
@@ -443,7 +502,10 @@ const AdminDashboard = () => {
         )}
 
         {/* Dynamic Content */}
-        {activeTab === 'dashboard' ? renderDashboardOverview() : activeTab === 'home-carousel' ? renderHomeCarouselManager() : activeTab === 'insta-feed' ? renderInstaFeedManager() : (
+        {activeTab === 'dashboard' ? renderDashboardOverview() : 
+         activeTab === 'home-carousel' ? renderHomeCarouselManager() : 
+         activeTab === 'insta-feed' ? renderInstaFeedManager() : 
+         activeTab === 'branding' ? renderBrandingManager() : (
           <div style={{ backgroundColor: 'white', borderRadius: '28px', boxShadow: 'var(--shadow)', padding: '35px', border: '1px solid #f1f5f9' }}>
             {activeTab === 'packages' ? (
               <div style={{ overflowX: 'auto' }}>

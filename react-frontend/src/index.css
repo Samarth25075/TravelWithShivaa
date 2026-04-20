@@ -3188,13 +3188,18 @@ h6 {
   align-items: center;
 }
 
-.logo-title {
+.logo-text {
   font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 950;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-gold);
   letter-spacing: 1px;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
   transition: 0.4s;
+}
+
+.navbar.scrolled .logo-text {
+  color: var(--primary-gold);
+  font-size: 20px;
 }
 
 .logo-part-1 {
@@ -3647,3 +3652,75 @@ h6 {
 .pulse-effect { position: absolute; inset: 0; border-radius: 50px; box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7); animation: pulse 2s infinite; pointer-events: none; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 107, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 107, 0, 0); } }
 @media (max-width: 768px) { .concierge-float { bottom: 25px; right: 25px; padding: 8px; } .concierge-text { display: none; } }
+
+.loader-gold {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 215, 0, 0.1);
+  border-top-color: var(--primary-gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.packages-page input[type="range"] {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  appearance: none;
+  outline: none;
+}
+
+.packages-page input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--gradient-gold);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.price-dot {
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.price-dot.active {
+  background: var(--primary-gold);
+  box-shadow: 0 0 5px var(--primary-gold);
+}
+
+.mobile-stack {
+  display: grid;
+}
+
+@media (max-width: 991px) {
+  .mobile-stack {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.hover-gold:hover {
+  background: var(--gradient-gold) !important;
+  color: black !important;
+  transform: translateX(-5px);
+}
+
+.btn-hover-scale:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.4) !important;
+}
+
+.hover-wa:hover {
+  background: rgba(37, 211, 102, 0.1) !important;
+  border-color: #25D366 !important;
+}
+
+.luxury-input-group input:focus,
+.luxury-input-group textarea:focus {
+  border-color: var(--primary-gold) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}

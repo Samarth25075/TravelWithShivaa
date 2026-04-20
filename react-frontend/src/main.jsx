@@ -4,12 +4,16 @@ import axios from 'axios'
 import App from './App.jsx'
 import './index.css'
 
+import { SettingsProvider } from './context/SettingsContext.jsx'
+
 // Configure Axios
 axios.defaults.baseURL = '/api';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <SettingsProvider>
+      <App />
+    </SettingsProvider>
   </React.StrictMode>,
 )
 

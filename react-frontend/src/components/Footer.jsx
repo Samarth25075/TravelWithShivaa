@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter, Phone, Mail, MapPin, Send, ArrowRight } from 'lucide-react';
+import { useSettings } from '../context/SettingsContext';
 
 const Footer = ({ isGujarati }) => {
   const currentYear = new Date().getFullYear();
+  const { siteLogo } = useSettings();
 
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer-grid">
           <div className="footer-logo-area">
-            <img src="/logo.png" alt="Shiv Travel Logo" />
+            <img src={siteLogo} alt="Shiv Travel Logo" />
             <h5 className="footer-brand-title">EXPERIENCES</h5>
             <p className="footer-tagline">
               {isGujarati ? '"અમે તમને ગમતા પ્રવાસ અનુભવો બનાવીએ છીએ ❤️"' : '"We curate Travel Experiences you love ❤️"'}
