@@ -119,7 +119,7 @@ const Blog = ({ isGujarati }) => {
       {/* Blog Grid */}
       <section style={{ padding: '80px 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
             <AnimatePresence mode='popLayout'>
               {filtered.map((post, i) => (
                 <motion.article 

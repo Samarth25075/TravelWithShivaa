@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Package, MessageSquare, 
   Settings, LogOut, Mountain, Compass, Palette,
-  BookOpen, Users, User, Image as ImageIcon
+  BookOpen, Users, User, Image as ImageIcon, Sparkles
 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
@@ -29,33 +29,36 @@ const AdminSidebar = () => {
 
   return (
     <div style={{
-      width: '280px',
+      width: '300px',
       height: '100vh',
-      backgroundColor: 'var(--primary-black)',
+      backgroundColor: '#050505',
       color: 'white',
       position: 'fixed',
       left: 0,
       top: 0,
-      padding: '40px 20px',
+      padding: '50px 25px',
       display: 'flex',
       flexDirection: 'column',
       zIndex: 100,
-      boxShadow: '4px 0 20px rgba(0,0,0,0.1)'
+      borderRight: '1px solid rgba(212, 175, 55, 0.1)',
+      boxShadow: '10px 0 50px rgba(0,0,0,0.5)'
     }}>
-      <div style={{ marginBottom: '50px', padding: '0 20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+      <div style={{ marginBottom: '60px', padding: '0 15px', textAlign: 'center' }}>
           <img 
-            src={siteLogo} 
+            src={siteLogo ? (siteLogo.startsWith('http') ? siteLogo : `/api/uploads/${siteLogo}`) : '/logo.png'} 
             alt="Shiv Travel Logo" 
             style={{ 
-              height: '45px', 
+              height: '40px', 
               width: 'auto',
-              borderRadius: '8px'
+              marginBottom: '15px'
             }} 
           />
-          <h2 style={{ fontSize: '18px', fontWeight: 900, color: 'white', margin: 0 }}>Shiv Travel</h2>
+          <h2 style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', margin: 0, textTransform: 'uppercase', letterSpacing: '4px' }}>
+            CONCIERGE DESK
+          </h2>
       </div>
 
-      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '5px' }}>
         {menuItems.map((item, index) => {
           const isActive = location.pathname.includes(item.path);
           return (
@@ -65,28 +68,29 @@ const AdminSidebar = () => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '15px',
+                gap: '18px',
                 padding: '16px 20px',
-                borderRadius: '16px',
+                borderRadius: '50px',
                 textDecoration: 'none',
-                color: 'white',
-                backgroundColor: isActive ? 'var(--primary-orange)' : 'transparent',
-                transition: 'var(--transition)',
-                fontWeight: 700,
-                boxShadow: isActive ? '0 10px 20px rgba(255, 107, 0, 0.2)' : 'none',
-                opacity: isActive ? 1 : 0.65
+                color: isActive ? 'black' : 'white',
+                background: isActive ? 'var(--gradient-gold)' : 'transparent',
+                transition: '0.4s',
+                fontWeight: isActive ? 900 : 600,
+                boxShadow: isActive ? '0 10px 25px rgba(212, 175, 55, 0.2)' : 'none',
+                opacity: isActive ? 1 : 0.4,
+                fontSize: '14px'
               }}
-              onMouseEnter={e => !isActive && (e.currentTarget.style.opacity = 1)}
-              onMouseLeave={e => !isActive && (e.currentTarget.style.opacity = 0.65)}
+              onMouseEnter={e => !isActive && (e.currentTarget.style.opacity = 0.8)}
+              onMouseLeave={e => !isActive && (e.currentTarget.style.opacity = 0.4)}
             >
-              {item.icon}
-              <span style={{ fontSize: '15px' }}>{item.label}</span>
+              <span style={{ display: 'flex', color: isActive ? 'black' : 'var(--primary-gold)' }}>{item.icon}</span>
+              <span>{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '30px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '30px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <Link to="/" style={{ 
           display: 'flex', 
           alignItems: 'center', 
@@ -94,12 +98,13 @@ const AdminSidebar = () => {
           padding: '16px 20px', 
           textDecoration: 'none', 
           color: 'white', 
-          opacity: 0.6, 
+          opacity: 0.4, 
           fontWeight: 700,
-          borderRadius: '16px',
-          transition: '0.3s'
-        }} onMouseEnter={e => e.currentTarget.style.opacity = 1} onMouseLeave={e => e.currentTarget.style.opacity = 0.6}>
-          <Mountain size={20} /> View Website
+          borderRadius: '50px',
+          transition: '0.3s',
+          fontSize: '13px'
+        }} onMouseEnter={e => e.currentTarget.style.opacity = 0.8} onMouseLeave={e => e.currentTarget.style.opacity = 0.4}>
+          <Sparkles size={18} color="var(--primary-gold)" /> Front Terminal
         </Link>
         
         <button 
@@ -110,19 +115,19 @@ const AdminSidebar = () => {
             gap: '15px', 
             padding: '16px 20px', 
             border: 'none', 
-            borderRadius: '16px',
-            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-            color: '#feb2b2', 
+            borderRadius: '50px',
+            backgroundColor: 'rgba(239, 68, 68, 0.05)',
+            color: '#ef4444', 
             fontWeight: 800,
             cursor: 'pointer',
             transition: '0.3s',
-            fontSize: '15px',
+            fontSize: '13px',
             textAlign: 'left'
           }}
-          onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.2)'}
-          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'}
+          onMouseEnter={e => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)'}
+          onMouseLeave={e => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.05)'}
         >
-          <LogOut size={20} /> Sign Out
+          <LogOut size={18} /> Disconnect
         </button>
       </div>
     </div>

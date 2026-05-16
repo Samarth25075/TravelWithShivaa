@@ -141,7 +141,7 @@ const GroupTrips = ({ isGujarati }) => {
             </motion.div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '25px' }}>
             {loading ? (
               <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '100px' }}>
                 <div className="loader-gold" style={{ margin: '0 auto' }}></div>

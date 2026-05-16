@@ -80,18 +80,22 @@ def send_admin_notification(enquiry_data: dict):
         return
 
     try:
-        msg = MIMEMultipart()
-        msg['From'] = mail_user
-        msg['To'] = admin_email
-        msg['Subject'] = f"🚀 New Enquiry: {enquiry_data.get('subject', 'General')}"
+        # 1. Send Email to Admin
+        msg_admin = MIMEMultipart()
+        msg_admin['From'] = mail_user
+        msg_admin['To'] = admin_email
+        msg_admin['Subject'] = f"🚀 New Enquiry: {enquiry_data.get('subject', 'General')}"
 
-        body = f"""
+        body_admin = f"""
         🔔 New Enquiry Received via Shiv Travel Website
 
         -------------------------------------------
         👤 Name: {enquiry_data.get('name')}
         📧 Email: {enquiry_data.get('email')}
         📞 Phone: {enquiry_data.get('phone')}
+        🌍 Destination: {enquiry_data.get('destination_interest', 'N/A')}
+        📅 Travel Date: {enquiry_data.get('travel_date', 'N/A')}
+        👥 Travellers: {enquiry_data.get('number_of_travellers', 'N/A')}
         📌 Subject: {enquiry_data.get('subject')}
         💬 Message:
         {enquiry_data.get('message')}
@@ -99,14 +103,47 @@ def send_admin_notification(enquiry_data: dict):
 
         *Sent automatically by Shiv Travel Backend*
         """
-        msg.attach(MIMEText(body, 'plain'))
+        msg_admin.attach(MIMEText(body_admin, 'plain'))
+
+        # 2. Send Auto-Reply to Customer
+        msg_customer = MIMEMultipart()
+        msg_customer['From'] = f"Shiv Travel <{mail_user}>"
+        msg_customer['To'] = enquiry_data.get('email')
+        msg_customer['Subject'] = "Thank you for your enquiry - Shiv Travel"
+
+        body_customer = f"""
+        Dear {enquiry_data.get('name')},
+
+        Thank you for reaching out to Shiv Travel! We have successfully received your enquiry regarding {enquiry_data.get('destination_interest', 'your upcoming trip')}.
+
+        Our travel specialists are currently reviewing your details and will contact you within 2 hours with a personalized quote and more information.
+
+        Your Enquiry Details:
+        - Destination: {enquiry_data.get('destination_interest', 'N/A')}
+        - Travel Date: {enquiry_data.get('travel_date', 'N/A')}
+        - Message: {enquiry_data.get('message')}
+
+        We look forward to planning an exquisite journey for you.
+
+        Warm regards,
+        The Concierge Team
+        Shiv Travel
+        +91 93136 34723
+        """
+        msg_customer.attach(MIMEText(body_customer, 'plain'))
 
         # Standard Gmail SMTP configuration
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
             server.login(mail_user, mail_pass)
-            server.send_message(msg)
+            
+            # Send to admin
+            server.send_message(msg_admin)
             print(f"✅ [MAIL] Notification sent to {admin_email}")
+            
+            # Send auto-reply to customer
+            server.send_message(msg_customer)
+            print(f"✅ [MAIL] Auto-reply sent to {enquiry_data.get('email')}")
 
     except Exception as e:
         print(f"❌ [MAIL] Failed to send email: {e}")

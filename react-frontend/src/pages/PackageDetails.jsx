@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Clock, Users, MapPin, CheckCircle, XCircle, Share2, Shield, CalendarCheck, Send, X, ArrowLeft, MessageSquare, Star, Sparkles, Map, Heart } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
+import SEO from '../components/SEO';
 
 const PackageDetails = () => {
   const { id } = useParams();
@@ -19,13 +20,20 @@ const PackageDetails = () => {
   });
 
   const { getImageUrl } = useSettings();
+  const location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     axios.get(`packages/${id}`)
-      .then(res => setPackageData(res.data))
+      .then(res => {
+        setPackageData(res.data);
+        const queryParams = new URLSearchParams(location.search);
+        if (queryParams.get('enquire') === 'true') {
+          setShowEnquiryModal(true);
+        }
+      })
       .catch(err => console.error(err));
-  }, [id]);
+  }, [id, location]);
 
   if (!packageData) return (
     <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0a0a0a' }}>
@@ -69,6 +77,24 @@ const PackageDetails = () => {
 
   return (
     <main className="package-details-page" style={{ backgroundColor: '#050505', paddingBottom: '120px', color: 'white' }}>
+      <SEO 
+        title={packageData.title} 
+        description={packageData.description} 
+        image={getImageUrl(packageData.image)} 
+        url={`/package/${id}`}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": packageData.title,
+          "image": getImageUrl(packageData.image),
+          "description": packageData.description,
+          "offers": {
+            "@type": "Offer",
+            "priceCurrency": "INR",
+            "price": packageData.price
+          }
+        }}
+      />
       {/* Immersive Hero Section */}
       <section className="relative h-[80vh] flex items-end overflow-hidden" style={{ height: '80vh', position: 'relative', display: 'flex', alignItems: 'flex-end', paddingBottom: '80px' }}>
         <div 
@@ -104,8 +130,11 @@ const PackageDetails = () => {
                   <Star fill="var(--primary-gold)" color="var(--primary-gold)" size={20} />
                   <span style={{ fontSize: '18px', fontWeight: 900 }}>4.92 <span style={{ opacity: 0.5, fontWeight: 600, fontSize: '14px' }}>(124 Verified Reviews)</span></span>
                </div>
-               <button style={{ background: 'none', border: 'none', color: 'white', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 800, cursor: 'pointer' }}>
-                  <Heart size={20} /> Save to Wishlist
+               <button onClick={() => {
+                 const text = encodeURIComponent(`Check out this amazing trip: ${packageData.title} at ${window.location.href}`);
+                 window.open(`https://wa.me/?text=${text}`, '_blank');
+               }} style={{ background: 'none', border: 'none', color: 'white', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 800, cursor: 'pointer' }}>
+                  <Share2 size={20} /> Share via WhatsApp
                </button>
             </div>
           </motion.div>
@@ -166,31 +195,59 @@ const PackageDetails = () => {
                 {activeTab === 'itinerary' && (
                   <div>
                     <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '36px', fontWeight: 900, marginBottom: '40px', color: 'var(--primary-gold)' }}>The Expedition Path</h2>
-                    <div style={{ position: 'relative', paddingLeft: '40px' }}>
-                      <div style={{ position: 'absolute', top: 0, left: '6px', bottom: 0, width: '2px', background: 'linear-gradient(to bottom, var(--primary-gold), transparent)' }}></div>
+                    <div style={{ position: 'relative', paddingLeft: '60px' }}>
+                      <div style={{ position: 'absolute', top: 0, left: '20px', bottom: 0, width: '1px', background: 'linear-gradient(to bottom, rgba(212, 175, 55, 0), var(--primary-gold) 10%, var(--primary-gold) 90%, transparent)' }}></div>
                       {packageData.itinerary ? packageData.itinerary.split('\n').map((line, i) => (
-                        <div key={i} style={{ position: 'relative', marginBottom: '40px' }}>
-                           <div style={{ position: 'absolute', top: '8px', left: '-40px', width: '12px', height: '12px', borderRadius: '50%', background: 'var(--primary-gold)', border: '4px solid #050505', zIndex: 2 }}></div>
-                           <p style={{ fontSize: '18px', fontWeight: 600, color: 'white', lineHeight: 1.6 }}>{line}</p>
-                        </div>
+                        <motion.div 
+                          initial={{ opacity: 0, x: 20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                          key={i} 
+                          style={{ position: 'relative', marginBottom: '50px' }}
+                        >
+                           <div style={{ 
+                             position: 'absolute', top: '4px', left: '-50px', width: '20px', height: '20px', 
+                             borderRadius: '50%', background: '#050505', border: '1px solid var(--primary-gold)', 
+                             display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 
+                           }}>
+                              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary-gold)' }}></div>
+                           </div>
+                           <div style={{ background: 'rgba(255,255,255,0.02)', padding: '25px 35px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                              <p style={{ fontSize: '18px', fontWeight: 500, color: 'white', lineHeight: 1.6, margin: 0 }}>{line}</p>
+                           </div>
+                        </motion.div>
                       )) : <p style={{ opacity: 0.6 }}>Full itinerary details are shared upon personalized consultation.</p>}
                     </div>
                   </div>
                 )}
 
                 {activeTab === 'inclusions' && (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-                    <div style={{ background: 'rgba(16, 185, 129, 0.05)', padding: '40px', borderRadius: '32px', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
-                      <h3 style={{ fontSize: '20px', fontWeight: 900, marginBottom: '25px', color: '#10b981', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <CheckCircle size={24} /> PRIVILEGES
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }} className="mobile-stack">
+                    <div style={{ background: 'rgba(212, 175, 55, 0.03)', padding: '45px', borderRadius: '40px', border: '1px solid rgba(212, 175, 55, 0.1)' }}>
+                      <h3 style={{ fontSize: '12px', fontWeight: 900, marginBottom: '35px', color: 'var(--primary-gold)', display: 'flex', alignItems: 'center', gap: '15px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+                        <CheckCircle size={20} /> The Elite Privileges
                       </h3>
-                      <p style={{ fontSize: '16px', lineHeight: 1.8, opacity: 0.8, fontWeight: 500 }}>{packageData.inclusions || "Guided tours, Ultra-Luxury Accommodation, Premium Breakfast, Private Transfers."}</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                         {packageData.inclusions ? packageData.inclusions.split(',').map((inc, idx) => (
+                            <div key={idx} style={{ display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
+                               <Sparkles size={16} color="var(--primary-gold)" style={{ marginTop: '4px', opacity: 0.5 }} />
+                               <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.8)', margin: 0, fontWeight: 500 }}>{inc.trim()}</p>
+                            </div>
+                         )) : <p style={{ opacity: 0.6 }}>Luxury accommodations, Private transfers, and curated local meals included.</p>}
+                      </div>
                     </div>
-                    <div style={{ background: 'rgba(239, 68, 68, 0.05)', padding: '40px', borderRadius: '32px', border: '1px solid rgba(239, 68, 68, 0.1)' }}>
-                      <h3 style={{ fontSize: '20px', fontWeight: 900, marginBottom: '25px', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <XCircle size={24} /> CONSIDERATIONS
+                    <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '45px', borderRadius: '40px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                      <h3 style={{ fontSize: '12px', fontWeight: 900, marginBottom: '35px', color: 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', gap: '15px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+                        <XCircle size={20} /> Exclusions
                       </h3>
-                      <p style={{ fontSize: '16px', lineHeight: 1.8, opacity: 0.8, fontWeight: 500 }}>{packageData.exclusions || "International First-Class Flights, Personal Concierge requests, Optional Expeditions."}</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                         {packageData.exclusions ? packageData.exclusions.split(',').map((exc, idx) => (
+                            <div key={idx} style={{ display: 'flex', gap: '15px', alignItems: 'flex-start', opacity: 0.5 }}>
+                               <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'white', marginTop: '10px' }}></div>
+                               <p style={{ fontSize: '15px', color: 'white', margin: 0 }}>{exc.trim()}</p>
+                            </div>
+                         )) : <p style={{ opacity: 0.4 }}>Airfare and personal incidental expenses are not included.</p>}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -200,7 +257,7 @@ const PackageDetails = () => {
                     {packageData.gallery && packageData.gallery.length > 0 ? (
                       packageData.gallery.map((img, idx) => (
                         <motion.div whileHover={{ scale: 1.05, rotate: 1 }} key={idx} style={{ borderRadius: '24px', overflow: 'hidden', height: '280px' }}>
-                          <img src={getImageUrl(img.image_url)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={getImageUrl(img.image_url)} alt="" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         </motion.div>
                       ))
                     ) : (
@@ -229,31 +286,33 @@ const PackageDetails = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginBottom: '40px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'rgba(255,255,255,0.03)', padding: '15px 20px', borderRadius: '18px' }}>
                   <Shield size={22} color="var(--primary-gold)" />
-                  <p style={{ fontSize: '14px', fontWeight: 800 }}>Platinum Coverage</p>
+                  <p style={{ fontSize: '14px', fontWeight: 800 }}>Platinum Coverage Included</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'rgba(255,255,255,0.03)', padding: '15px 20px', borderRadius: '18px' }}>
                   <CalendarCheck size={22} color="var(--primary-gold)" />
-                  <p style={{ fontSize: '14px', fontWeight: 800 }}>Seamless Changes</p>
+                  <p style={{ fontSize: '14px', fontWeight: 800 }}>Flexible Date Rescheduling</p>
                 </div>
               </div>
 
-              <button onClick={() => setShowEnquiryModal(true)} style={{ 
-                width: '100%', padding: '22px', borderRadius: '50px', border: 'none',
-                background: 'var(--gradient-gold)', color: 'black', fontSize: '16px', fontWeight: 950,
-                textTransform: 'uppercase', letterSpacing: '2px', boxShadow: '0 20px 40px rgba(212, 175, 55, 0.3)',
-                cursor: 'pointer', transition: '0.4s', marginBottom: '20px'
-              }} className="btn-hover-scale">
-                Request Invitation
-              </button>
-              
-              <button onClick={handleWhatsAppBook} style={{ 
-                width: '100%', padding: '22px', borderRadius: '50px', border: '1px solid rgba(37, 211, 102, 0.4)',
-                background: 'rgba(37, 211, 102, 0.05)', color: '#25D366', fontSize: '14px', fontWeight: 900,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
-                textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer', transition: '0.4s'
-              }} className="hover-wa">
-                Consult Concierge <MessageSquare size={18} />
-              </button>
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setShowEnquiryModal(true)} 
+                  style={{ 
+                    width: '100%', padding: '24px', borderRadius: '50px', border: 'none',
+                    background: 'var(--gradient-gold)', color: 'black', fontSize: '16px', fontWeight: 950,
+                    textTransform: 'uppercase', letterSpacing: '2px', boxShadow: '0 20px 40px rgba(212, 175, 55, 0.3)',
+                    cursor: 'pointer', transition: '0.4s'
+                  }}
+                >
+                  Confirm Reservation
+                </motion.button>
+
+              <div style={{ marginTop: '30px', textAlign: 'center' }}>
+                <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)', fontWeight: 800, letterSpacing: '1px', textTransform: 'uppercase' }}>
+                  * No immediate payment required. <br /> Our team will verify availability.
+                </p>
+              </div>
             </div>
           </aside>
         </div>

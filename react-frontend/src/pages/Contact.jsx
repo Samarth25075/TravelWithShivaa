@@ -10,6 +10,9 @@ const Contact = ({ isGujarati }) => {
     name: '',
     email: '',
     phone: '',
+    destination_interest: '',
+    travel_date: '',
+    number_of_travellers: '',
     message: ''
   });
 
@@ -136,7 +139,7 @@ const Contact = ({ isGujarati }) => {
                     <ShieldCheck size={40} />
                   </motion.div>
                   <h3 style={{ fontSize: '28px', fontWeight: 950, marginBottom: '15px' }}>Message Transmitted</h3>
-                  <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>Our specialists have received your inquiry. We will contact you momentarily.</p>
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '30px' }}>We'll contact you within 2 hours!</p>
                   <button onClick={() => setFormSent(false)} className="btn-primary-sm" style={{ margin: '0 auto' }}>Send Another</button>
                 </div>
               ) : (
@@ -181,6 +184,43 @@ const Contact = ({ isGujarati }) => {
                           required 
                           style={{ width: '100%', padding: '16px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none' }}
                           placeholder="+91..."
+                        />
+                      </div>
+                    </div>
+
+                    <div style={{ marginBottom: '25px' }}>
+                      <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Destination Interest</label>
+                      <input 
+                        name="destination_interest" 
+                        value={formData.destination_interest} 
+                        onChange={handleInput} 
+                        type="text" 
+                        style={{ width: '100%', padding: '16px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none' }}
+                        placeholder="e.g. Maldives, Spiti Valley"
+                      />
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px' }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Travel Date (Approx)</label>
+                        <input 
+                          name="travel_date" 
+                          value={formData.travel_date} 
+                          onChange={handleInput} 
+                          type="date" 
+                          style={{ width: '100%', padding: '16px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none', colorScheme: 'dark' }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Number of Travellers</label>
+                        <input 
+                          name="number_of_travellers" 
+                          value={formData.number_of_travellers} 
+                          onChange={handleInput} 
+                          type="number" 
+                          min="1"
+                          style={{ width: '100%', padding: '16px 20px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white', outline: 'none' }}
+                          placeholder="e.g. 2"
                         />
                       </div>
                     </div>

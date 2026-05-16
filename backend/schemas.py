@@ -83,6 +83,9 @@ class EnquiryBase(BaseModel):
     email: str
     phone: Optional[str] = None
     subject: Optional[str] = None
+    destination_interest: Optional[str] = None
+    travel_date: Optional[str] = None
+    number_of_travellers: Optional[str] = None
     message: str
     status: Optional[str] = "New"
 

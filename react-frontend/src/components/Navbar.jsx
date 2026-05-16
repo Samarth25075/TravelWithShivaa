@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe, Phone, Instagram } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
 const Navbar = ({ isGujarati, setIsGujarati }) => {
@@ -16,117 +16,179 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const { siteLogo } = useSettings();
-
   const navLinks = [
     { name: isGujarati ? 'હોમ' : 'Home', path: '/' },
-    { name: isGujarati ? 'ટૂર પેકેજો' : 'Packages', path: '/packages' },
-    { name: isGujarati ? 'ગ્રુપ ટ્રિપ્સ' : 'Group Trips', path: '/group-trips' },
-    { name: isGujarati ? 'કસ્ટમાઇઝ ટ્રિપ' : 'Plan Trip', path: '/custom-package' },
+    { name: isGujarati ? 'પેકેજો' : 'Packages', path: '/packages' },
     { name: isGujarati ? 'અમારા વિશે' : 'About', path: '/about' },
-    { name: isGujarati ? 'બ્લોગ' : 'Blog', path: '/blog' },
     { name: isGujarati ? 'સંપર્ક' : 'Contact', path: '/contact' },
   ];
 
-  const iconStyle = { 
-    color: '#000', 
-    width: '40px', 
-    height: '40px', 
-    borderRadius: '10px', 
-    background: '#fff', 
-    display: 'flex', 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    boxShadow: '0 4px 10px rgba(0,0,0,0.05)' 
-  };
-
   return (
-    <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="nav-container">
-        <Link to="/" className="nav-logo">
-          <img src={siteLogo} alt="TravelBookShiva" className="header-logo" />
-          <span className="logo-text">TravelBookShiva</span>
-        </Link>
-
-        {/* Desktop Links */}
-        <div className="nav-links desktop">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.path} 
-              to={link.path} 
-              className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
-              style={{ color: isScrolled ? 'var(--primary-gold)' : 'white' }}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </div>
-
-        <div className="nav-actions">
-          <button 
-            className="lang-btn" 
-            onClick={() => setIsGujarati(!isGujarati)}
-            style={{ 
-              color: isScrolled ? 'var(--primary-gold)' : 'white',
-              borderColor: isScrolled ? 'var(--primary-gold)' : 'rgba(255,255,255,0.3)',
-              background: isScrolled ? 'black' : 'rgba(255,255,255,0.1)',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 800
-            }}
-          >
-            <Globe size={16} />
-            <span>{isGujarati ? 'GJ' : 'EN'}</span>
-          </button>
+    <>
+      <nav 
+        className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'shadow-[0_4px_24px_#00000066]' : ''}`}
+        style={{ 
+          background: '#0d0d0fee', 
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: '1px solid #c9a84c22',
+        }}
+      >
+        <div className="max-w-[1300px] mx-auto px-[15px] md:px-[25px] h-[56px] md:h-[64px] flex items-center justify-between">
           
-          <a href="tel:+919313634723" className="nav-phone-btn hide-mobile" style={{ background: 'var(--gradient-gold)', color: 'black' }}>
-            <Phone size={18} />
-          </a>
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
+            <div style={{ fontSize: '18px', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>
+              <span style={{ color: '#f5f0e8' }}>Shiv</span>
+              <span style={{ color: '#c9a84c' }}> Travel</span>
+            </div>
+          </Link>
 
-          <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{ background: 'none', border: 'none', color: isScrolled ? 'var(--primary-gold)' : 'white' }}>
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link 
+                  key={link.path} 
+                  to={link.path} 
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    color: isActive ? '#c9a84c' : '#888888',
+                    transition: 'color 0.3s ease',
+                    fontFamily: 'var(--font-body)'
+                  }}
+                  onMouseOver={(e) => {
+                    if (!isActive) e.currentTarget.style.color = '#e8c97e';
+                  }}
+                  onMouseOut={(e) => {
+                    if (!isActive) e.currentTarget.style.color = '#888888';
+                  }}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
 
-      {/* Backdrop for mobile menu */}
-      <div className={`mobile-backdrop ${isOpen ? 'show' : ''}`} onClick={() => setIsOpen(false)}></div>
+          {/* Right Actions */}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setIsGujarati(!isGujarati)}
+              style={{
+                border: '1px solid #c9a84c55',
+                color: '#c9a84c',
+                padding: '4px 12px',
+                borderRadius: '20px',
+                background: 'transparent',
+                fontSize: '12px',
+                fontWeight: 500,
+                cursor: 'pointer',
+                fontFamily: 'var(--font-body)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = '#c9a84c14';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              {isGujarati ? 'ગુજ | EN' : 'EN | ગુજ'}
+            </button>
 
-      {/* Mobile Sidebar Menu */}
-      <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-header" style={{ width: '100%', padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'absolute', top: 0, borderBottom: '1px solid #f1f5f9' }}>
-             <img src={siteLogo} alt="TravelBookShiva" style={{ height: '35px' }} />
-             <span className="logo-text" style={{ color: 'var(--primary-gold)', fontSize: '18px' }}>TravelBookShiva</span>
-             <button onClick={() => setIsOpen(false)} style={{ background: 'none', border: 'none', color: '#000' }}>
-                 <X size={24} />
-             </button>
-        </div>
-        
-        <div className="mobile-links-container" style={{ width: '100%', marginTop: '20px' }}>
-            {navLinks.map((link) => (
-              <Link 
-                key={link.path} 
-                to={link.path} 
-                className={`mobile-link ${location.pathname === link.path ? 'active' : ''}`}
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
-        </div>
+            <a 
+              href="https://wa.me/919313634723?text=Hi%20Shiv%20Travel!%20I%20want%20to%20enquire%20about%20a%20trip."
+              target="_blank"
+              rel="noreferrer"
+              className="hidden md:inline-flex"
+              style={{
+                background: '#c9a84c',
+                color: '#1a1200',
+                fontWeight: 500,
+                fontSize: '12px',
+                padding: '8px 18px',
+                borderRadius: '6px',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-body)',
+                transition: 'background 0.3s ease'
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = '#b8943e';
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = '#c9a84c';
+              }}
+            >
+              {isGujarati ? 'ટ્રિપ બુક કરો' : 'Book a Trip'}
+            </a>
 
-        <div className="mobile-menu-footer" style={{ marginTop: 'auto', padding: '30px', width: '100%', background: '#f8fafc' }}>
-             <p style={{ color: '#64748b', fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '15px' }}>{isGujarati ? 'અમને અનુસરો' : 'FOLLOW US'}</p>
-             <div style={{ display: 'flex', gap: '15px' }}>
-                 <a href="https://instagram.com/travelbookshiva" target="_blank" rel="noreferrer" style={iconStyle}>
-                    <Instagram size={18} />
-                 </a>
-                 <a href="tel:+919099599331" style={iconStyle}>
-                    <Phone size={18} />
-                 </a>
-             </div>
+            {/* Mobile Hamburger */}
+            <button 
+              className="md:hidden flex items-center justify-center"
+              onClick={() => setIsOpen(!isOpen)}
+              style={{ background: 'transparent', border: 'none', color: '#f5f0e8', cursor: 'pointer' }}
+              aria-label="Toggle Menu"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 z-40 md:hidden flex flex-col"
+          style={{ background: '#0d0d0f', paddingTop: '56px' }}
+        >
+          <div className="flex flex-col p-6 gap-6">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link 
+                  key={link.path} 
+                  to={link.path} 
+                  onClick={() => setIsOpen(false)}
+                  style={{
+                    fontSize: '18px',
+                    fontWeight: 500,
+                    textDecoration: 'none',
+                    color: isActive ? '#c9a84c' : '#f5f0e8',
+                    fontFamily: 'var(--font-body)'
+                  }}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+            
+            <a 
+              href="https://wa.me/919313634723?text=Hi%20Shiv%20Travel!%20I%20want%20to%20enquire%20about%20a%20trip."
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setIsOpen(false)}
+              style={{
+                background: '#c9a84c',
+                color: '#1a1200',
+                fontWeight: 500,
+                fontSize: '15px',
+                padding: '14px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-body)',
+                textAlign: 'center',
+                marginTop: '10px'
+              }}
+            >
+              {isGujarati ? 'ટ્રિપ બુક કરો' : 'Book a Trip'}
+            </a>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

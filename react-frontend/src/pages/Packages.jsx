@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, MapPin, IndianRupee, Clock, Mountain, Palmtree, Compass, Sparkles, Footprints, ShieldCheck, LayoutGrid, List, ChevronRight, Star } from 'lucide-react';
+import { Search, Filter, MapPin, IndianRupee, Clock, Mountain, Palmtree, Compass, Sparkles, Footprints, ShieldCheck, LayoutGrid, List, ChevronRight, Star, Share2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import axios from 'axios';
@@ -16,10 +16,11 @@ const Packages = ({ isGujarati }) => {
     window.scrollTo(0, 0);
     axios.get('packages')
       .then(res => {
-        setPackages(res.data);
-        if (res.data.length > 0) {
-          const max = Math.max(...res.data.map(p => p.price));
-          setPriceRange(max + 1000);
+        const dataArray = Array.isArray(res.data) ? res.data : (res.data.data || []);
+        setPackages(dataArray);
+        if (dataArray.length > 0) {
+          const max = Math.max(...dataArray.map(p => p.price || 0));
+          setPriceRange(isFinite(max) ? max + 1000 : 150000);
         }
         setLoading(false);
       })
@@ -103,74 +104,105 @@ const Packages = ({ isGujarati }) => {
       <section style={{ marginTop: '-60px', position: 'relative', zIndex: 10, paddingBottom: '60px' }}>
         <div className="container">
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
             style={{ 
-              background: 'rgba(255, 255, 255, 0.03)', backdropFilter: 'blur(20px)', 
-              borderRadius: '30px', padding: '30px', border: '1px solid rgba(255, 215, 0, 0.15)',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+              background: 'rgba(10, 10, 10, 0.8)', 
+              backdropFilter: 'blur(30px)', 
+              borderRadius: '40px', 
+              padding: '40px', 
+              border: '1px solid rgba(212, 175, 55, 0.2)',
+              boxShadow: '0 40px 100px rgba(0, 0, 0, 0.6)',
+              position: 'relative'
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', justifyContent: 'center' }}>
+            <div style={{ position: 'absolute', top: 0, left: '20%', right: '20%', height: '1px', background: 'linear-gradient(to right, transparent, rgba(212, 175, 55, 0.3), transparent)' }}></div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
                 {categories.map((cat, i) => (
-                  <button 
+                  <motion.button 
                     key={i} 
-                    className={`nav-btn ${filter === cat.value ? 'active' : ''}`}
+                    whileHover={{ y: -3 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setFilter(cat.value)}
                     style={{ 
-                      display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 24px', borderRadius: '50px',
-                      background: filter === cat.value ? 'var(--gradient-gold)' : 'rgba(255,255,255,0.05)',
-                      color: filter === cat.value ? 'black' : 'white', fontWeight: 800, transition: '0.3s',
-                      border: '1px solid rgba(255,255,255,0.1)'
+                      display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 28px', borderRadius: '50px',
+                      background: filter === cat.value ? 'var(--gradient-gold)' : 'rgba(255,255,255,0.03)',
+                      color: filter === cat.value ? 'black' : 'white', 
+                      fontWeight: 700, 
+                      fontSize: '13px',
+                      letterSpacing: '0.5px',
+                      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                      border: '1px solid',
+                      borderColor: filter === cat.value ? 'var(--primary-gold)' : 'rgba(255,255,255,0.08)',
+                      cursor: 'pointer',
+                      boxShadow: filter === cat.value ? '0 10px 20px rgba(212, 175, 55, 0.2)' : 'none'
                     }}
                   >
-                    {cat.icon} <span>{cat.label}</span>
-                  </button>
+                    <span style={{ opacity: filter === cat.value ? 1 : 0.6 }}>{cat.icon}</span>
+                    <span style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>{cat.label}</span>
+                  </motion.button>
                 ))}
               </div>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', padding: '20px 30px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                 <div style={{ display: 'flex', alignItems: 'center', gap: '15px', paddingRight: '25px', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
-                    <div style={{ width: '45px', height: '45px', borderRadius: '14px', background: 'var(--gradient-gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>
-                       <IndianRupee size={20} />
+              <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'auto 1fr auto', 
+                gap: '40px', 
+                alignItems: 'center', 
+                padding: '30px 40px', 
+                background: 'rgba(255,255,255,0.02)', 
+                borderRadius: '30px', 
+                border: '1px solid rgba(255,255,255,0.04)' 
+              }}>
+                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{ 
+                      width: '56px', height: '56px', borderRadius: '18px', 
+                      background: 'rgba(212, 175, 55, 0.1)', 
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                      color: 'var(--primary-gold)',
+                      border: '1px solid rgba(212, 175, 55, 0.2)'
+                    }}>
+                       <IndianRupee size={24} />
                     </div>
                     <div>
-                       <span style={{ fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '1px', display: 'block', marginBottom: '2px' }}>MAX BUDGET</span>
-                       <span style={{ fontSize: '20px', fontWeight: 950, color: 'white' }}>₹{priceRange.toLocaleString()}</span>
+                       <span style={{ fontSize: '10px', fontWeight: 900, color: 'rgba(255,255,255,0.4)', letterSpacing: '2px', textTransform: 'uppercase', display: 'block', marginBottom: '4px' }}>Max Budget</span>
+                       <span style={{ fontSize: '24px', fontWeight: 300, color: 'white', fontFamily: 'var(--font-heading)' }}>
+                        ₹{priceRange.toLocaleString()}
+                       </span>
                     </div>
                  </div>
 
-                 <div style={{ flex: 1, minWidth: '250px', padding: '0 15px' }}>
+                 <div style={{ position: 'relative', paddingTop: '10px' }}>
                     <input 
                       type="range" min="0" 
                       max={packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000} 
                       step="500" value={priceRange} 
                       onChange={(e) => setPriceRange(parseInt(e.target.value))} 
                       style={{ 
-                        cursor: 'pointer', width: '100%', height: '8px', borderRadius: '10px', 
-                        accentColor: 'var(--primary-gold)', background: 'rgba(255,255,255,0.1)', outline: 'none'
+                        cursor: 'pointer', width: '100%', height: '4px', borderRadius: '10px', 
+                        accentColor: 'var(--primary-gold)', background: 'rgba(255,255,255,0.05)', outline: 'none'
                       }}
                     />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '12px' }}>
-                       <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(255,255,255,0.4)' }}>₹0</span>
-                       <div style={{ display: 'flex', gap: '5px' }}>
-                          <span className="price-dot active"></span>
-                          <span className="price-dot active"></span>
-                          <span className="price-dot"></span>
-                          <span className="price-dot"></span>
-                       </div>
-                       <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(255,255,255,0.4)' }}>₹{(packages.length > 0 ? Math.max(...packages.map(p => p.price)) : 200000).toLocaleString()}</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px' }}>
+                       <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '1px' }}>₹0</span>
+                       <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '1px' }}>₹{(packages.length > 0 ? Math.max(...packages.map(p => p.price)) : 200000).toLocaleString()}</span>
                     </div>
                  </div>
 
-                 <button 
+                 <motion.button 
+                  whileHover={{ color: 'white', scale: 1.05 }}
                   onClick={() => setPriceRange(packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000)}
-                  style={{ background: 'none', border: 'none', color: 'var(--primary-gold)', fontSize: '12px', fontWeight: 900, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.7 }}
+                  style={{ 
+                    background: 'none', border: 'none', color: 'rgba(212, 175, 55, 0.6)', 
+                    fontSize: '11px', fontWeight: 900, cursor: 'pointer', 
+                    textTransform: 'uppercase', letterSpacing: '2px', transition: '0.3s' 
+                  }}
                  >
-                    Reset Limit
-                 </button>
+                    Reset Filter
+                 </motion.button>
               </div>
             </div>
           </motion.div>
@@ -199,7 +231,7 @@ const Packages = ({ isGujarati }) => {
                 initial="hidden"
                 animate="visible"
                 className={`packages-grid ${viewMode}`}
-                style={{ display: 'grid', gridTemplateColumns: viewMode === 'grid' ? 'repeat(auto-fill, minmax(350px, 1fr))' : '1fr', gap: '40px' }}
+                style={{ display: 'grid', gridTemplateColumns: viewMode === 'grid' ? 'repeat(auto-fill, minmax(300px, 1fr))' : '1fr', gap: '30px' }}
               >
                 <AnimatePresence mode='popLayout'>
                   {filtered.map(pkg => (
@@ -214,17 +246,19 @@ const Packages = ({ isGujarati }) => {
                         transition: '0.4s', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', display: 'flex', flexDirection: viewMode === 'list' ? 'row' : 'column'
                       }}
                     >
-                       <div style={{ position: 'relative', width: viewMode === 'list' ? '400px' : '100%', height: viewMode === 'list' ? 'auto' : '280px', overflow: 'hidden' }}>
-                         <img src={getImageUrl(pkg.image)} alt={pkg.title} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: '0.6s' }} />
+                       <Link to={`/package/${pkg.id}`} style={{ position: 'relative', width: viewMode === 'list' ? '400px' : '100%', height: viewMode === 'list' ? 'auto' : '280px', overflow: 'hidden', display: 'block' }}>
+                         <img src={getImageUrl(pkg.image)} alt={pkg.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: '0.6s' }} />
                          <div style={{ position: 'absolute', top: '20px', left: '20px', background: 'var(--gradient-gold)', color: 'black', padding: '6px 16px', borderRadius: '50px', fontSize: '11px', fontWeight: 900 }}>
                            {pkg.tag || 'ELITE'}
                          </div>
-                       </div>
-                       <div style={{ padding: '35px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                       </Link>
+                       <div style={{ padding: '25px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                           <div style={{ fontSize: '12px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '12px' }}>
                              {pkg.type}
                           </div>
-                          <h3 style={{ fontSize: '24px', fontWeight: 900, color: 'white', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>{pkg.title}</h3>
+                          <Link to={`/package/${pkg.id}`} style={{ textDecoration: 'none' }}>
+                            <h3 style={{ fontSize: '24px', fontWeight: 900, color: 'white', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>{pkg.title}</h3>
+                          </Link>
                           
                           <div style={{ display: 'flex', gap: '15px', marginBottom: '25px' }}>
                              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '13px', opacity: 0.6 }}><Clock size={16} /> {pkg.duration || '5 Days'}</div>
@@ -236,9 +270,14 @@ const Packages = ({ isGujarati }) => {
                                 <span style={{ fontSize: '11px', textTransform: 'uppercase', fontWeight: 800, color: 'var(--primary-gold)', display: 'block', marginBottom: '2px' }}>PACKAGE VALUE</span>
                                 <span style={{ fontSize: '28px', fontWeight: 950, color: 'white' }}><IndianRupee size={22} style={{ color: 'var(--primary-gold)' }} />{pkg.price.toLocaleString()}</span>
                              </div>
-                             <Link to={`/package/${pkg.id}`} className="btn-primary" style={{ padding: '14px 28px', borderRadius: '50px', fontSize: '13px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                               Explore <ChevronRight size={16} />
-                             </Link>
+                             <div style={{ display: 'flex', gap: '10px' }}>
+                               <a href={`https://wa.me/?text=${encodeURIComponent(`Check out this trip: ${pkg.title} at ${window.location.origin}/package/${pkg.id}`)}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(37, 211, 102, 0.1)', color: '#25d366', padding: '14px', borderRadius: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Share on WhatsApp">
+                                 <Share2 size={16} />
+                               </a>
+                               <Link to={`/package/${pkg.id}?enquire=true`} className="btn-primary" style={{ padding: '14px 28px', borderRadius: '50px', fontSize: '13px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                 Enquire Now <ChevronRight size={16} />
+                               </Link>
+                             </div>
                           </div>
                        </div>
                     </motion.div>

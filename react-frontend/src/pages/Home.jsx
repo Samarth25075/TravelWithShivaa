@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { TripCard, DestinationGrid, Testimonials, CounterStats, WhyChooseUs, InstagramFeed, AdventurePlanner } from '../components/HomeComponents';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronDown, Search } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const Home = ({ isGujarati }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -13,6 +14,10 @@ const Home = ({ isGujarati }) => {
     "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1920&q=80",
     "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1920&q=80"
   ]);
+
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -35,7 +40,7 @@ const Home = ({ isGujarati }) => {
         }
         return prevImages;
       });
-    }, 5000);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -47,121 +52,207 @@ const Home = ({ isGujarati }) => {
 
   const content = {
     hero: {
-      headline: isGujarati ? "તમારી આગામી સાહસ અહીંથી શરૂ થાય છે" : "Your Next Adventure Starts Here",
-      subline: isGujarati ? "ગ્રુપ ટ્રિપ્સ | કસ્ટમાઇઝ્ડ ટ્રાવેલ પેકેજો" : "Group Trips | Customised Travel Packages",
+      headline: isGujarati ? "અમદાવાદથી શરૂ થયેલી એક અનોખી સફર" : "The Art of Bespoke Travel",
+      subline: isGujarati ? "૫૨,૦૦૦+ પ્રવાસીઓનો વિશ્વાસ" : "Founded in Ahmedabad • 52K+ Instagram Community • 10,000+ Journeys Curated",
       cta1: isGujarati ? "પેકેજો જુઓ" : "Explore Packages",
-      cta2: isGujarati ? "મારી ટ્રિપ પ્લાન કરો" : "Plan My Custom Trip"
+      cta2: isGujarati ? "મારી ટ્રિપ પ્લાન કરો" : "Custom Itinerary"
     },
     sections: {
-      destinations: isGujarati ? "લોકપ્રિય સ્થળો" : "Popular Destinations",
-      whyTravelBookShiva: isGujarati ? "કેમ ટ્રાવેલ બુક શિવા?" : "Why TravelBookShiva?",
-      testimonials: isGujarati ? "પ્રવાસીઓનો અનુભવ" : "What Our Travellers Say"
+      destinations: isGujarati ? "લોકપ્રિય સ્થળો" : "Signature Collection",
+      whyTravelBookShiva: isGujarati ? "કેમ ટ્રાવેલ બુક શિવા?" : "The Shiva Standard",
+      testimonials: isGujarati ? "પ્રવાસીઓનો અનુભવ" : "Voices of Wanderlust"
     }
   };
 
   return (
-    <div className="home-page">
+    <div className="home-page" style={{ background: 'var(--primary-black)' }}>
+      <SEO title="Home" />
       {/* Cinematic Hero Slider */}
-      <section className="hero" style={{ height: '100vh', position: 'relative' }}>
-        <div className="hero-carousel" style={{ height: '100%' }}>
+      <section className="relative h-[100vh] w-full bg-[#0d0d0f] overflow-hidden flex items-center justify-center text-center">
+        {/* Background Slider */}
+        <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
-            <motion.img
+            <motion.div
               key={currentImage}
-              src={getFullImageUrl(heroImages[currentImage])}
-              initial={{ scale: 1.2, opacity: 0 }}
+              initial={{ scale: 1.1, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 2, ease: "easeOut" }}
-              className="carousel-img"
-              alt="Shiv Travel Destinations"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+              transition={{ duration: 2.5, ease: "easeInOut" }}
+              className="w-full h-full"
+            >
+              <img
+                src={getFullImageUrl(heroImages[currentImage])}
+                alt="Shiv Travel Destinations"
+                loading="eager"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
           </AnimatePresence>
         </div>
-        <div className="hero-overlay" style={{ 
-          background: 'linear-gradient(rgba(0,0,0,0.4) 0%, rgba(5,5,5,1) 100%)',
-          zIndex: 2 
-        }}></div>
         
-        <div className="hero-content" style={{ zIndex: 10, paddingBottom: '100px' }}>
-          <motion.h1 
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: 'easeOut' }}
-            className="hero-headline"
-            style={{ 
-              fontSize: 'clamp(50px, 12vw, 120px)', 
-              fontWeight: 400, 
-              lineHeight: 0.9, 
-              fontFamily: 'var(--font-heading)',
-              letterSpacing: '-2px',
-              color: 'white',
-              marginBottom: '30px'
-            }}
+        {/* Dark Gradient Overlay */}
+        <div className="absolute inset-0 z-10" style={{ background: 'radial-gradient(circle at center, rgba(13,13,15,0.3) 0%, rgba(13,13,15,0.9) 100%)' }}></div>
+        
+        {/* Hero Content */}
+        <motion.div 
+          className="relative z-20 px-[24px] max-w-[800px]"
+          style={{ y: y1, opacity: opacity }}
+        >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="inline-block border border-[#c9a84c55] text-[#c9a84c] text-[11px] tracking-[0.1em] px-[16px] py-[4px] rounded-[20px] uppercase mb-[24px] font-medium"
           >
-            {content.hero.headline}
+            Premium Travel Since 2019
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+            className="font-serif leading-[1.15] tracking-[-0.5px] flex flex-col items-center"
+            style={{ fontSize: 'clamp(32px, 8vw, 52px)' }}
+          >
+            <span className="text-[#f5f0e8]">Discover</span>
+            <span className="text-[#c9a84c]">Extraordinary</span>
+            <span className="text-[#f5f0e8]">Destinations</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="hero-subline"
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.4 }}
+            className="text-[#888888] text-[15px] mt-[16px] font-sans"
           >
-            {content.hero.subline}
+            52,000+ happy travellers — Ahmedabad's most trusted agency
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hero-ctas"
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.6 }}
+            className="mt-[28px] flex flex-wrap justify-center gap-[16px]"
           >
-            <Link to="/packages"><button className="btn-primary-large">{content.hero.cta1}</button></Link>
-            <Link to="/custom-package"><button className="btn-secondary-large">{content.hero.cta2}</button></Link>
+            <Link 
+              to="/packages" 
+              className="bg-[#c9a84c] text-[#1a1200] px-[28px] py-[12px] rounded-[8px] text-[13px] font-medium transition-colors duration-200 hover:bg-[#b8943e] no-underline"
+            >
+              Explore Packages
+            </Link>
+            <Link 
+              to="/custom-package" 
+              className="bg-transparent text-[#c9a84c] border border-[#c9a84c55] px-[28px] py-[12px] rounded-[8px] text-[13px] font-medium transition-colors duration-200 hover:bg-[#c9a84c14] no-underline"
+            >
+              Plan My Trip
+            </Link>
           </motion.div>
+        </motion.div>
+
+        {/* Slide Indicator Dots (bottom center) */}
+        <div className="absolute bottom-[32px] left-1/2 -translate-x-1/2 z-20 flex gap-[6px]">
+          {heroImages.map((_, idx) => (
+            <div 
+              key={idx} 
+              className="w-[7px] h-[7px] rounded-full transition-colors duration-300"
+              style={{ background: idx === currentImage ? '#c9a84c' : '#c9a84c33' }}
+            />
+          ))}
         </div>
+
+        {/* Scroll Hint (bottom right) */}
+        <motion.div 
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[32px] right-[32px] z-20 flex flex-col items-center gap-[4px] text-[#555555]"
+        >
+          <span className="text-[11px] font-sans">Scroll</span>
+          <ChevronDown size={16} />
+        </motion.div>
       </section>
 
       {/* Stats Section */}
-      <CounterStats isGujarati={isGujarati} />
 
-      {/* Why Choose Us */}
-      <WhyChooseUs isGujarati={isGujarati} />
 
-      {/* Adventure Planner - Interactive Section */}
-      <AdventurePlanner isGujarati={isGujarati} />
-
-      {/* Featured Destinations Section */}
-      <section className="destinations-section" style={{ padding: 'clamp(60px, 10vw, 100px) 0', background: 'white' }}>
+      {/* Featured Destinations Section - Moved up for easier access */}
+      <section className="destinations-section" style={{ padding: 'clamp(80px, 12vw, 150px) 0', background: 'var(--primary-black)', position: 'relative' }}>
         <div className="container">
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
-            alignItems: 'baseline', 
-            marginBottom: '40px',
+            alignItems: 'flex-end', 
+            marginBottom: '60px',
             flexWrap: 'wrap',
-            gap: '20px'
+            gap: '40px'
           }}>
-            <div>
-              <h6 style={{ color: 'var(--primary-orange)', fontSize: '13px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '4px', marginBottom: '12px' }}>{isGujarati ? 'સ્થળો' : 'Explore the World'}</h6>
-              <h2 style={{ fontSize: 'clamp(28px, 5vw, 36px)', margin: 0 }}>{content.sections.destinations}</h2>
+            <div style={{ flex: '1', minWidth: '300px' }}>
+              <motion.h6 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                style={{ color: 'var(--primary-gold)', fontSize: '12px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '6px', marginBottom: '20px' }}
+              >
+                {isGujarati ? 'સ્થળો' : 'The Signature Collection'}
+              </motion.h6>
+              <motion.h2 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.2 }}
+                style={{ fontSize: 'clamp(40px, 8vw, 72px)', margin: 0, color: 'white', lineHeight: 1, fontFamily: 'var(--font-heading)', fontWeight: 300 }}
+              >
+                {content.sections.destinations}
+              </motion.h2>
             </div>
-            <Link to="/packages" style={{ color: 'var(--primary-black)', fontWeight: 800, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
-              {isGujarati ? 'બધા જુઓ' : 'View All'} <ArrowRight size={16} />
-            </Link>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Link to="/packages" style={{ 
+                color: 'white', 
+                fontWeight: 600, 
+                textDecoration: 'none', 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '15px', 
+                fontSize: '14px',
+                padding: '18px 35px',
+                borderRadius: '50px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                backdropFilter: 'blur(10px)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--primary-gold)';
+                e.currentTarget.style.color = 'var(--primary-gold)';
+                e.currentTarget.style.transform = 'translateY(-5px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.color = 'white';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              >
+                {isGujarati ? 'બધા જુઓ' : 'View Full Portfolio'} <ArrowRight size={18} />
+              </Link>
+            </motion.div>
           </div>
           <DestinationGrid isGujarati={isGujarati} />
         </div>
       </section>
 
+      {/* Why Choose Us */}
+      <WhyChooseUs isGujarati={isGujarati} />
+
       {/* Testimonials */}
       <Testimonials isGujarati={isGujarati} />
 
-      {/* Instagram Feed */}
+      {/* Instagram Feed - Only shown if there is content */}
       <InstagramFeed isGujarati={isGujarati} />
     </div>
   );
 };
 
 export default Home;
+

@@ -4,7 +4,8 @@ import {
   Plus, Edit, Trash, CheckCircle, XCircle, Search, 
   MessageSquare, Package as PackageIcon, Clock, 
   User, Users, Phone, Mail, RotateCcw, Image as ImageIcon,
-  LayoutDashboard, TrendingUp, Calendar, ChevronRight
+  LayoutDashboard, TrendingUp, Calendar, ChevronRight,
+  Sparkles, BookOpen, X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -289,30 +290,79 @@ const AdminDashboard = () => {
   };
 
   const renderHomeCarouselManager = () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '30px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))', gap: '40px' }}>
       {[0, 1, 2, 3, 4].map((index) => (
-        <div key={index} style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)', border: '1px solid #f1f5f9' }}>
-          <h4 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '20px' }}>Slide #{index + 1} Image</h4>
-          <div style={{ height: '220px', borderRadius: '20px', background: '#f8fafc', marginBottom: '20px', overflow: 'hidden', border: '2px dashed #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {homeImages[index] ? (
-              <img src={getImageUrl(homeImages[index])} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={`Carousel ${index}`} />
-            ) : (
-              <ImageIcon size={48} style={{ opacity: 0.2 }} />
+        <motion.div 
+          whileHover={{ y: -10 }}
+          key={index} 
+          style={{ backgroundColor: 'white', padding: '35px', borderRadius: '40px', boxShadow: '0 20px 40px rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.05)', position: 'relative' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+            <h4 style={{ fontSize: '14px', fontWeight: 900, color: 'var(--primary-black)', textTransform: 'uppercase', letterSpacing: '2px' }}>
+              Slide #{index + 1}
+            </h4>
+            {homeImages[index] && (
+              <span style={{ fontSize: '10px', background: '#ecfdf5', color: '#059669', padding: '4px 12px', borderRadius: '50px', fontWeight: 900 }}>ACTIVE</span>
             )}
           </div>
-          <label style={{ 
-            display: 'block', padding: '15px', borderRadius: '14px', background: 'var(--primary-black)', 
-            color: 'white', textAlign: 'center', fontWeight: 700, cursor: 'pointer', fontSize: '14px' 
-          }}>
-             Upload New Slide {index + 1}
-             <input type="file" hidden onChange={(e) => handleImageUpload(e, index)} />
-          </label>
-        </div>
+          
+          <div style={{ 
+            height: '240px', borderRadius: '28px', background: '#fcfaf7', marginBottom: '25px', 
+            overflow: 'hidden', border: '2px dashed #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            position: 'relative', transition: '0.3s'
+          }} className="admin-img-box">
+            {homeImages[index] ? (
+              <>
+                <img src={getImageUrl(homeImages[index])} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={`Carousel ${index}`} />
+                <div className="img-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)', opacity: 0, transition: '0.3s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                   <ImageIcon color="white" size={32} />
+                </div>
+              </>
+            ) : (
+              <div style={{ textAlign: 'center' }}>
+                <ImageIcon size={48} style={{ opacity: 0.1, marginBottom: '15px' }} />
+                <p style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8' }}>NO IMAGE CONFIGURED</p>
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <label style={{ 
+              flex: 1, padding: '18px', borderRadius: '20px', background: 'var(--primary-black)', 
+              color: 'white', textAlign: 'center', fontWeight: 800, cursor: 'pointer', fontSize: '13px',
+              transition: '0.3s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'
+            }}>
+               <Edit size={16} /> {homeImages[index] ? 'Replace Image' : 'Upload Image'}
+               <input type="file" hidden onChange={(e) => handleImageUpload(e, index)} />
+            </label>
+            {homeImages[index] && (
+              <button 
+                onClick={() => {
+                  const next = [...homeImages];
+                  next[index] = '';
+                  setHomeImages(next);
+                }}
+                style={{ padding: '18px', borderRadius: '20px', background: '#fef2f2', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+              >
+                <Trash size={18} />
+              </button>
+            )}
+          </div>
+        </motion.div>
       ))}
-      <div style={{ gridColumn: '1/-1', marginTop: '20px' }}>
-         <button onClick={handleSaveHomeCarousel} className="btn-primary" style={{ padding: '20px 60px', borderRadius: '50px', fontSize: '18px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <CheckCircle size={20} /> Save All Carousel Changes
-         </button>
+      <div style={{ gridColumn: '1/-1', marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+         <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleSaveHomeCarousel} 
+          style={{ 
+            padding: '24px 80px', borderRadius: '100px', fontSize: '18px', fontWeight: 950, 
+            display: 'flex', alignItems: 'center', gap: '15px', background: 'var(--gradient-gold)',
+            color: 'black', border: 'none', cursor: 'pointer', boxShadow: '0 20px 40px rgba(212, 175, 55, 0.3)'
+          }}
+         >
+            <CheckCircle size={24} /> Sync Carousel to Website
+         </motion.button>
       </div>
     </div>
   );
@@ -328,30 +378,66 @@ const AdminDashboard = () => {
   };
 
   const renderInstaFeedManager = () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '30px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '30px' }}>
       {[0, 1, 2, 3, 4, 5].map((index) => (
-        <div key={index} style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)', border: '1px solid #f1f5f9' }}>
-          <h4 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '20px' }}>Post #{index + 1}</h4>
-          <div style={{ height: '300px', borderRadius: '20px', background: '#f8fafc', marginBottom: '20px', overflow: 'hidden', border: '2px dashed #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <motion.div 
+          whileHover={{ y: -5 }}
+          key={index} 
+          style={{ backgroundColor: 'white', padding: '25px', borderRadius: '32px', boxShadow: '0 15px 30px rgba(0,0,0,0.02)', border: '1px solid #f1f5f9' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <h4 style={{ fontSize: '12px', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '1px' }}>Feed Slot {index + 1}</h4>
+            <span style={{ color: 'var(--primary-orange)' }}><ImageIcon size={16} /></span>
+          </div>
+          
+          <div style={{ 
+            aspectRatio: '1/1', borderRadius: '24px', background: '#f8fafc', marginBottom: '20px', 
+            overflow: 'hidden', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' 
+          }}>
             {instaPosts[index] ? (
               <img src={getImageUrl(instaPosts[index])} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt={`Post ${index}`} />
             ) : (
-              <ImageIcon size={48} style={{ opacity: 0.2 }} />
+              <div style={{ opacity: 0.1, textAlign: 'center' }}>
+                <ImageIcon size={40} />
+              </div>
             )}
           </div>
-          <label style={{ 
-            display: 'block', padding: '15px', borderRadius: '14px', background: 'var(--primary-black)', 
-            color: 'white', textAlign: 'center', fontWeight: 700, cursor: 'pointer', fontSize: '14px' 
-          }}>
-             Upload New Post {index + 1}
-             <input type="file" hidden onChange={(e) => handleImageUpload(e, index)} />
-          </label>
-        </div>
+          
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <label style={{ 
+              flex: 1, padding: '15px', borderRadius: '16px', background: 'var(--primary-black)', 
+              color: 'white', textAlign: 'center', fontWeight: 800, cursor: 'pointer', fontSize: '13px' 
+            }}>
+               Change Image
+               <input type="file" hidden onChange={(e) => handleImageUpload(e, index)} />
+            </label>
+            {instaPosts[index] && (
+              <button 
+                onClick={() => {
+                  const next = [...instaPosts];
+                  next[index] = '';
+                  setInstaPosts(next);
+                }}
+                style={{ width: '50px', borderRadius: '16px', background: '#fef2f2', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+              >
+                <Trash size={18} />
+              </button>
+            )}
+          </div>
+        </motion.div>
       ))}
-      <div style={{ gridColumn: '1/-1', marginTop: '20px' }}>
-         <button onClick={handleSaveInstaFeed} className="btn-primary" style={{ padding: '20px 60px', borderRadius: '50px', fontSize: '18px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <CheckCircle size={20} /> Save Instagram Feed Changes
-         </button>
+      <div style={{ gridColumn: '1/-1', marginTop: '40px', textAlign: 'center' }}>
+         <motion.button 
+          whileHover={{ scale: 1.02 }}
+          onClick={handleSaveInstaFeed} 
+          style={{ 
+            padding: '22px 60px', borderRadius: '100px', fontSize: '16px', fontWeight: 900, 
+            display: 'flex', alignItems: 'center', gap: '15px', background: '#111',
+            color: 'white', border: 'none', cursor: 'pointer', margin: '0 auto'
+          }}
+         >
+            <CheckCircle size={20} /> Update Instagram Portfolio
+         </motion.button>
       </div>
     </div>
   );
@@ -368,85 +454,140 @@ const AdminDashboard = () => {
   };
 
   const renderBrandingManager = () => (
-    <div style={{ maxWidth: '800px' }}>
-      <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '32px', boxShadow: 'var(--shadow)', border: '1px solid #f1f5f9' }}>
-        <h3 style={{ fontSize: '24px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '30px' }}>Site Logo Management</h3>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '30px', fontSize: '15px' }}>
-          Upload your official company logo. This will be updated across the Navbar, Footer, and Admin panel.
+    <div style={{ maxWidth: '900px' }}>
+      <div style={{ backgroundColor: 'white', padding: '50px', borderRadius: '40px', boxShadow: '0 30px 60px rgba(0,0,0,0.05)', border: '1px solid #f1f5f9' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '35px' }}>
+           <div style={{ padding: '15px', background: 'var(--gradient-gold)', borderRadius: '18px', color: 'black' }}><LayoutDashboard size={24} /></div>
+           <h3 style={{ fontSize: '28px', fontWeight: 950, color: 'var(--primary-black)' }}>Global Branding</h3>
+        </div>
+
+        <p style={{ color: 'var(--text-muted)', marginBottom: '40px', fontSize: '16px', lineHeight: 1.6 }}>
+          Set your brand's signature mark. This logo will appear on the navigation bar, footer, and all official client-facing touchpoints.
         </p>
         
-        <div style={{ display: 'flex', gap: '40px', alignItems: 'center', marginBottom: '40px' }}>
-          <div style={{ width: '200px', height: '150px', borderRadius: '24px', background: 'var(--primary-black)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', border: '5px solid #f1f5f9' }}>
+        <div style={{ 
+          display: 'grid', gridTemplateColumns: '300px 1fr', gap: '50px', alignItems: 'center', 
+          background: '#fcfaf7', padding: '40px', borderRadius: '32px', border: '1px solid #f1f5f9' 
+        }}>
+          <div style={{ 
+            height: '200px', borderRadius: '24px', background: '#111', display: 'flex', 
+            alignItems: 'center', justifyContent: 'center', overflow: 'hidden', 
+            border: '8px solid white', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' 
+          }}>
              <img src={getImageUrl(siteLogo)} alt="Site Logo" style={{ maxWidth: '80%', maxHeight: '60%', objectFit: 'contain' }} />
           </div>
           
-          <div style={{ flex: 1 }}>
+          <div>
+             <h4 style={{ fontSize: '18px', fontWeight: 900, marginBottom: '15px' }}>Signature Logo</h4>
+             <p style={{ fontSize: '14px', color: '#64748b', marginBottom: '25px', fontWeight: 500 }}>Upload a high-resolution PNG or SVG. Transparent backgrounds are highly recommended for the elite "Midnight Gold" theme.</p>
+             
              <label style={{ 
-               display: 'inline-block', padding: '16px 32px', borderRadius: '50px', background: 'var(--gradient-gold)', 
-               color: 'black', textAlign: 'center', fontWeight: 900, cursor: 'pointer', fontSize: '15px', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' 
+               display: 'inline-flex', padding: '18px 40px', borderRadius: '50px', background: '#111', 
+               color: 'white', fontWeight: 800, cursor: 'pointer', fontSize: '15px', alignItems: 'center', gap: '12px'
              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <ImageIcon size={20} /> Upload New Logo
-                </div>
+                <ImageIcon size={20} color="var(--primary-gold)" /> Update Logo
                 <input type="file" hidden onChange={(e) => handleImageUpload(e)} />
              </label>
-             <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '15px', fontWeight: 600 }}>
-               Recommended: PNG or SVG with transparent background.
-             </p>
           </div>
         </div>
         
-        <hr style={{ border: 'none', borderTop: '1px solid #f1f5f9', margin: '40px 0' }} />
-        
-        <button onClick={handleSaveBranding} className="btn-primary" style={{ padding: '18px 40px', borderRadius: '50px', fontSize: '16px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <CheckCircle size={20} /> Update Site Branding
-        </button>
+        <div style={{ marginTop: '50px', display: 'flex', justifyContent: 'flex-end' }}>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            onClick={handleSaveBranding} 
+            style={{ 
+              padding: '20px 50px', borderRadius: '50px', fontSize: '16px', fontWeight: 950, 
+              background: 'var(--gradient-gold)', color: 'black', border: 'none', cursor: 'pointer',
+              boxShadow: '0 15px 30px rgba(212, 175, 55, 0.2)'
+            }}
+          >
+            <CheckCircle size={20} /> Deploy Brand Updates
+          </motion.button>
+        </div>
       </div>
     </div>
   );
 
   const renderDashboardOverview = () => (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-      <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--primary-black)' }}>Recent Enquiries</h3>
-          <button onClick={() => navigate('/admin/enquiries')} style={{ color: 'var(--primary-orange)', background: 'none', fontWeight: 800, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-            View All <ChevronRight size={16} />
+    <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '40px' }}>
+      <div style={{ backgroundColor: 'white', padding: '45px', borderRadius: '40px', boxShadow: '0 30px 60px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
+          <div>
+            <h3 style={{ fontSize: '24px', fontWeight: 950, color: 'var(--primary-black)', letterSpacing: '-1px' }}>Recent Inbound Leads</h3>
+            <p style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 600 }}>Clients waiting for your response.</p>
+          </div>
+          <button onClick={() => navigate('/admin/enquiries')} style={{ color: 'var(--primary-gold)', background: '#111', padding: '12px 25px', borderRadius: '50px', fontWeight: 800, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}>
+            Open CRM <ChevronRight size={16} />
           </button>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          {enquiries.slice(0, 5).map(enq => (
-            <div key={enq.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '15px', borderRadius: '16px', background: '#f8fafc', border: '1px solid #f1f5f9' }}>
-               <div>
-                  <p style={{ fontWeight: 800, fontSize: '15px' }}>{enq.name}</p>
-                  <p style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{enq.package ? enq.package.title : (enq.subject || 'General')}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {enquiries.slice(0, 4).map(enq => (
+            <motion.div 
+              whileHover={{ x: 10 }}
+              key={enq.id} 
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '25px', borderRadius: '28px', background: '#fcfaf7', border: '1px solid #f1f5f9' }}
+            >
+               <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                  <div style={{ width: '50px', height: '50px', borderRadius: '15px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '18px', color: 'var(--primary-gold)', border: '1px solid #f1f5f9' }}>
+                    {enq.name[0]}
+                  </div>
+                  <div>
+                    <p style={{ fontWeight: 900, fontSize: '16px', color: 'var(--primary-black)' }}>{enq.name}</p>
+                    <p style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>Interested in: <span style={{ color: 'var(--primary-black)' }}>{enq.package ? enq.package.title : (enq.subject || 'Custom Trip')}</span></p>
+                  </div>
                </div>
-               <span style={{ fontSize: '11px', fontWeight: 800, color: enq.status === 'New' ? '#ef4444' : '#10b981' }}>{enq.status.toUpperCase()}</span>
-            </div>
+               <div style={{ textAlign: 'right' }}>
+                 <span style={{ 
+                   fontSize: '10px', fontWeight: 950, letterSpacing: '1px', padding: '6px 14px', borderRadius: '50px',
+                   background: enq.status === 'New' ? '#fef2f2' : '#ecfdf5', 
+                   color: enq.status === 'New' ? '#ef4444' : '#059669',
+                   border: `1px solid ${enq.status === 'New' ? '#fee2e2' : '#d1fae5'}`
+                 }}>{enq.status.toUpperCase()}</span>
+                 <p style={{ fontSize: '11px', color: '#94a3b8', marginTop: '8px', fontWeight: 600 }}>{new Date(enq.created_at).toLocaleDateString()}</p>
+               </div>
+            </motion.div>
           ))}
-          {enquiries.length === 0 && <p style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '40px' }}>No enquiries yet.</p>}
+          {enquiries.length === 0 && <div style={{ textAlign: 'center', padding: '60px', opacity: 0.3 }}><MessageSquare size={48} style={{ margin: '0 auto 20px' }} /><p style={{ fontWeight: 800 }}>Inbox is quiet. Good time to publish a blog!</p></div>}
         </div>
       </div>
 
-      <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '24px', boxShadow: 'var(--shadow)' }}>
-         <h3 style={{ fontSize: '20px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '20px' }}>Content Efficiency</h3>
-         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <div style={{ padding: '25px', borderRadius: '20px', background: '#ecfdf5', color: '#065f46' }}>
-               <PackageIcon size={32} style={{ marginBottom: '15px' }} />
-               <p style={{ fontSize: '14px', fontWeight: 600 }}>Active Packages</p>
-               <h4 style={{ fontSize: '28px', fontWeight: 900 }}>{stats.active_packages}</h4>
-            </div>
-            <div style={{ padding: '25px', borderRadius: '20px', background: '#fffbeb', color: '#92400e' }}>
-               <Users size={32} style={{ marginBottom: '15px' }} />
-               <p style={{ fontSize: '14px', fontWeight: 600 }}>Group Capacity</p>
-               <h4 style={{ fontSize: '28px', fontWeight: 900 }}>{groupTrips.reduce((acc, t) => acc + t.seats, 0)} Seats</h4>
-            </div>
-         </div>
-         <div style={{ marginTop: '20px', padding: '20px', borderRadius: '20px', background: 'var(--primary-black)', color: 'white' }}>
-            <p style={{ fontSize: '14px', fontWeight: 600, opacity: 0.8 }}>Latest Blog Engagement</p>
-            <h4 style={{ fontSize: '18px', fontWeight: 800, marginTop: '5px' }}>{blogs[0]?.title || 'No blogs published'}</h4>
-            <p style={{ fontSize: '12px', marginTop: '5px', opacity: 0.7 }}>Published on {blogs[0]?.date || 'N/A'}</p>
-         </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        <div style={{ backgroundColor: 'var(--primary-black)', padding: '40px', borderRadius: '40px', color: 'white', position: 'relative', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.2)' }}>
+           <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', background: 'var(--gradient-gold)', opacity: 0.1, borderRadius: '50%' }}></div>
+           <Sparkles style={{ position: 'absolute', top: '30px', right: '30px', opacity: 0.3 }} size={40} />
+           <h3 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '15px' }}>Business Health</h3>
+           
+           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div>
+                <p style={{ fontSize: '13px', fontWeight: 600, opacity: 0.6, marginBottom: '5px' }}>Conversion Velocity</p>
+                <h4 style={{ fontSize: '28px', fontWeight: 950 }}>High <span style={{ fontSize: '14px', color: '#10b981' }}>+12%</span></h4>
+              </div>
+              <div>
+                <p style={{ fontSize: '13px', fontWeight: 600, opacity: 0.6, marginBottom: '5px' }}>Active Inventory</p>
+                <h4 style={{ fontSize: '28px', fontWeight: 950 }}>{stats.active_packages} <span style={{ fontSize: '12px', opacity: 0.4 }}>LIVE</span></h4>
+              </div>
+           </div>
+        </div>
+
+        <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '40px', border: '1px solid #f1f5f9' }}>
+           <h3 style={{ fontSize: '18px', fontWeight: 900, color: 'var(--primary-black)', marginBottom: '25px' }}>Marketing Efficiency</h3>
+           <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+              <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                 <div style={{ width: '45px', height: '45px', borderRadius: '14px', background: '#eef2ff', color: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><BookOpen size={20} /></div>
+                 <div>
+                   <p style={{ fontWeight: 800, fontSize: '14px' }}>Latest Blog Post</p>
+                   <p style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>{blogs[0]?.title || 'No blogs published'}</p>
+                 </div>
+              </div>
+              <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                 <div style={{ width: '45px', height: '45px', borderRadius: '14px', background: '#fdf2f8', color: '#ec4899', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Users size={20} /></div>
+                 <div>
+                   <p style={{ fontWeight: 800, fontSize: '14px' }}>Total Group Capacity</p>
+                   <p style={{ fontSize: '13px', color: '#64748b', fontWeight: 600 }}>{groupTrips.reduce((acc, t) => acc + t.seats, 0)} Total Seats in Batches</p>
+                 </div>
+              </div>
+           </div>
+        </div>
       </div>
     </div>
   );
@@ -459,42 +600,60 @@ const AdminDashboard = () => {
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '60px' }}>
           <div>
-            <h1 style={{ fontSize: '36px', fontWeight: 900, color: 'var(--primary-black)', letterSpacing: '-1px' }}>
-              Shiv Travel <span style={{ color: 'var(--primary-orange)' }}>Admin</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
+               <Sparkles size={16} color="var(--primary-gold)" />
+               <span style={{ fontSize: '12px', fontWeight: 900, color: '#94a3b8', letterSpacing: '3px', textTransform: 'uppercase' }}>Operational Overview</span>
+            </div>
+            <h1 style={{ fontSize: '48px', fontWeight: 950, color: 'var(--primary-black)', letterSpacing: '-2px', lineHeight: 1 }}>
+              Shiv <span style={{ color: 'var(--primary-gold)' }}>Travel</span>
             </h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '16px', fontWeight: 500 }}>
-              {activeTab === 'dashboard' ? 'Real-time overview of your travel business.' : `Manage ${activeTab.replace('-', ' ')} and content.`}
+            <p style={{ color: '#64748b', fontSize: '16px', fontWeight: 600, marginTop: '10px' }}>
+              {activeTab === 'dashboard' ? 'Welcome back. Here is your business at a glance.' : `Managing ${activeTab.replace('-', ' ')} and visual assets.`}
             </p>
           </div>
           <div style={{ display: 'flex', gap: '15px' }}>
-            {activeTab !== 'dashboard' && activeTab !== 'enquiries' && activeTab !== 'home-carousel' && activeTab !== 'insta-feed' && (
-              <button onClick={() => { setShowModal(true); setEditingItem(null); resetForms(); }} className="btn-primary" style={{ padding: '14px 28px', borderRadius: '50px', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <Plus size={20} /> Create New {activeTab === 'packages' ? 'Package' : activeTab === 'blogs' ? 'Blog Post' : 'Group Trip'}
-              </button>
+            {activeTab !== 'dashboard' && activeTab !== 'enquiries' && activeTab !== 'home-carousel' && activeTab !== 'insta-feed' && activeTab !== 'branding' && (
+              <motion.button 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => { setShowModal(true); setEditingItem(null); resetForms(); }} 
+                style={{ 
+                  padding: '18px 40px', borderRadius: '100px', fontSize: '15px', display: 'flex', 
+                  alignItems: 'center', gap: '12px', background: 'var(--primary-black)', color: 'white',
+                  fontWeight: 900, border: 'none', cursor: 'pointer', boxShadow: '0 15px 30px rgba(0,0,0,0.1)'
+                }}
+              >
+                <Plus size={20} color="var(--primary-gold)" /> New {activeTab === 'packages' ? 'Package' : activeTab === 'blogs' ? 'Blog Post' : 'Group Trip'}
+              </motion.button>
             )}
           </div>
         </div>
 
         {/* Stats Grid - Show only on Dashboard */}
         {activeTab === 'dashboard' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '30px', marginBottom: '50px' }}>
             {[
-              { label: 'Total Packages', value: stats.total_packages, icon: <PackageIcon />, color: 'var(--primary-black)', bg: '#f0fdf4' },
-              { label: 'Total Enquiries', value: stats.total_enquiries, icon: <MessageSquare />, color: 'var(--primary-orange)', bg: '#fffbeb' },
-              { label: 'New Enquiries', value: stats.new_enquiries, icon: <Clock />, color: '#ef4444', bg: '#fef2f2' },
-              { label: 'Active Blogs', value: stats.total_blogs || 0, icon: <Mail />, color: '#6366f1', bg: '#eef2ff' },
-              { label: 'Group Trips', value: stats.total_group_trips || 0, icon: <Users />, color: '#ec4899', bg: '#fdf2f8' }
+              { label: 'Live Inventory', value: stats.total_packages, icon: <PackageIcon size={24} />, color: '#059669', bg: '#ecfdf5' },
+              { label: 'Inbound Leads', value: stats.total_enquiries, icon: <MessageSquare size={24} />, color: 'var(--primary-gold)', bg: '#fffbeb' },
+              { label: 'Action Required', value: stats.new_enquiries, icon: <Clock size={24} />, color: '#ef4444', bg: '#fef2f2' },
+              { label: 'Published Stories', value: stats.total_blogs || 0, icon: <BookOpen size={24} />, color: '#6366f1', bg: '#eef2ff' },
+              { label: 'Active Groups', value: stats.total_group_trips || 0, icon: <Users size={24} />, color: '#ec4899', bg: '#fdf2f8' }
             ].map((stat, i) => (
-              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }} key={i} 
-                style={{ backgroundColor: 'white', padding: '25px', borderRadius: '24px', boxShadow: 'var(--shadow)', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                <div style={{ width: '56px', height: '56px', borderRadius: '18px', backgroundColor: stat.bg, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {stat.icon}
-                </div>
-                <div>
-                  <p style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 700, marginBottom: '2px' }}>{stat.label}</p>
-                  <h3 style={{ fontSize: '26px', fontWeight: 900, color: 'var(--primary-black)' }}>{stat.value}</h3>
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }} key={i} 
+                style={{ backgroundColor: 'white', padding: '35px', borderRadius: '40px', boxShadow: '0 20px 40px rgba(0,0,0,0.02)', border: '1px solid #f1f5f9', position: 'relative', overflow: 'hidden' }}
+              >
+                <div style={{ position: 'absolute', top: '-10px', right: '-10px', width: '100px', height: '100px', background: stat.bg, opacity: 0.3, borderRadius: '50%' }}></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', zIndex: 1 }}>
+                  <div>
+                    <p style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>{stat.label}</p>
+                    <h3 style={{ fontSize: '36px', fontWeight: 950, color: 'var(--primary-black)', letterSpacing: '-1.5px' }}>{stat.value}</h3>
+                  </div>
+                  <div style={{ width: '50px', height: '50px', borderRadius: '16px', backgroundColor: stat.bg, color: stat.color, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 10px 20px ${stat.bg}` }}>
+                    {stat.icon}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -776,22 +935,46 @@ const AdminDashboard = () => {
                         <label style={{ fontSize: '14px', fontWeight: 800, color: 'var(--primary-black)', marginBottom: '10px', display: 'block' }}>Exclusions</label>
                         <textarea value={formData.exclusions} onChange={(e) => setFormData({...formData, exclusions: e.target.value})} rows="4" style={{ width: '100%', padding: '18px', borderRadius: '16px', border: '2px solid #f1f5f9', fontSize: '16px', fontWeight: 500, outline: 'none', fontFamily: 'inherit' }}></textarea>
                       </div>
-                      <div style={{ gridColumn: '1/3', padding: '30px', background: 'white', borderRadius: '24px', border: '2px solid #f8fafc' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                           <p style={{ fontWeight: 900, color: 'var(--primary-black)', fontSize: '16px' }}>Photo Gallery</p>
-                           <label className="btn-secondary" style={{ padding: '8px 16px', cursor: 'pointer', borderRadius: '50px', fontSize: '12px' }}>
-                              <Plus size={14} /> Add Multiple Files
+                      <div style={{ gridColumn: '1/3', padding: '40px', background: '#f8fafc', borderRadius: '32px', border: '1px solid #e2e8f0' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+                           <div>
+                             <p style={{ fontWeight: 900, color: 'var(--primary-black)', fontSize: '18px', marginBottom: '5px' }}>Featured Visuals</p>
+                             <p style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 600 }}>The first image will be used as the primary card cover.</p>
+                           </div>
+                           <label style={{ padding: '12px 25px', cursor: 'pointer', borderRadius: '50px', fontSize: '14px', background: '#111', color: 'white', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 800 }}>
+                              <Plus size={18} color="var(--primary-gold)" /> Add Media
                               <input type="file" multiple hidden onChange={handleGalleryUpload} />
                            </label>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '15px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '20px' }}>
+                          {/* Main Image Proxy */}
+                          {formData.image && (
+                             <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', height: '120px', border: '3px solid var(--primary-gold)', boxShadow: '0 10px 20px rgba(212,175,55,0.2)' }}>
+                                <img src={getImageUrl(formData.image)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                <div style={{ position: 'absolute', top: '8px', left: '8px', background: 'var(--primary-gold)', color: 'black', fontSize: '10px', fontWeight: 950, padding: '2px 8px', borderRadius: '4px' }}>COVER</div>
+                                <button type="button" onClick={() => setFormData({...formData, image: ''})} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(239, 68, 68, 0.8)', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer' }}><X size={14} /></button>
+                             </div>
+                          )}
+                          
                           {formData.gallery && formData.gallery.map((img, idx) => (
-                            <div key={idx} style={{ position: 'relative', borderRadius: '14px', overflow: 'hidden', height: '90px', boxShadow: '0 4px 8px rgba(0,0,0,0.05)' }}>
+                            <motion.div 
+                              layout
+                              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                              key={idx} 
+                              style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', height: '120px', background: 'white', border: '1px solid #e2e8f0' }}
+                            >
                               <img src={getImageUrl(img)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                              <button type="button" onClick={() => handleRemoveGalleryImage(idx)} style={{ position: 'absolute', top: '5px', right: '5px', backgroundColor: 'rgba(255, 107, 0, 0.3)', color: 'white', border: 'none', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}><Trash size={12} /></button>
-                            </div>
+                              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)', opacity: 0 }} />
+                              <button type="button" onClick={() => handleRemoveGalleryImage(idx)} style={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'rgba(255,255,255,0.9)', color: '#ef4444', border: 'none', borderRadius: '50%', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}><Trash size={14} /></button>
+                            </motion.div>
                           ))}
-                          {(!formData.gallery || formData.gallery.length === 0) && <p style={{ fontSize: '12px', color: '#94a3b8', gridColumn: '1/-1', textAlign: 'center', padding: '20px' }}>No gallery images uploaded yet.</p>}
+                          
+                          {!formData.image && (!formData.gallery || formData.gallery.length === 0) && (
+                             <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '40px', background: 'rgba(255,255,255,0.5)', borderRadius: '20px', border: '1px dashed #cbd5e1' }}>
+                                <ImageIcon size={40} style={{ opacity: 0.2, marginBottom: '15px' }} />
+                                <p style={{ fontSize: '14px', fontWeight: 700, color: '#94a3b8' }}>Drag and drop media here to begin</p>
+                             </div>
+                          )}
                         </div>
                       </div>
                     </>
