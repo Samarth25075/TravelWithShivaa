@@ -10,6 +10,18 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'localhost',
         port: '8000',
+      },
+      {
+        protocol: 'https',
+        hostname: 'travelwithshivaa.onrender.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'shiv-travel-backend.onrender.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'travelbookshiva.in',
       }
     ],
     formats: ['image/avif', 'image/webp'],
