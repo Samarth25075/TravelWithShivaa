@@ -11,7 +11,11 @@ import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import IntroLoader from '../components/IntroLoader';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || '/api';
+const defaultApiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://travelwithshivaa.onrender.com/api'
+  : '/api';
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
 
 function MainApp({ children }) {
   const { isGujarati, setIsGujarati } = useLanguage();

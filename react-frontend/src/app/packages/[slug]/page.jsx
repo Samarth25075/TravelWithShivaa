@@ -1,8 +1,11 @@
 import PackageDetailsClient from './PackageDetailsClient';
 import axios from 'axios';
 
-// Set axios base URL for backend requests
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const defaultApiUrl = process.env.NODE_ENV === 'production'
+  ? 'https://travelwithshivaa.onrender.com/api'
+  : 'http://localhost:8000/api';
+
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

@@ -15,7 +15,10 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   async rewrites() {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+    const defaultBackendUrl = process.env.NODE_ENV === 'production'
+      ? 'https://travelwithshivaa.onrender.com/api'
+      : 'http://localhost:8000/api';
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || defaultBackendUrl;
     return [
       {
         source: '/api/:path*',
