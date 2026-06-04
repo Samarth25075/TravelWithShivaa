@@ -1,25 +1,60 @@
-name: Keep Server Alive
+name: 🔔 Keep Render Alive
+
+# ─────────────────────────────────────────────
+# Runs every 20 minutes to prevent Render's
+# free-tier backend from spinning down due to
+# inactivity (Render sleeps after 15 min idle).
+# ─────────────────────────────────────────────
 
 on:
   schedule:
-    # Runs every 14 minutes
-    - cron: '*/14 * * * *'
-  workflow_dispatch: # Allows manual triggering
+    # Every 20 minutes  ──  "*/20 * * * *"
+    - cron: '*/20 * * * *'
+  workflow_dispatch:        # allow manual trigger from GitHub UI
 
 jobs:
   ping:
+    name: Ping TravelBookShiva Services
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: 🏓 Ping Backend API
+        run: |
+          echo "⏰ $(date)"
+          echo "🔔 Pinging backend: https://travelwithshivaa.onrender.com/"
+          
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" \
+            --max-time 30 \
+            --retry 3 \
+            --retry-delay 5 \
+            https://travelwithshivaa.onrender.com/)
+          
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+            echo "✅ Backend ALIVE — HTTP $STATUS"
+          else
+            echo "⚠️  Backend returned HTTP $STATUS"
+          fi
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+      - name: 🌐 Ping Frontend Site
+        run: |
+          echo "🔔 Pinging frontend: https://travelbookshiva.in/"
+          
+          STATUS=$(curl -o /dev/null -s -w "%{http_code}" \
+            --max-time 30 \
+            --retry 3 \
+            --retry-delay 5 \
+            https://travelbookshiva.in/)
+          
+          if [ "$STATUS" -ge 200 ] && [ "$STATUS" -lt 400 ]; then
+            echo "✅ Frontend ALIVE — HTTP $STATUS"
+          else
+            echo "⚠️  Frontend returned HTTP $STATUS"
+          fi
 
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run Keep-Alive Script
-        run: python keep_alive.py
+      - name: 📊 Ping /api/ping health endpoint
+        run: |
+          echo "🔔 Pinging health check: https://travelbookshiva.in/api/ping"
+          RESPONSE=$(curl -s --max-time 30 https://travelbookshiva.in/api/ping || echo '{"status":"unreachable"}')
+          echo "Response: $RESPONSE"
+          echo "✅ Keep-alive complete"

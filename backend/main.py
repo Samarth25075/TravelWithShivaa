@@ -31,8 +31,18 @@ def get_password_hash(password):
 app = FastAPI(title="Shiv Travel API")
 
 @app.get("/")
+async def root():
+    return {"status": "ok", "message": "TravelBookShiva API is running!", "service": "shiv-travel-backend"}
+
+@app.get("/health")
 async def health_check():
-    return {"status": "ok", "message": f"Shiv Travel API is running with MongoDB!"}
+    """Lightweight health check — used by keep-alive pings."""
+    return {"status": "ok", "timestamp": datetime.utcnow().isoformat() + "Z"}
+
+@app.get("/ping")
+async def ping():
+    """Ultra-lightweight ping endpoint for Render keep-alive."""
+    return {"pong": True}
 
 # Simple Auth Schema
 class LoginRequest(BaseModel):
