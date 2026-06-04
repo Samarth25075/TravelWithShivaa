@@ -24,20 +24,20 @@ export default function Page() {
     "image": "https://travelbookshiva.in/api/uploads/logo.png",
     "@id": "https://travelbookshiva.in/#localbusiness",
     "url": "https://travelbookshiva.in",
-    "telephone": "+919099599331",
+    "telephone": "+919313634723",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "508/608, 3rd Eye Vision, Above Nexa Showroom, IIM Road",
+      "streetAddress": "208, SAHITYA ARCADE, NR HARIDARSHAN CROS ROAD, NAVA NARODA",
       "addressLocality": "Ahmedabad",
-      "postalCode": "380015",
+      "postalCode": "382330",
       "addressRegion": "Gujarat",
       "addressCountry": "IN"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": 23.0315,
-      "longitude": 72.5412
+      "latitude": 23.0836,
+      "longitude": 72.6610
     },
     "openingHoursSpecification": {
       "@type": "OpeningHoursSpecification",

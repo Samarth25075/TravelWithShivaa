@@ -168,3 +168,12 @@ class GroupTrip(GroupTripBase):
 
 class SiteLogoUpdate(BaseModel):
     logo_url: str
+
+class Destination(BaseModel):
+    name_en: str
+    name_gu: str
+    searchKey: str
+    image: str
+
+class DestinationListUpdate(BaseModel):
+    destinations: List[Destination]

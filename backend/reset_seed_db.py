@@ -92,6 +92,21 @@ async def reset_and_seed_mongodb():
             "status": True,
             "created_at": datetime.now(),
             "gallery": []
+        },
+        {
+            "title": "Dwarka Somnath Divine Journey",
+            "location": "Dwarka & Somnath, Gujarat, India",
+            "price": 15500.0,
+            "description": "A comprehensive pilgrimage tour to the holy cities of Dwarka and Somnath. Experience Darshan at Dwarkadhish Temple, Beyt Dwarka, Nageshwar Jyotirlinga, and the grand Somnath Jyotirlinga.",
+            "duration": "5 Days / 4 Nights",
+            "group_size": "Selectable",
+            "itinerary": "Day 1: Arrival in Dwarka, check-in, attend Evening Aarti at Dwarkadhish Temple\nDay 2: Visit Beyt Dwarka, Nageshwar Jyotirlinga, Gopi Talav, and Rukmini Devi Temple\nDay 3: Travel from Dwarka to Somnath, visiting Porbandar (Kirti Mandir) en route\nDay 4: Somnath Temple morning Darshan, Bhalka Tirth, Triveni Sangam, and evening Light & Sound Show\nDay 5: Departure",
+            "inclusions": "Comfortable Hotel Stays, AC Private Vehicle for all transfers, Daily Breakfast, Guide assistance, and All tax/toll fees",
+            "exclusions": "Ferry tickets to Beyt Dwarka, Lunches & Dinners, Monument entry fees, Personal expenses",
+            "image": "https://images.unsplash.com/photo-1616038242814-a6eac7845d88?auto=format&fit=crop&w=800&q=80",
+            "status": True,
+            "created_at": datetime.now(),
+            "gallery": []
         }
     ]
     await package_coll.insert_many(packages)

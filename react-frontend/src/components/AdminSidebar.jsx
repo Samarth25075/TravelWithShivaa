@@ -4,7 +4,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { 
   LayoutDashboard, Package, MessageSquare, 
   Settings, LogOut, Mountain, Compass, Palette,
-  BookOpen, Users, User, Image as ImageIcon, Sparkles
+  BookOpen, Users, User, Image as ImageIcon, Sparkles,
+  MapPin
 } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
@@ -22,6 +23,7 @@ const AdminSidebar = () => {
     { icon: <ImageIcon size={20} />, label: 'Home Carousel', path: '/admin/home-carousel' },
     { icon: <User size={20} />, label: 'Instagram Feed', path: '/admin/insta-feed' },
     { icon: <Palette size={20} />, label: 'Branding', path: '/admin/branding' },
+    { icon: <MapPin size={20} />, label: 'Destinations', path: '/admin/destinations' },
   ];
 
   const handleLogout = () => {
@@ -33,7 +35,7 @@ const AdminSidebar = () => {
     <div style={{
       width: '300px',
       height: '100vh',
-      backgroundColor: '#050505',
+      backgroundColor: '#0d1117',
       color: 'white',
       position: 'fixed',
       left: 0,
@@ -42,7 +44,7 @@ const AdminSidebar = () => {
       display: 'flex',
       flexDirection: 'column',
       zIndex: 100,
-      borderRight: '1px solid rgba(212, 175, 55, 0.1)',
+      borderRight: '1px solid rgba(232, 102, 10, 0.1)',
       boxShadow: '10px 0 50px rgba(0,0,0,0.5)'
     }}>
       <div style={{ marginBottom: '60px', padding: '0 15px', textAlign: 'center' }}>
@@ -50,7 +52,7 @@ const AdminSidebar = () => {
             src={siteLogo ? (siteLogo.startsWith('http') ? siteLogo : `/api/uploads/${siteLogo}`) : '/logo.png'} 
             alt="Shiv Travel Logo" 
             style={{ 
-              height: '40px', 
+              height: '52px', 
               width: 'auto',
               marginBottom: '15px'
             }} 
@@ -72,13 +74,13 @@ const AdminSidebar = () => {
                 alignItems: 'center',
                 gap: '18px',
                 padding: '16px 20px',
-                borderRadius: '50px',
+                borderRadius: 'var(--radius-button)',
                 textDecoration: 'none',
                 color: isActive ? 'black' : 'white',
                 background: isActive ? 'var(--gradient-gold)' : 'transparent',
                 transition: '0.4s',
                 fontWeight: isActive ? 900 : 600,
-                boxShadow: isActive ? '0 10px 25px rgba(212, 175, 55, 0.2)' : 'none',
+                boxShadow: isActive ? '0 10px 25px rgba(232, 102, 10, 0.2)' : 'none',
                 opacity: isActive ? 1 : 0.4,
                 fontSize: '14px'
               }}
@@ -102,7 +104,7 @@ const AdminSidebar = () => {
           color: 'white', 
           opacity: 0.4, 
           fontWeight: 700,
-          borderRadius: '50px',
+          borderRadius: 'var(--radius-button)',
           transition: '0.3s',
           fontSize: '13px'
         }} onMouseEnter={e => e.currentTarget.style.opacity = 0.8} onMouseLeave={e => e.currentTarget.style.opacity = 0.4}>
@@ -117,7 +119,7 @@ const AdminSidebar = () => {
             gap: '15px', 
             padding: '16px 20px', 
             border: 'none', 
-            borderRadius: '50px',
+            borderRadius: 'var(--radius-button)',
             backgroundColor: 'rgba(239, 68, 68, 0.05)',
             color: '#ef4444', 
             fontWeight: 800,

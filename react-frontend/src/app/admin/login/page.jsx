@@ -35,7 +35,7 @@ const AdminLogin = () => {
       width: '100vw',
       display: 'grid',
       gridTemplateColumns: '1.2fr 1fr',
-      backgroundColor: '#050505',
+      backgroundColor: '#0d1117',
       overflow: 'hidden',
     }} className="admin-login-split">
       
@@ -57,7 +57,7 @@ const AdminLogin = () => {
         />
         <div style={{ 
           position: 'absolute', inset: 0, 
-          background: 'linear-gradient(to right, transparent 70%, #050505 100%), linear-gradient(to bottom, rgba(0,0,0,0.4), transparent 30%)' 
+          background: 'linear-gradient(to right, transparent 70%, #0d1117 100%), linear-gradient(to bottom, rgba(0,0,0,0.4), transparent 30%)' 
         }} />
         
         <div style={{ position: 'absolute', bottom: '60px', left: '60px', zIndex: 10 }}>
@@ -91,7 +91,7 @@ const AdminLogin = () => {
           right: '10%',
           width: '300px',
           height: '300px',
-          background: 'radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(232, 102, 10, 0.05) 0%, transparent 70%)',
           pointerEvents: 'none'
         }} />
 
@@ -112,10 +112,10 @@ const AdminLogin = () => {
               style={{ marginBottom: '40px' }}
             >
               {siteLogo ? (
-                <img src={siteLogo.startsWith('http') ? siteLogo : `/api/uploads/${siteLogo}`} alt="Brand Logo" style={{ height: '40px', filter: 'drop-shadow(0 0 10px rgba(212, 175, 55, 0.3))' }} />
+                <img src={siteLogo.startsWith('http') ? siteLogo : `/api/uploads/${siteLogo}`} alt="Brand Logo" style={{ height: '52px', filter: 'drop-shadow(0 0 10px rgba(232, 102, 10, 0.3))' }} />
               ) : (
                 <div style={{ 
-                  width: '60px', height: '60px', background: 'var(--gradient-gold)', borderRadius: '18px', 
+                  width: '60px', height: '60px', background: 'var(--gradient-gold)', borderRadius: 'var(--radius-card)', 
                   display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'black' 
                 }}>
                   <ShieldCheck size={30} />
@@ -138,7 +138,7 @@ const AdminLogin = () => {
             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
               style={{ 
                 backgroundColor: 'rgba(239, 68, 68, 0.05)', border: '1px solid rgba(239, 68, 68, 0.2)', 
-                color: '#ef4444', padding: '15px', borderRadius: '16px', marginBottom: '30px', 
+                color: '#ef4444', padding: '15px', borderRadius: 'var(--radius-card)', marginBottom: '30px', 
                 fontSize: '13px', fontWeight: 800, textAlign: 'center'
               }}>
               {error}
@@ -156,7 +156,7 @@ const AdminLogin = () => {
                 style={{
                   width: '100%',
                   padding: '22px 22px 22px 60px',
-                  borderRadius: '18px',
+                  borderRadius: 'var(--radius-input)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                   backgroundColor: 'rgba(255, 255, 255, 0.02)',
                   color: 'white',
@@ -179,7 +179,7 @@ const AdminLogin = () => {
                 style={{
                   width: '100%',
                   padding: '22px 22px 22px 60px',
-                  borderRadius: '18px',
+                  borderRadius: 'var(--radius-input)',
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                   backgroundColor: 'rgba(255, 255, 255, 0.02)',
                   color: 'white',
@@ -203,7 +203,7 @@ const AdminLogin = () => {
                 background: 'var(--gradient-gold)',
                 color: 'black',
                 padding: '22px',
-                borderRadius: '50px',
+                borderRadius: 'var(--radius-button)',
                 border: 'none',
                 fontSize: '15px',
                 fontWeight: 950,
@@ -213,7 +213,7 @@ const AdminLogin = () => {
                 justifyContent: 'center',
                 gap: '12px',
                 transition: '0.4s',
-                boxShadow: '0 20px 40px rgba(212, 175, 55, 0.25)',
+                boxShadow: '0 20px 40px rgba(232, 102, 10, 0.25)',
                 textTransform: 'uppercase',
                 letterSpacing: '2px'
               }}

@@ -1,13 +1,16 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { TripCard, DestinationGrid, Testimonials, CounterStats, WhyChooseUs, InstagramFeed, AdventurePlanner } from '../components/HomeComponents';
+import { TripCard, DestinationGrid, Testimonials, WhyChooseUs, InstagramFeed, DestinationBar } from '../components/HomeComponents';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, ChevronDown, Search } from 'lucide-react';
 import SEO from '../components/SEO';
 
 const Home = ({ isGujarati }) => {
+  const router = useRouter();
+  const [searchVal, setSearchVal] = useState('');
   const [currentImage, setCurrentImage] = useState(0);
   const [heroImages, setHeroImages] = useState([
     "https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=1920&q=80",
@@ -69,8 +72,12 @@ const Home = ({ isGujarati }) => {
   return (
     <div className="home-page" style={{ background: 'var(--primary-black)' }}>
       <SEO title="Home" />
+      
+      {/* Quick Destinations Navigation - In normal flow below fixed header */}
+      <DestinationBar isGujarati={isGujarati} />
+
       {/* Cinematic Hero Slider */}
-      <section className="relative h-[100vh] w-full bg-[#0d0d0f] overflow-hidden flex items-center justify-center text-center">
+      <section className="relative h-[80vh] w-full bg-[#0d0d0f] overflow-hidden flex items-center justify-center text-center">
         {/* Background Slider */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
@@ -80,7 +87,7 @@ const Home = ({ isGujarati }) => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 2.5, ease: "easeInOut" }}
-              className="w-full h-full"
+              className="relative w-full h-full"
             >
               <Image
                 src={getFullImageUrl(heroImages[currentImage])}
@@ -100,57 +107,145 @@ const Home = ({ isGujarati }) => {
         
         {/* Hero Content */}
         <motion.div 
-          className="relative z-20 px-[24px] max-w-[800px]"
+          className="relative z-20 px-[24px] max-w-[850px] w-full flex flex-col items-center py-[60px]"
           style={{ y: y1, opacity: opacity }}
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="inline-block border border-[#c9a84c55] text-[#c9a84c] text-[11px] tracking-[0.1em] px-[16px] py-[4px] rounded-[20px] uppercase mb-[24px] font-medium"
-          >
-            Premium Travel Since 2019
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
-            className="font-serif leading-[1.15] tracking-[-0.5px] flex flex-col items-center"
-            style={{ fontSize: 'clamp(32px, 8vw, 52px)' }}
+            className="font-serif leading-[1.1] tracking-[-2px] flex flex-col items-center"
+            style={{ fontSize: 'clamp(44px, 7vw, 76px)', fontWeight: 300 }}
           >
-            <span className="text-[#f5f0e8]">Discover</span>
-            <span className="text-[#c9a84c]">Extraordinary</span>
-            <span className="text-[#f5f0e8]">Destinations</span>
+             <span className="text-white">Discover</span>
+             <span className="text-[#E8660A] italic font-light my-2">Extraordinary</span>
+             <span className="text-white">Destinations</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.4 }}
-            className="text-[#888888] text-[15px] mt-[16px] font-sans"
+            className="text-white/60 text-[15px] mt-[16px] max-w-[600px] text-center"
           >
-            52,000+ happy travellers — Ahmedabad's most trusted agency
+            {isGujarati ? '૫૨,૦૦૦+ પ્રવાસીઓનો વિશ્વાસ — અમદાવાદની સૌથી વિશ્વસનીય એજન્સી' : '52,000+ happy travellers — Ahmedabad\'s most trusted travel agency'}
           </motion.p>
 
+          {/* Search Bar Container */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
+            className="mt-[32px] max-w-[580px] w-full"
+          >
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchVal.trim()) {
+                  router.push(`/packages?search=${encodeURIComponent(searchVal.trim())}`);
+                }
+              }} 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                background: 'rgba(255, 255, 255, 0.04)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '50px',
+                padding: '5px 5px 5px 20px',
+                gap: '12px'
+              }}
+            >
+              <input 
+                type="text" 
+                placeholder={isGujarati ? 'તમે ક્યાં જવા માંગો છો?' : 'Where do you want to go?'}
+                value={searchVal}
+                onChange={(e) => setSearchVal(e.target.value)}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  color: 'white',
+                  fontSize: '14px',
+                  width: '100%',
+                  fontWeight: 500
+                }}
+              />
+              <button 
+                type="submit"
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: 'white',
+                  borderRadius: '30px',
+                  padding: '10px 20px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--primary-gold)';
+                  e.currentTarget.style.color = 'var(--primary-gold)';
+                  e.currentTarget.style.background = 'rgba(232, 102, 10, 0.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.background = 'transparent';
+                }}
+              >
+                {isGujarati ? 'શોધો' : 'Search Trips'}
+              </button>
+            </form>
+          </motion.div>
+
+          {/* Action CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.6 }}
-            className="mt-[28px] flex flex-wrap justify-center gap-[16px]"
+            className="mt-[28px] flex items-center gap-[24px]"
           >
             <Link 
               href="/packages" 
-              className="bg-[#c9a84c] text-[#1a1200] px-[28px] py-[12px] rounded-[8px] text-[13px] font-medium transition-colors duration-200 hover:bg-[#b8943e] no-underline"
-            >
-              Explore Packages
+               className="bg-transparent text-white border border-white/20 px-[24px] py-[10px] rounded-[30px] text-[13px] font-semibold transition-all duration-250 hover:border-[#E8660A] hover:text-[#E8660A] no-underline"
+               style={{ letterSpacing: '0.5px' }}
+             >
+               {isGujarati ? 'પેકેજો જુઓ' : 'Explore Packages'}
             </Link>
             <Link 
               href="/custom-package" 
-              className="bg-transparent text-[#c9a84c] border border-[#c9a84c55] px-[28px] py-[12px] rounded-[8px] text-[13px] font-medium transition-colors duration-200 hover:bg-[#c9a84c14] no-underline"
-            >
-              Plan My Trip
+               className="text-white/90 hover:text-[#E8660A] text-[13px] font-semibold flex items-center gap-1.5 transition-colors duration-200 no-underline"
+             >
+               {isGujarati ? 'કસ્ટમાઇઝ સફર' : 'Plan My Trip'} <ArrowRight size={14} />
             </Link>
+          </motion.div>
+
+          {/* Inline Stats Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.7 }}
+            className="mt-[44px] grid grid-cols-2 md:grid-cols-4 gap-[24px] max-w-[680px] w-full pt-[32px] border-t border-white/5"
+          >
+            <div className="flex flex-col items-center">
+              <span className="text-[26px] font-bold text-white leading-none">52K+</span>
+              <span className="text-[9px] text-white/40 tracking-[1.5px] uppercase font-semibold mt-2">{isGujarati ? 'ખુશ પ્રવાસીઓ' : 'Happy Travellers'}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[26px] font-bold text-white leading-none">6+</span>
+              <span className="text-[9px] text-white/40 tracking-[1.5px] uppercase font-semibold mt-2">{isGujarati ? 'વર્ષનો ભરોસો' : 'Years Trusted'}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[26px] font-bold text-white leading-none">48+</span>
+              <span className="text-[9px] text-white/40 tracking-[1.5px] uppercase font-semibold mt-2">{isGujarati ? 'સ્થળો' : 'Destinations'}</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-[26px] font-bold text-white leading-none">4.9★</span>
+              <span className="text-[9px] text-white/40 tracking-[1.5px] uppercase font-semibold mt-2">{isGujarati ? 'રેટિંગ' : 'Average Rating'}</span>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -160,7 +255,7 @@ const Home = ({ isGujarati }) => {
             <div 
               key={idx} 
               className="w-[7px] h-[7px] rounded-full transition-colors duration-300"
-              style={{ background: idx === currentImage ? '#c9a84c' : '#c9a84c33' }}
+              style={{ background: idx === currentImage ? 'var(--primary-gold)' : 'rgba(232, 102, 10, 0.2)' }}
             />
           ))}
         </div>
@@ -171,16 +266,10 @@ const Home = ({ isGujarati }) => {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-[32px] right-[32px] z-20 flex flex-col items-center gap-[4px] text-[#555555]"
         >
-          <span className="text-[11px] font-sans">Scroll</span>
+          <span className="text-[11px] font-josefin">Scroll</span>
           <ChevronDown size={16} />
         </motion.div>
       </section>
-
-      {/* Stats Section */}
-      <CounterStats isGujarati={isGujarati} />
-
-      {/* Bespoke Journey Planner */}
-      <AdventurePlanner isGujarati={isGujarati} />
 
       {/* Featured Destinations Section - Moved up for easier access */}
       <section className="destinations-section" style={{ padding: 'clamp(80px, 12vw, 150px) 0', background: 'var(--primary-black)', position: 'relative' }}>
@@ -198,7 +287,7 @@ const Home = ({ isGujarati }) => {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
-                style={{ color: 'var(--primary-gold)', fontSize: '12px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '6px', marginBottom: '20px' }}
+                style={{ color: 'var(--primary-gold)', fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '6px', marginBottom: '20px' }}
               >
                 {isGujarati ? 'સ્થળો' : 'The Signature Collection'}
               </motion.h6>
@@ -219,6 +308,7 @@ const Home = ({ isGujarati }) => {
               <Link href="/packages" style={{ 
                 color: 'white', 
                 fontWeight: 600, 
+                fontFamily: 'var(--font-label)',
                 textDecoration: 'none', 
                 display: 'flex', 
                 alignItems: 'center', 

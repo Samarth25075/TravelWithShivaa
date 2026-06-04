@@ -207,7 +207,7 @@ const DestinationDetail = ({ isGujarati }) => {
                         <div className="booking-actions" style={{ marginTop: '30px' }}>
                            <button className="btn-booking" style={{ background: '#ffcc00', color: '#000' }}><Zap size={18} /> Book This Trip</button>
                            <button className="btn-secondary" style={{ marginTop: '10px', background: 'rgba(255,255,255,0.1)', color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}><Heart size={18} /> Add to Wishlist</button>
-                           <p className="cta-support" style={{ textAlign: 'center', marginTop: '15px', fontSize: '12px', opacity: 0.7 }}><Info size={14} /> Need Help? +91 90995 99331</p>
+                           <p className="cta-support" style={{ textAlign: 'center', marginTop: '15px', fontSize: '12px', opacity: 0.7 }}><Info size={14} /> Need Help? +91 93136 34723 / +91 87802 76978</p>
                         </div>
                         <div className="sidebar-badges" style={{ marginTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
                            <div className="trust-badge-mini">

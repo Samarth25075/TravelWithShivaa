@@ -46,7 +46,7 @@ const PackageDetails = () => {
   }, [id, searchParams]);
 
   if (!packageData) return (
-    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#050505' }}>
+    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1A1A1A' }}>
       <div className="loader-gold"></div>
     </div>
   );
@@ -167,7 +167,7 @@ const PackageDetails = () => {
   ];
 
   return (
-    <main className="package-details-page" style={{ backgroundColor: '#050505', paddingBottom: '120px', color: 'white', minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
+    <main className="package-details-page" style={{ backgroundColor: '#1A1A1A', paddingBottom: '120px', color: '#ffffff', minHeight: '100vh', fontFamily: 'var(--font-body), sans-serif' }}>
       <SEO
         title={packageData.title}
         description={packageData.description}
@@ -201,7 +201,7 @@ const PackageDetails = () => {
         <div
           style={{
             position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-            background: `linear-gradient(rgba(0,0,0,0.15) 0%, rgba(5,5,5,1) 98%)`,
+            background: `linear-gradient(rgba(0,0,0,0.15) 0%, #1A1A1A 98%)`,
             zIndex: 1
           }}
         />
@@ -210,19 +210,19 @@ const PackageDetails = () => {
           {/* Custom Breadcrumb / Back Button */}
           <Link href="/packages" style={{
             display: 'inline-flex', alignItems: 'center', gap: '10px', color: 'white', textDecoration: 'none',
-            background: 'rgba(255,255,255,0.06)', padding: '12px 24px', borderRadius: '50px', fontSize: '13px',
-            fontWeight: 800, marginBottom: '35px', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.3s'
+            background: 'rgba(255,255,255,0.06)', padding: '12px 24px', borderRadius: 'var(--radius-button)', fontSize: '13px',
+            fontWeight: 600, fontFamily: 'var(--font-label)', marginBottom: '35px', backdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.08)', transition: 'all 0.3s'
           }} className="hover-gold">
             <ArrowLeft size={18} /> Back to Packages
           </Link>
 
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <div style={{ display: 'flex', gap: '15px', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
-              <span style={{ textTransform: 'uppercase', fontWeight: 900, letterSpacing: '4px', color: 'var(--primary-gold)', fontSize: '11px', background: 'rgba(212, 175, 55, 0.1)', padding: '4px 12px', borderRadius: '50px' }}>
+              <span style={{ textTransform: 'uppercase', fontWeight: 600, fontFamily: 'var(--font-label)', letterSpacing: '4px', color: 'var(--primary-gold)', fontSize: '11px', background: 'rgba(232, 102, 10, 0.1)', padding: '4px 12px', borderRadius: 'var(--radius-badge)' }}>
                 {packageData.type}
               </span>
               <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }}></span>
-              <span style={{ textTransform: 'uppercase', fontWeight: 800, letterSpacing: '3px', color: 'rgba(255,255,255,0.6)', fontSize: '11px' }}>
+              <span style={{ textTransform: 'uppercase', fontWeight: 600, fontFamily: 'var(--font-label)', letterSpacing: '3px', color: 'rgba(255,255,255,0.6)', fontSize: '11px' }}>
                 {packageData.location}
               </span>
             </div>
@@ -235,11 +235,11 @@ const PackageDetails = () => {
             <div style={{ display: 'flex', gap: '30px', alignItems: 'center', flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Star fill="var(--primary-gold)" color="var(--primary-gold)" size={18} />
-                <span style={{ fontSize: '16px', fontWeight: 900 }}>
-                  {packageData.rating || '4.9'} <span style={{ opacity: 0.5, fontWeight: 600, fontSize: '13px' }}>(Verified Luxury Reviews)</span>
+                <span style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
+                  {packageData.rating || '4.9'} <span style={{ opacity: 0.5, fontWeight: 400, fontSize: '13px' }}>(Verified Luxury Reviews)</span>
                 </span>
               </div>
-              <button onClick={handleWhatsAppShare} style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.2)', color: 'var(--primary-gold)', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontWeight: 800, cursor: 'pointer', padding: '10px 20px', borderRadius: '50px', transition: '0.3s' }} className="hover-gold">
+              <button onClick={handleWhatsAppShare} style={{ background: 'rgba(232,102,10,0.1)', border: '1px solid rgba(232,102,10,0.2)', color: 'var(--primary-gold)', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-label)', cursor: 'pointer', padding: '10px 20px', borderRadius: 'var(--radius-button)', transition: '0.3s' }} className="hover-gold">
                 <Share2 size={16} /> Share on WhatsApp
               </button>
             </div>
@@ -256,16 +256,16 @@ const PackageDetails = () => {
             {/* Elegant Tab Headers */}
             <div style={{
               display: 'flex', gap: '6px', padding: '6px', background: 'rgba(255,255,255,0.03)',
-              borderRadius: '100px', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '45px', overflowX: 'auto'
+              borderRadius: 'var(--radius-button)', border: '1px solid rgba(255,255,255,0.06)', marginBottom: '45px', overflowX: 'auto'
             }} className="no-scrollbar">
               {tabs.map(tab => (
                 <button
                   key={tab.id} onClick={() => setActiveTab(tab.id)}
                   style={{
-                    flex: '1 0 auto', padding: '12px 20px', borderRadius: '100px', border: 'none',
+                    flex: '1 0 auto', padding: '12px 20px', borderRadius: 'var(--radius-button)', border: 'none',
                     background: activeTab === tab.id ? 'var(--gradient-gold)' : 'transparent',
                     color: activeTab === tab.id ? 'black' : 'rgba(255,255,255,0.6)',
-                    fontWeight: 900, cursor: 'pointer', transition: 'all 0.3s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px'
+                    fontWeight: 600, fontFamily: 'var(--font-label)', cursor: 'pointer', transition: 'all 0.3s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px'
                   }}
                 >
                   {tab.icon} {tab.label}
@@ -292,21 +292,21 @@ const PackageDetails = () => {
                     </p>
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }} className="mobile-stack">
-                      <div style={{ background: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: '16px', alignItems: 'center' }}>
-                        <div style={{ background: 'rgba(212, 175, 55, 0.08)', padding: '16px', borderRadius: '18px', color: 'var(--primary-gold)' }}>
+                      <div style={{ background: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: 'var(--radius-card)', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: '16px', alignItems: 'center' }}>
+                        <div style={{ background: 'rgba(232, 102, 10, 0.08)', padding: '16px', borderRadius: 'var(--radius-button)', color: 'var(--primary-gold)' }}>
                           <Clock size={28} />
                         </div>
                         <div>
-                          <p style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 4px' }}>DURATION</p>
+                          <p style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 4px' }}>DURATION</p>
                           <p style={{ fontSize: '18px', fontWeight: 800, margin: 0 }}>{packageData.duration || '5 Days / 4 Nights'}</p>
                         </div>
                       </div>
-                      <div style={{ background: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: '24px', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: '16px', alignItems: 'center' }}>
-                        <div style={{ background: 'rgba(212, 175, 55, 0.08)', padding: '16px', borderRadius: '18px', color: 'var(--primary-gold)' }}>
+                      <div style={{ background: 'rgba(255,255,255,0.02)', padding: '24px', borderRadius: 'var(--radius-card)', border: '1px solid rgba(255,255,255,0.04)', display: 'flex', gap: '16px', alignItems: 'center' }}>
+                        <div style={{ background: 'rgba(232, 102, 10, 0.08)', padding: '16px', borderRadius: 'var(--radius-button)', color: 'var(--primary-gold)' }}>
                           <Users size={28} />
                         </div>
                         <div>
-                          <p style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 4px' }}>GROUP SIZE</p>
+                          <p style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', margin: '0 0 4px' }}>GROUP SIZE</p>
                           <p style={{ fontSize: '18px', fontWeight: 800, margin: 0 }}>{packageData.group_size || 'Bespoke Private Group'}</p>
                         </div>
                       </div>
@@ -325,7 +325,7 @@ const PackageDetails = () => {
                       {/* Timeline Line */}
                       <div style={{
                         position: 'absolute', top: '15px', left: '15px', bottom: '15px', width: '2px',
-                        background: 'linear-gradient(to bottom, var(--primary-gold) 0%, rgba(212,175,55,0.1) 100%)'
+                        background: 'linear-gradient(to bottom, var(--primary-gold) 0%, rgba(232, 102, 10, 0.1) 100%)'
                       }}></div>
 
                       {itineraryDays.map((day, idx) => (
@@ -345,7 +345,7 @@ const PackageDetails = () => {
 
                           {/* Itinerary Accordion Card */}
                           <div style={{
-                            background: 'rgba(255,255,255,0.02)', borderRadius: '24px',
+                            background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-card)',
                             border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden', transition: 'all 0.3s'
                           }} className={expandedDays[idx] ? "card-active-border" : ""}>
 
@@ -355,14 +355,14 @@ const PackageDetails = () => {
                               style={{ padding: '24px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
                             >
                               <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
-                                <span style={{ color: 'var(--primary-gold)', fontWeight: 900, fontSize: '14px', textTransform: 'uppercase', letterSpacing: '2px' }}>
+                                <span style={{ color: 'var(--primary-gold)', fontWeight: 600, fontFamily: 'var(--font-label)', fontSize: '14px', textTransform: 'uppercase', letterSpacing: '2px' }}>
                                   {day.dayName}
                                 </span>
                                 <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'rgba(255,255,255,0.2)' }}></span>
                                 <h3 style={{ fontSize: '18px', fontWeight: 800, margin: 0 }}>{day.dayTitle}</h3>
                               </div>
                               <span style={{
-                                fontSize: '12px', fontWeight: 900, color: 'var(--primary-gold)',
+                                fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)',
                                 transform: expandedDays[idx] ? 'rotate(180deg)' : 'rotate(0deg)', transition: '0.3s'
                               }}>
                                 ▼
@@ -383,13 +383,13 @@ const PackageDetails = () => {
                                       {day.description || "Exciting scenic excursions and sightseeing highlights. Contact concierge for bespoke route personalization options."}
                                     </p>
                                     <div style={{ display: 'flex', gap: '20px', marginTop: '16px', flexWrap: 'wrap' }}>
-                                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 700 }}>
+                                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
                                         <MapPin size={12} color="var(--primary-gold)" /> Sightseeing
                                       </span>
-                                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 700 }}>
+                                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
                                         <Coffee size={12} color="var(--primary-gold)" /> Meals: Breakfast & Dinner
                                       </span>
-                                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 700 }}>
+                                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
                                         <Hotel size={12} color="var(--primary-gold)" /> Luxury Resort Stay
                                       </span>
                                     </div>
@@ -428,7 +428,7 @@ const PackageDetails = () => {
                               whileHover={{ y: -4 }}
                               key={index}
                               style={{
-                                background: 'rgba(255,255,255,0.02)', borderRadius: '28px', padding: '30px',
+                                background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-card)', padding: '30px',
                                 border: '1px solid rgba(255,255,255,0.05)', position: 'relative', overflow: 'hidden'
                               }}
                               className={cardGlowClass}
@@ -436,12 +436,12 @@ const PackageDetails = () => {
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '15px', marginBottom: '20px' }}>
                                 <div>
                                   <span style={{
-                                    fontSize: '11px', fontWeight: 900, padding: '6px 16px', borderRadius: '50px',
+                                    fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-label)', padding: '6px 16px', borderRadius: 'var(--radius-badge)',
                                     background: labelBg, color: labelColor, textTransform: 'uppercase', letterSpacing: '1px'
                                   }}>
                                     {hotel.tier}
                                   </span>
-                                  <h3 style={{ fontSize: '22px', fontWeight: 900, marginTop: '16px', color: 'white' }}>{hotel.name}</h3>
+                                  <h3 style={{ fontSize: '22px', fontWeight: 700, marginTop: '16px', color: 'white' }}>{hotel.name}</h3>
                                 </div>
                                 <div style={{ display: 'flex', gap: '3px' }}>
                                   {Array.from({ length: hotel.stars }).map((_, i) => (
@@ -455,13 +455,13 @@ const PackageDetails = () => {
                               </p>
 
                               <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: '20px' }}>
-                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 700 }}>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
                                   <CheckCircle size={14} color="var(--primary-gold)" /> Daily Buffet Breakfast
                                 </span>
-                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 700 }}>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
                                   <Shield size={14} color="var(--primary-gold)" /> Handpicked & Audited
                                 </span>
-                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 700 }}>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(255,255,255,0.4)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>
                                   <Compass size={14} color="var(--primary-gold)" /> Prime Location
                                 </span>
                               </div>
@@ -469,7 +469,7 @@ const PackageDetails = () => {
                           );
                         })
                       ) : (
-                        <div style={{ textAlign: 'center', padding: '50px 0', background: 'rgba(255,255,255,0.01)', borderRadius: '24px', opacity: 0.6 }}>
+                        <div style={{ textAlign: 'center', padding: '50px 0', background: 'rgba(255,255,255,0.01)', borderRadius: 'var(--radius-card)', opacity: 0.6 }}>
                           <Hotel size={40} style={{ marginBottom: '15px', color: 'var(--primary-gold)' }} />
                           <p>Top-rated 3-Star & 4-Star boutique accommodations included. Custom options shared during quotes.</p>
                         </div>
@@ -482,8 +482,8 @@ const PackageDetails = () => {
                 {activeTab === 'inclusions' && (
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }} className="mobile-stack">
                     {/* Inclusions Card */}
-                    <div style={{ background: 'rgba(212, 175, 55, 0.03)', padding: '40px', borderRadius: '32px', border: '1px solid rgba(212, 175, 55, 0.08)' }}>
-                      <h3 style={{ fontSize: '12px', fontWeight: 900, marginBottom: '30px', color: 'var(--primary-gold)', display: 'flex', alignItems: 'center', gap: '12px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+                    <div style={{ background: 'rgba(232, 102, 10, 0.03)', padding: '40px', borderRadius: 'var(--radius-card)', border: '1px solid rgba(232, 102, 10, 0.08)' }}>
+                      <h3 style={{ fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-label)', marginBottom: '30px', color: 'var(--primary-gold)', display: 'flex', alignItems: 'center', gap: '12px', textTransform: 'uppercase', letterSpacing: '3px' }}>
                         <CheckCircle size={18} /> What's Included
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
@@ -499,8 +499,8 @@ const PackageDetails = () => {
                     </div>
 
                     {/* Exclusions Card */}
-                    <div style={{ background: 'rgba(255, 255, 255, 0.01)', padding: '40px', borderRadius: '32px', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
-                      <h3 style={{ fontSize: '12px', fontWeight: 900, marginBottom: '30px', color: 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', gap: '12px', textTransform: 'uppercase', letterSpacing: '3px' }}>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.01)', padding: '40px', borderRadius: 'var(--radius-card)', border: '1px solid rgba(255, 255, 255, 0.04)' }}>
+                      <h3 style={{ fontSize: '12px', fontWeight: 600, fontFamily: 'var(--font-label)', marginBottom: '30px', color: 'rgba(255,255,255,0.4)', display: 'flex', alignItems: 'center', gap: '12px', textTransform: 'uppercase', letterSpacing: '3px' }}>
                         <XCircle size={18} /> Exclusions
                       </h3>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
@@ -547,7 +547,7 @@ const PackageDetails = () => {
                             position: 'absolute', inset: 0, background: 'linear-gradient(transparent 70%, rgba(0,0,0,0.8) 100%)',
                             opacity: 0, transition: '0.3s', display: 'flex', alignItems: 'flex-end', padding: '16px'
                           }} className="gallery-img-overlay">
-                            <span style={{ fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '1px' }}>EXPAND VIEW</span>
+                             <span style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', letterSpacing: '1px' }}>EXPAND VIEW</span>
                           </div>
                         </motion.div>
                       ))}
@@ -561,13 +561,13 @@ const PackageDetails = () => {
           {/* Sticky Book This Trip Sidebar */}
           <aside style={{ position: 'relative' }}>
             <div style={{
-              position: 'sticky', top: '110px', background: 'rgba(10, 10, 10, 0.7)',
-              backdropFilter: 'blur(30px)', borderRadius: '40px', padding: '40px 35px',
-              border: '1px solid rgba(212, 175, 55, 0.15)', boxShadow: '0 40px 100px rgba(0,0,0,0.6)'
+              position: 'sticky', top: '110px', background: 'rgba(37, 37, 37, 0.85)',
+              backdropFilter: 'blur(30px)', borderRadius: 'var(--radius-card)', padding: '40px 35px',
+              border: '1px solid rgba(232, 102, 10, 0.15)', boxShadow: '0 40px 100px rgba(0,0,0,0.6)'
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '2px' }}>BEST VALUED PRICE</span>
-                <span style={{ fontSize: '10px', background: 'rgba(212, 175, 55, 0.15)', color: 'var(--primary-gold)', padding: '2px 8px', borderRadius: '4px', fontWeight: 900 }}>Elite Package</span>
+                <span style={{ fontSize: '11px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', letterSpacing: '2px' }}>BEST VALUED PRICE</span>
+                <span style={{ fontSize: '10px', background: 'rgba(232, 102, 10, 0.15)', color: 'var(--primary-gold)', padding: '2px 8px', borderRadius: 'var(--radius-badge)', fontWeight: 600, fontFamily: 'var(--font-label)' }}>Elite Package</span>
               </div>
               <h3 style={{ fontSize: '40px', fontWeight: 950, color: 'white', marginBottom: '4px', letterSpacing: '-1.5px' }}>
                 ₹{packageData.price.toLocaleString()}
@@ -577,11 +577,11 @@ const PackageDetails = () => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '35px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(255,255,255,0.02)', padding: '12px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
                   <Shield size={18} color="var(--primary-gold)" />
-                  <p style={{ fontSize: '13px', fontWeight: 800, margin: 0 }}>Fully Insured Custom Itinerary</p>
+                  <p style={{ fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-label)', margin: 0 }}>Fully Insured Custom Itinerary</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(255,255,255,0.02)', padding: '12px 18px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.03)' }}>
                   <CalendarCheck size={18} color="var(--primary-gold)" />
-                  <p style={{ fontSize: '13px', fontWeight: 800, margin: 0 }}>Flexible Booking & Date Shifts</p>
+                  <p style={{ fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-label)', margin: 0 }}>Flexible Booking & Date Shifts</p>
                 </div>
               </div>
 
@@ -592,9 +592,9 @@ const PackageDetails = () => {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleWhatsAppBook}
                   style={{
-                    width: '100%', padding: '20px', borderRadius: '50px', border: 'none',
-                    background: 'var(--gradient-gold)', color: 'black', fontSize: '15px', fontWeight: 950,
-                    textTransform: 'uppercase', letterSpacing: '1px', boxShadow: '0 20px 40px rgba(212, 175, 55, 0.25)',
+                    width: '100%', padding: '20px', borderRadius: 'var(--radius-button)', border: 'none',
+                    background: 'var(--gradient-gold)', color: 'black', fontSize: '15px', fontWeight: 600, fontFamily: 'var(--font-label)',
+                    textTransform: 'uppercase', letterSpacing: '1px', boxShadow: '0 20px 40px rgba(232, 102, 10, 0.25)',
                     cursor: 'pointer', transition: 'all 0.3s', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'
                   }}
                 >
@@ -604,9 +604,9 @@ const PackageDetails = () => {
                 <button
                   onClick={() => setShowEnquiryModal(true)}
                   style={{
-                    width: '100%', padding: '18px', borderRadius: '50px',
+                    width: '100%', padding: '18px', borderRadius: 'var(--radius-button)',
                     background: 'transparent', color: 'white', border: '1px solid rgba(255,255,255,0.1)',
-                    fontSize: '13px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px',
+                    fontSize: '13px', fontWeight: 600, fontFamily: 'var(--font-label)', textTransform: 'uppercase', letterSpacing: '1px',
                     cursor: 'pointer', transition: 'all 0.3s'
                   }}
                   className="hover-gold"
@@ -691,22 +691,22 @@ const PackageDetails = () => {
       {/* Floating Sticky Mobile Booking Bar */}
       <div className="mobile-only-booking-bar" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0,
-        background: 'rgba(5,5,5,0.92)', backdropFilter: 'blur(25px)',
-        borderTop: '1px solid rgba(255,215,0,0.2)', padding: '16px 24px',
+        background: 'rgba(26,26,26,0.92)', backdropFilter: 'blur(25px)',
+        borderTop: '1px solid rgba(232, 102, 10, 0.2)', padding: '16px 24px',
         display: 'none', justifyContent: 'space-between', alignItems: 'center',
         zIndex: 999, boxShadow: '0 -20px 40px rgba(0,0,0,0.8)'
       }}>
         <div>
-          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', margin: 0, fontWeight: 800 }}>Best Deal Price</p>
-          <h4 style={{ fontSize: '20px', fontWeight: 950, color: 'var(--primary-gold)', margin: 0 }}>₹{packageData.price.toLocaleString()}</h4>
+          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', margin: 0, fontWeight: 600, fontFamily: 'var(--font-label)' }}>Best Deal Price</p>
+          <h4 style={{ fontSize: '20px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', margin: 0 }}>₹{packageData.price.toLocaleString()}</h4>
         </div>
         <button
           onClick={handleWhatsAppBook}
           style={{
             background: 'var(--gradient-gold)', color: 'black', border: 'none',
-            padding: '12px 24px', borderRadius: '30px', fontWeight: 950, fontSize: '12px',
+            padding: '12px 24px', borderRadius: 'var(--radius-button)', fontWeight: 600, fontFamily: 'var(--font-label)', fontSize: '12px',
             textTransform: 'uppercase', letterSpacing: '1px', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 10px 20px rgba(212, 175, 55, 0.2)'
+            display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 10px 20px rgba(232, 102, 10, 0.2)'
           }}
         >
           <MessageSquare size={14} /> Book Now
@@ -719,7 +719,7 @@ const PackageDetails = () => {
           <div className="modal-overlay" style={{ background: 'rgba(0,0,0,0.97)', backdropFilter: 'blur(15px)', zIndex: 9999 }}>
             <motion.div
               initial={{ opacity: 0, scale: 0.93, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: 30 }}
-              style={{ background: '#0e0e0e', width: '100%', maxWidth: '600px', borderRadius: '32px', padding: '50px', position: 'relative', border: '1px solid rgba(255,215,0,0.18)' }}
+              style={{ background: 'var(--secondary-black)', width: '100%', maxWidth: '600px', borderRadius: 'var(--radius-card)', padding: '50px', position: 'relative', border: '1px solid rgba(232, 102, 10, 0.18)' }}
             >
               <button onClick={() => setShowEnquiryModal(false)} style={{ position: 'absolute', top: '25px', right: '25px', background: 'none', border: 'none', color: 'white', cursor: 'pointer', opacity: 0.5 }} className="hover-gold"><X size={26} /></button>
 
@@ -738,26 +738,26 @@ const PackageDetails = () => {
 
                   <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                     <div className="luxury-input-group">
-                      <label style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Distinguished Name</label>
-                      <input required value={enquiryForm.name} onChange={e => setEnquiryForm({ ...enquiryForm, name: e.target.value })} type="text" placeholder="Full legal name" style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: '14px', color: 'white', fontSize: '15px', outline: 'none' }} />
+                      <label style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Distinguished Name</label>
+                      <input required value={enquiryForm.name} onChange={e => setEnquiryForm({ ...enquiryForm, name: e.target.value })} type="text" placeholder="Full legal name" style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: 'var(--radius-input)', color: 'white', fontSize: '15px', outline: 'none' }} />
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }} className="mobile-stack">
                       <div className="luxury-input-group">
-                        <label style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Electronic Mail</label>
-                        <input required value={enquiryForm.email} onChange={e => setEnquiryForm({ ...enquiryForm, email: e.target.value })} type="email" placeholder="email@address.com" style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: '14px', color: 'white', fontSize: '15px', outline: 'none' }} />
+                        <label style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Electronic Mail</label>
+                        <input required value={enquiryForm.email} onChange={e => setEnquiryForm({ ...enquiryForm, email: e.target.value })} type="email" placeholder="email@address.com" style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: 'var(--radius-input)', color: 'white', fontSize: '15px', outline: 'none' }} />
                       </div>
                       <div className="luxury-input-group">
-                        <label style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Contact Number</label>
-                        <input value={enquiryForm.phone} onChange={e => setEnquiryForm({ ...enquiryForm, phone: e.target.value })} type="tel" placeholder="+91..." style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: '14px', color: 'white', fontSize: '15px', outline: 'none' }} />
+                        <label style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Electronic Phone</label>
+                        <input value={enquiryForm.phone} onChange={e => setEnquiryForm({ ...enquiryForm, phone: e.target.value })} type="tel" placeholder="+91..." style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: 'var(--radius-input)', color: 'white', fontSize: '15px', outline: 'none' }} />
                       </div>
                     </div>
                     <div className="luxury-input-group">
-                      <label style={{ fontSize: '10px', fontWeight: 900, color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Bespoke Requests</label>
-                      <textarea required value={enquiryForm.message} onChange={e => setEnquiryForm({ ...enquiryForm, message: e.target.value })} rows="3" placeholder="Share your travel dates or custom wishes..." style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: '14px', color: 'white', fontSize: '15px', outline: 'none', resize: 'none' }}></textarea>
+                      <label style={{ fontSize: '10px', fontWeight: 600, fontFamily: 'var(--font-label)', color: 'var(--primary-gold)', letterSpacing: '1.5px', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Bespoke Requests</label>
+                      <textarea required value={enquiryForm.message} onChange={e => setEnquiryForm({ ...enquiryForm, message: e.target.value })} rows="3" placeholder="Share your travel dates or custom wishes..." style={{ width: '100%', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.08)', padding: '16px 20px', borderRadius: 'var(--radius-input)', color: 'white', fontSize: '15px', outline: 'none', resize: 'none' }}></textarea>
                     </div>
                     <button type="submit" disabled={enquiryStatus === 'loading'} style={{
-                      width: '100%', padding: '18px', borderRadius: '50px', border: 'none',
-                      background: 'var(--gradient-gold)', color: 'black', fontSize: '14px', fontWeight: 950,
+                      width: '100%', padding: '18px', borderRadius: 'var(--radius-button)', border: 'none',
+                      background: 'var(--gradient-gold)', color: 'black', fontSize: '14px', fontWeight: 600, fontFamily: 'var(--font-label)',
                       textTransform: 'uppercase', letterSpacing: '1.5px', cursor: 'pointer', transition: '0.3s', marginTop: '10px'
                     }}>
                       {enquiryStatus === 'loading' ? 'Submitting Details...' : 'Request Luxury Reservation'}

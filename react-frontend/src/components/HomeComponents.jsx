@@ -2,72 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShieldCheck, MapPin, Star, UserCheck, Heart, ArrowRight, Instagram, Phone, MessageCircle, Clock, Users, IndianRupee, Quote } from 'lucide-react';
+import { ShieldCheck, MapPin, Star, UserCheck, Heart, ArrowRight, Instagram, Phone, MessageCircle, Clock, Users, IndianRupee, Quote, Mountain, Trees, TreePine, Compass, Tent, Crown, Sunset, Sunrise, Leaf, Waves } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+
+const resolveImageUrl = (image) => {
+  if (!image) return 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&fm=webp';
+  if (image.startsWith('http') || image.startsWith('/')) {
+    if (image.includes('unsplash.com') && !image.includes('fm=webp')) {
+      return `${image}&fm=webp`;
+    }
+    return image;
+  }
+  return `/api/uploads/${image}`;
+};
 
 export const TripCard = ({ isGujarati }) => {
   return (
     <div className="trip-card">
       {/* Placeholder for now */}
-    </div>
-  );
-};
-
-export const CounterStats = ({ isGujarati }) => {
-  const stats = [
-    { value: '52K+', label: isGujarati ? 'ખુશ પ્રવાસીઓ' : 'Global Explorers' },
-    { value: '4.9★', label: isGujarati ? 'જસ્ટડાયલ રેટિંગ' : 'Impeccable Rating' },
-    { value: '50+', label: isGujarati ? 'નવા સ્થળો' : 'Hidden Gems' },
-    { value: '5+', label: isGujarati ? 'વર્ષનો અનુભવ' : 'Years of Excellence' }
-  ];
-
-  return (
-    <div className="container">
-      <div className="stats-row" style={{
-        padding: 'clamp(40px, 6vw, 100px)',
-        margin: 'clamp(-60px, -8vw, -120px) auto 100px',
-        position: 'relative',
-        zIndex: 50,
-        display: 'flex',
-        justifyContent: 'space-around',
-        flexWrap: 'wrap',
-        gap: '40px',
-        background: 'rgba(10, 10, 10, 0.8)',
-        backdropFilter: 'blur(30px)',
-        borderRadius: '40px',
-        border: '1px solid rgba(212, 175, 55, 0.15)',
-        boxShadow: '0 50px 100px rgba(0,0,0,0.9)'
-      }}>
-        {stats.map((stat, i) => (
-          <motion.div 
-            key={i} 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1, duration: 0.8 }}
-            viewport={{ once: true }}
-            className="stat-card" 
-            style={{ flex: '1 1 180px', textAlign: 'center' }}
-          >
-            <h3 style={{ 
-              fontSize: 'clamp(36px, 5vw, 56px)', 
-              background: 'var(--gradient-gold)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent',
-              fontFamily: 'var(--font-heading)',
-              fontWeight: 900,
-              marginBottom: '10px'
-            }}>{stat.value}</h3>
-            <p style={{ 
-              fontWeight: 700, 
-              fontSize: '11px', 
-              color: 'rgba(255,255,255,0.4)', 
-              letterSpacing: '3px', 
-              textTransform: 'uppercase' 
-            }}>{stat.label}</p>
-          </motion.div>
-        ))}
-      </div>
     </div>
   );
 };
@@ -104,7 +57,7 @@ export const WhyChooseUs = ({ isGujarati }) => {
             >
               <div className="glass-icon" style={{ marginBottom: '35px' }}>{card.icon}</div>
               <h3 style={{ fontSize: '24px', marginBottom: '20px', fontWeight: 500 }}>{card.title}</h3>
-              <p style={{ opacity: 0.6, fontSize: '15px', lineHeight: '1.7', color: 'rgba(255,255,255,0.8)' }}>{card.desc}</p>
+              <p style={{ opacity: 0.6, fontSize: '15px', lineHeight: '1.7', color: 'var(--text-light)' }}>{card.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -141,9 +94,9 @@ export const DestinationGrid = ({ isGujarati }) => {
     <div style={{ 
       textAlign: 'center', 
       padding: '120px 40px', 
-      background: 'rgba(212, 175, 55, 0.02)', 
-      borderRadius: '40px', 
-      border: '1px solid rgba(212, 175, 55, 0.1)',
+      background: 'rgba(232, 102, 10, 0.02)', 
+      borderRadius: 'var(--radius-card)', 
+      border: '1px solid rgba(232, 102, 10, 0.1)',
       backdropFilter: 'blur(10px)'
     }}>
       <p style={{ fontWeight: 500, color: 'rgba(255,255,255,0.4)', fontSize: '18px', letterSpacing: '1px' }}>
@@ -180,9 +133,9 @@ export const DestinationGrid = ({ isGujarati }) => {
           <Link href={`/packages/${dest.slug || dest.id}`} className="dest-card-premium" style={{ 
             display: 'block', 
             position: 'relative', 
-            borderRadius: '40px', 
+            borderRadius: 'var(--radius-card)', 
             overflow: 'hidden',
-            aspectRatio: '4/5',
+            aspectRatio: '16/9',
             textDecoration: 'none',
             background: '#111',
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
@@ -205,17 +158,18 @@ export const DestinationGrid = ({ isGujarati }) => {
             {/* Price/Type Tag */}
             <div style={{ 
               position: 'absolute', 
-              top: '30px', 
-              right: '30px',
+              top: '20px', 
+              right: '20px',
               background: 'rgba(5, 5, 5, 0.6)',
               backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
+              border: '1px solid rgba(232, 102, 10, 0.3)',
               color: 'var(--primary-gold)',
-              padding: '8px 18px',
-              borderRadius: '50px',
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-badge)',
               fontSize: '12px',
-              fontWeight: 800,
-              zIndex: 5
+              fontWeight: 600,
+              zIndex: 5,
+              fontFamily: 'var(--font-label)'
             }}>
               {dest.price ? `From ₹${dest.price}` : 'Signature'}
             </div>
@@ -232,13 +186,14 @@ export const DestinationGrid = ({ isGujarati }) => {
               <div style={{ 
                 color: 'var(--primary-gold)', 
                 fontSize: '10px', 
-                fontWeight: 900, 
+                fontWeight: 600, 
                 textTransform: 'uppercase', 
                 letterSpacing: '2px',
                 marginBottom: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px'
+                gap: '6px',
+                fontFamily: 'var(--font-label)'
               }}>
                 <MapPin size={10} /> {dest.location}
               </div>
@@ -260,9 +215,10 @@ export const DestinationGrid = ({ isGujarati }) => {
                 gap: '10px', 
                 color: 'white', 
                 fontSize: '12px', 
-                fontWeight: 700,
+                fontWeight: 600,
                 letterSpacing: '1px',
-                opacity: 0.8
+                opacity: 0.8,
+                fontFamily: 'var(--font-label)'
               }}>
                 <span style={{ borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: '4px' }}>
                   {isGujarati ? 'પેકેજો જુઓ' : 'View Portfolio'}
@@ -296,7 +252,7 @@ export const Testimonials = ({ isGujarati }) => {
   ];
 
   return (
-    <section className="testimonials" style={{ background: '#080808', padding: '150px 0' }}>
+    <section className="testimonials" style={{ background: 'var(--primary-black)', padding: '150px 0' }}>
       <div className="container">
         <div className="section-header">
           <h6>{isGujarati ? 'અમારા પ્રવાસીઓ' : 'Voices of Sophistication'}</h6>
@@ -319,7 +275,7 @@ export const Testimonials = ({ isGujarati }) => {
             >
               <Quote size={40} color="var(--primary-gold)" style={{ opacity: 0.2, marginBottom: '30px' }} />
               <p className="review-text" style={{ 
-                color: 'rgba(255,255,255,0.8)', 
+                color: 'var(--text-light)', 
                 fontSize: '18px', 
                 lineHeight: '1.8', 
                 marginBottom: '40px',
@@ -341,8 +297,8 @@ export const Testimonials = ({ isGujarati }) => {
                     {rev.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 style={{ color: 'white', margin: '0 0 5px 0', fontSize: '18px', fontWeight: 500 }}>{rev.name}</h4>
-                  <p style={{ color: 'var(--primary-gold)', fontSize: '11px', margin: 0, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px' }}>{rev.location}</p>
+                  <h4 style={{ color: 'var(--text-light)', margin: '0 0 5px 0', fontSize: '18px', fontWeight: 500 }}>{rev.name}</h4>
+                  <p style={{ color: 'var(--primary-gold)', fontSize: '11px', margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '2px', fontFamily: 'var(--font-label)' }}>{rev.location}</p>
                 </div>
               </div>
             </motion.div>
@@ -402,177 +358,145 @@ export const InstagramFeed = ({ isGujarati }) => {
   );
 };
 
-export const AdventurePlanner = ({ isGujarati }) => {
-  const [step, setStep] = useState(0);
-  const [preferences, setPreferences] = useState({ vibe: '', region: '' });
-  const [matches, setMatches] = useState([]);
-  const [allPackages, setAllPackages] = useState([]);
+export const DestinationBar = ({ isGujarati }) => {
+  const [destinations, setDestinations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('packages')
+    axios.get('settings/destinations')
       .then(res => {
-        const dataArray = Array.isArray(res.data) ? res.data : (res.data.data || []);
-        setAllPackages(dataArray);
+        setDestinations(res.data.destinations || []);
+        setLoading(false);
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error("Failed to fetch destinations:", err);
+        setLoading(false);
+      });
   }, []);
 
-  const handleChoice = (key, value) => {
-    const newPrefs = { ...preferences, [key]: value };
-    setPreferences(newPrefs);
-    
-    if (step === 1) {
-      const matched = allPackages.filter(pkg => {
-        const typeMatch = (pkg.type || "").toLowerCase().includes(newPrefs.vibe.toLowerCase());
-        const locMatch = (pkg.location || "").toLowerCase().includes(newPrefs.region.toLowerCase());
-        return typeMatch || locMatch;
-      }).slice(0, 3);
-      setMatches(matched);
-      setStep(2);
-    } else {
-      setStep(step + 1);
-    }
-  };
-
-  const steps = [
-    {
-      title: isGujarati ? "તમને શું વધુ ગમે છે?" : "What defines your journey?",
-      key: 'vibe',
-      options: [
-        { label: isGujarati ? 'પહાડો' : 'The Mountains', value: 'Mountain', icon: '⛰️' },
-        { label: isGujarati ? 'દરિયો' : 'Coastal Serenity', value: 'Beach', icon: '🏖️' },
-        { label: isGujarati ? 'સંસ્કૃતિ' : 'Cultural Heritage', value: 'Culture', icon: '🏯' }
-      ]
-    },
-    {
-      title: isGujarati ? "ક્યાં જવું છે?" : "Where shall we go?",
-      key: 'region',
-      options: [
-        { label: isGujarati ? 'ભારત' : 'Domestic Elegance', value: 'India', icon: '🇮🇳' },
-        { label: isGujarati ? 'વિદેશ' : 'Global Expeditions', value: 'International', icon: '🌍' }
-      ]
-    }
-  ];
+  if (loading || destinations.length === 0) {
+    return (
+      <section className="destination-bar-section" style={{ 
+        padding: '20px 0', 
+        background: 'transparent', 
+        borderBottom: 'none'
+      }}>
+        <div className="container">
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: 'var(--text-light)',
+            opacity: 0.6,
+            fontSize: '11px',
+            fontWeight: 700,
+            letterSpacing: '1px',
+            fontFamily: 'var(--font-label)'
+          }}>
+            Loading Destinations...
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section className="adventure-planner-section" style={{ padding: '150px 0', background: 'var(--secondary-black)', color: 'white', borderTop: '1px solid rgba(212, 175, 55, 0.1)' }}>
+    <section className="destination-bar-section" style={{ 
+      padding: '10px 0', 
+      background: 'transparent', 
+      borderBottom: 'none'
+    }}>
       <div className="container">
-        <div className="section-header">
-          <h6>{isGujarati ? 'તમારી પરફેક્ટ ટ્રિપ શોધો' : 'The Bespoke Experience'}</h6>
-          <h2>{isGujarati ? 'તમારી પરફેક્ટ ટ્રિપ શોધો' : 'Your Signature Itinerary'}</h2>
-          <p style={{ opacity: 0.5, fontSize: '18px', marginTop: '20px', maxWidth: '600px', marginInline: 'auto' }}>
-            {isGujarati ? 'ફક્ત ૨ પ્રોશ્નો અને તમારો પ્રવાસ તૈયાર!' : 'Answer two simple questions and let us curate a journey that resonates with your soul.'}
-          </p>
-        </div>
-
-        <div className="planner-container" style={{ maxWidth: '800px', margin: '0 auto', minHeight: '400px', position: 'relative' }}>
-          <AnimatePresence mode="wait">
-            {step < 2 ? (
-              <motion.div 
-                key={step} 
-                initial={{ opacity: 0, x: 20 }} 
-                animate={{ opacity: 1, x: 0 }} 
-                exit={{ opacity: 0, x: -20 }}
-                style={{ textAlign: 'center' }}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          gap: '20px',
+          overflowX: 'auto',
+          padding: '4px 0',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }} className="no-scrollbar">
+          {destinations.map((dest, i) => (
+            <Link 
+              key={i} 
+              href={`/packages?search=${dest.searchKey}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <motion.div
+                whileHover={{ y: -3, scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  minWidth: '90px',
+                  textAlign: 'center'
+                }}
               >
-                <h3 style={{ marginBottom: '50px', fontSize: '28px', fontWeight: 300, fontFamily: 'var(--font-heading)' }}>{steps[step].title}</h3>
-                <div style={{ display: 'flex', gap: '30px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                  {steps[step].options.map((opt, i) => (
-                    <motion.button
-                      key={i}
-                      whileHover={{ scale: 1.05, borderColor: 'var(--primary-gold)' }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={() => handleChoice(steps[step].key, opt.value)}
-                      style={{
-                        padding: '40px 30px',
-                        background: 'rgba(255,255,255,0.03)',
-                        border: '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '30px',
-                        color: 'white',
-                        cursor: 'pointer',
-                        minWidth: '200px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: '20px',
-                        transition: 'var(--transition)'
-                      }}
-                    >
-                      <span style={{ fontSize: '48px' }}>{opt.icon}</span>
-                      <span style={{ fontWeight: 700, fontSize: '14px', letterSpacing: '1px', textTransform: 'uppercase' }}>{opt.label}</span>
-                    </motion.button>
-                  ))}
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div 
-                key="results" 
-                initial={{ opacity: 0, scale: 0.95 }} 
-                animate={{ opacity: 1, scale: 1 }}
-                style={{ textAlign: 'center' }}
-              >
-                <h3 style={{ marginBottom: '40px', fontWeight: 300, fontSize: '28px', fontFamily: 'var(--font-heading)' }}>{isGujarati ? 'અમારા સૂચનો' : 'Curated Just for You'}</h3>
-                {matches.length > 0 ? (
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '30px' }}>
-                    {matches.map((match, i) => (
-                      <Link key={match.slug || match.id || i} href={`/packages/${match.slug || match.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <motion.div 
-                          whileHover={{ y: -10 }}
-                          className="premium-card"
-                          style={{ padding: '0', borderRadius: '30px', overflow: 'hidden' }}
-                        >
-                          <div style={{ position: 'relative', height: '200px', width: '100%', overflow: 'hidden' }}>
-                            <Image 
-                              src={(match.image || "").startsWith('http') ? match.image : `/api/uploads/${match.image}`} 
-                              alt={match.title}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 33vw"
-                              className="object-cover"
-                              onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80'; }}
-                            />
-                          </div>
-                          <div style={{ padding: '25px', textAlign: 'left' }}>
-                            <h4 style={{ margin: '0 0 10px 0', fontSize: '18px', fontWeight: 500 }}>{match.title}</h4>
-                            <p style={{ color: 'var(--primary-gold)', fontWeight: 800, fontSize: '16px' }}>₹{(match.price || 0).toLocaleString()}</p>
-                          </div>
-                        </motion.div>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <div style={{ padding: '60px', opacity: 0.5 }}>
-                    <p>{isGujarati ? 'તમારી પસંદગી મુજબ અત્યારે કોઈ પેકેજ નથી.' : 'No signature matches found. Perhaps explore our entire collection?'}</p>
-                    <Link href="/packages"><button className="btn-primary-large" style={{ marginTop: '30px' }}>View All Packages</button></Link>
-                  </div>
-                )}
-                <button 
-                  onClick={() => setStep(0)} 
-                  style={{ 
-                    marginTop: '50px', 
-                    background: 'none', 
-                    border: 'none', 
-                    color: 'rgba(255,255,255,0.4)', 
-                    cursor: 'pointer', 
-                    fontWeight: 700, 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '10px',
-                    marginInline: 'auto',
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '2px'
-                  }}
+                <div style={{
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '50%',
+                  background: 'rgba(232, 102, 10, 0.03)',
+                  border: '1.5px solid rgba(232, 102, 10, 0.35)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                }}
+                className="dest-icon-container"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--primary-gold)';
+                  e.currentTarget.style.boxShadow = '0 0 12px rgba(232, 102, 10, 0.5)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(232, 102, 10, 0.35)';
+                  e.currentTarget.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+                  const img = e.currentTarget.querySelector('img');
+                  if (img) img.style.transform = 'scale(1.0)';
+                }}
                 >
-                   {isGujarati ? 'ફરીથી પ્રયાસ કરો' : 'Start Over'} <ArrowRight size={16} />
-                </button>
+                  <Image 
+                    src={resolveImageUrl(dest.image)} 
+                    alt={isGujarati ? dest.name_gu : dest.name_en} 
+                    fill 
+                    sizes="56px"
+                    className="object-cover"
+                    style={{ transition: 'transform 0.3s ease' }}
+                    onError={(e) => { 
+                      e.currentTarget.onerror = null; 
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=150&q=80"; 
+                    }}
+                  />
+                </div>
+                <span style={{
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: 'var(--text-light)',
+                  opacity: 0.8,
+                  letterSpacing: '1.2px',
+                  fontFamily: 'var(--font-label)',
+                  textTransform: 'uppercase'
+                }}>
+                  {isGujarati ? dest.name_gu : dest.name_en}
+                </span>
               </motion.div>
-            )}
-          </AnimatePresence>
+            </Link>
+          ))}
         </div>
       </div>
     </section>
   );
 };
+
 
 
 

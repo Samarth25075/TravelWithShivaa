@@ -1,9 +1,10 @@
 import '../index.css';
-import { Inter, Playfair_Display } from 'next/font/google';
+import { Playfair_Display, Inter, Josefin_Sans } from 'next/font/google';
 import ClientLayout from './ClientLayout';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans', weight: ['400', '500'] });
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-serif', weight: ['500'] });
+const playfairDisplay = Playfair_Display({ subsets: ['latin'], variable: '--font-serif', weight: ['400', '700', '900'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans', weight: ['400', '500', '600', '700'] });
+const josefinSans = Josefin_Sans({ subsets: ['latin'], variable: '--font-josefin', weight: ['400', '600'] });
 
 export const metadata = {
   metadataBase: new URL('https://travelbookshiva.in'),
@@ -18,7 +19,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${inter.variable} ${playfairDisplay.variable} ${josefinSans.variable}`}>
       <head>
         <link id="favicon" rel="icon" type="image/png" href="/api/uploads/logo.png" />
         <script

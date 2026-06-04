@@ -1,9 +1,15 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function IntroLoader({ onComplete }) {
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // Generate random particles once on mount using useMemo to avoid re-rendering layout changes
   const particles = useMemo(() => {
     return Array.from({ length: 25 }).map((_, i) => ({
@@ -81,14 +87,15 @@ export default function IntroLoader({ onComplete }) {
   }, [onComplete]);
 
   // Split names for individual letter animation
-  const shivLetters = ['S', 'h', 'i', 'v'];
   const travelLetters = ['T', 'r', 'a', 'v', 'e', 'l'];
+  const bookLetters = ['B', 'o', 'o', 'k'];
+  const shivaLetters = ['S', 'h', 'i', 'v', 'a'];
 
   return (
     <motion.div
       className="fixed inset-0 w-full h-full flex flex-col items-center justify-center overflow-hidden select-none initial-intro-loader"
       style={{
-        background: '#0d0d0f',
+        background: '#1A1A1A',
         zIndex: 99999, // Ensure it sits above absolute navbar and widgets
       }}
       initial={{ opacity: 1 }}
@@ -101,7 +108,7 @@ export default function IntroLoader({ onComplete }) {
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full blur-[150px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(201, 168, 76, 0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(232, 102, 10, 0.08) 0%, transparent 70%)',
           top: '20%',
           left: '15%',
         }}
@@ -119,7 +126,7 @@ export default function IntroLoader({ onComplete }) {
       <motion.div
         className="absolute w-[600px] h-[600px] rounded-full blur-[180px] pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(201, 168, 76, 0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(232, 102, 10, 0.06) 0%, transparent 70%)',
           bottom: '10%',
           right: '10%',
         }}
@@ -138,16 +145,16 @@ export default function IntroLoader({ onComplete }) {
 
       {/* 2. Floating Golden Particles (Dust Effect) */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-10">
-        {particles.map((p) => (
+        {isMounted && particles.map((p) => (
           <motion.div
             key={p.id}
-            className="absolute rounded-full bg-[#c9a84c]"
+            className="absolute rounded-full bg-[#E8660A]"
             style={{
               left: `${p.x}%`,
               top: `${p.y}%`,
               width: p.size,
               height: p.size,
-              boxShadow: '0 0 8px rgba(201, 168, 76, 0.6)',
+              boxShadow: '0 0 8px rgba(232, 102, 10, 0.6)',
             }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{
@@ -170,7 +177,7 @@ export default function IntroLoader({ onComplete }) {
       <div className="relative z-20 flex flex-col items-center justify-center text-center px-6">
         {/* SVG Compass/Travel Indicator */}
         <div className="relative mb-6">
-          <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#c9a84c]">
+          <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#E8660A]">
             {/* Outer self-drawing ring */}
             <motion.circle
               cx="50"
@@ -204,15 +211,15 @@ export default function IntroLoader({ onComplete }) {
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinejoin="round"
-              initial={{ pathLength: 0, fill: 'rgba(201, 168, 76, 0)' }}
-              animate={{ pathLength: 1, fill: 'rgba(201, 168, 76, 0.08)' }}
+              initial={{ pathLength: 0, fill: 'rgba(232, 102, 10, 0)' }}
+              animate={{ pathLength: 1, fill: 'rgba(232, 102, 10, 0.08)' }}
               transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
             />
             {/* Cardinal direction indicators (tiny dots) */}
-            <motion.circle cx="50" cy="8" r="1.5" fill="#f5f0e8" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 }} />
-            <motion.circle cx="92" cy="50" r="1.5" fill="#f5f0e8" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.1 }} />
-            <motion.circle cx="50" cy="92" r="1.5" fill="#f5f0e8" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.2 }} />
-            <motion.circle cx="8" cy="50" r="1.5" fill="#f5f0e8" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.3 }} />
+            <motion.circle cx="50" cy="8" r="1.5" fill="#ffffff" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1 }} />
+            <motion.circle cx="92" cy="50" r="1.5" fill="#ffffff" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.1 }} />
+            <motion.circle cx="50" cy="92" r="1.5" fill="#ffffff" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.2 }} />
+            <motion.circle cx="8" cy="50" r="1.5" fill="#ffffff" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 1.3 }} />
           </svg>
         </div>
 
@@ -223,27 +230,40 @@ export default function IntroLoader({ onComplete }) {
           animate="visible"
           className="flex flex-col items-center"
         >
-          <div className="flex items-center gap-[4px] md:gap-[6px] overflow-hidden py-1">
-            {/* "Shiv" part in White */}
-            <span className="flex mr-2">
-              {shivLetters.map((char, index) => (
+          <div className="flex items-center gap-[2px] md:gap-[4px] overflow-hidden py-1">
+            {/* "Travel" part in White */}
+            <span className="flex">
+              {travelLetters.map((char, index) => (
                 <motion.span
-                  key={`shiv-${index}`}
+                  key={`travel-${index}`}
                   variants={letterVariants}
-                  className="font-serif text-[32px] md:text-[46px] font-light text-[#f5f0e8] inline-block tracking-[0.02em]"
+                  className="font-serif text-[32px] md:text-[46px] font-light text-[#ffffff] inline-block tracking-[0.02em]"
                 >
                   {char}
                 </motion.span>
               ))}
             </span>
 
-            {/* "Travel" part in Gold */}
+            {/* "Book" part in Orange */}
             <span className="flex">
-              {travelLetters.map((char, index) => (
+              {bookLetters.map((char, index) => (
                 <motion.span
-                  key={`travel-${index}`}
+                  key={`book-${index}`}
                   variants={letterVariants}
-                  className="font-serif text-[32px] md:text-[46px] font-light text-[#c9a84c] inline-block tracking-[0.02em]"
+                  className="font-serif text-[32px] md:text-[46px] font-light text-[#E8660A] inline-block tracking-[0.02em]"
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </span>
+
+            {/* "Shiva" part in White */}
+            <span className="flex">
+              {shivaLetters.map((char, index) => (
+                <motion.span
+                  key={`shiva-${index}`}
+                  variants={letterVariants}
+                  className="font-serif text-[32px] md:text-[46px] font-light text-[#ffffff] inline-block tracking-[0.02em]"
                 >
                   {char}
                 </motion.span>
@@ -251,17 +271,17 @@ export default function IntroLoader({ onComplete }) {
             </span>
           </div>
 
-          {/* Thin Glowing Elegant Divider Line */}
+          {/* Thin Glowing Divider Line */}
           <motion.div
             variants={lineVariants}
-            className="h-[1px] bg-gradient-to-r from-transparent via-[#c9a84c] to-transparent my-4 w-[160px] md:w-[220px]"
+            className="h-[1px] bg-gradient-to-r from-transparent via-[#E8660A] to-transparent my-4 w-[200px] md:w-[280px]"
             style={{ transformOrigin: 'center' }}
           />
 
           {/* Subtitle */}
           <motion.p
             variants={subtitleVariants}
-            className="font-sans text-[9px] md:text-[10px] uppercase font-semibold text-[#f5f0e8] opacity-60 tracking-[4px] md:tracking-[6px] mt-1"
+            className="font-sans text-[9px] md:text-[10px] uppercase font-semibold text-[#ffffff] opacity-60 tracking-[4px] md:tracking-[6px] mt-1"
           >
             Luxury Curated Adventures
           </motion.p>

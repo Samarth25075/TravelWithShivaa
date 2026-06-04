@@ -128,7 +128,7 @@ def send_admin_notification(enquiry_data: dict):
         Warm regards,
         The Concierge Team
         Shiv Travel
-        +91 93136 34723
+        +91 93136 34723 / +91 87802 76978
         """
         msg_customer.attach(MIMEText(body_customer, 'plain'))
 
@@ -408,6 +408,35 @@ async def update_site_logo(data: schemas.SiteLogoUpdate, db_mongo = Depends(get_
         upsert=True
     )
     return {"status": "success", "logo_url": data.logo_url}
+
+@app.get("/api/settings/destinations")
+async def get_destinations(db_mongo = Depends(get_mongo_db)):
+    settings = await db_mongo["settings"].find_one({"key": "destinations"})
+    if not settings:
+        defaults = [
+            {"name_en": "Manali", "name_gu": "મનાલી", "searchKey": "Manali", "image": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Kashmir", "name_gu": "કાશ્મીર", "searchKey": "Kashmir", "image": "https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Spiti", "name_gu": "સ્પિતિ", "searchKey": "Spiti", "image": "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Kutch", "name_gu": "કચ્છ", "searchKey": "Kutch", "image": "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Udaipur", "name_gu": "ઉદયપુર", "searchKey": "Udaipur", "image": "https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Jaisalmer", "name_gu": "જેસલમેર", "searchKey": "Jaisalmer", "image": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Matheran", "name_gu": "માથેરાન", "searchKey": "Matheran", "image": "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Saputara", "name_gu": "સાપુતારા", "searchKey": "Saputara", "image": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Dwarka Somnath", "name_gu": "દ્વારકા સોમનાથ", "searchKey": "Dwarka Somnath", "image": "https://images.unsplash.com/photo-1616038242814-a6eac7845d88?auto=format&fit=crop&w=150&q=80"},
+            {"name_en": "Goa", "name_gu": "ગોવા", "searchKey": "Goa", "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=150&q=80"}
+        ]
+        return {"destinations": defaults}
+    return {"destinations": settings["destinations"]}
+
+@app.post("/api/settings/destinations")
+async def update_destinations(data: schemas.DestinationListUpdate, db_mongo = Depends(get_mongo_db)):
+    dest_list = [d.dict() for d in data.destinations]
+    await db_mongo["settings"].update_one(
+        {"key": "destinations"},
+        {"$set": {"destinations": dest_list, "updated_at": datetime.now()}},
+        upsert=True
+    )
+    return {"status": "success", "destinations": dest_list}
 
 # Upload image
 @app.post("/api/upload")

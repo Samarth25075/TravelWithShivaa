@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
-  Plus, Edit, Trash, CheckCircle, XCircle, Search, 
+  Plus, Edit, Trash, CheckCircle, XCircle, Search, MapPin,
   MessageSquare, Package as PackageIcon, Clock, 
   User, Users, Phone, Mail, RotateCcw, Image as ImageIcon,
   LayoutDashboard, TrendingUp, Calendar, ChevronRight,
@@ -30,6 +30,7 @@ const AdminDashboard = () => {
   const [instaPosts, setInstaPosts] = useState([]);
   const [siteLogo, setSiteLogo] = useState('/logo.png');
   const [activeTab, setActiveTab] = useState('packages');
+  const [destinations, setDestinations] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -37,7 +38,7 @@ const AdminDashboard = () => {
   const { refreshSettings } = useSettings();
 
   const router = useRouter();
-  const location = usePathname();
+  const pathname = usePathname();
 
   const getImageUrl = (image) => {
     if (!image) return null;
@@ -92,35 +93,38 @@ const AdminDashboard = () => {
     }
 
     // Sync tab with URL
-    const path = location.pathname;
-    if (path.includes('/enquiries')) setActiveTab('enquiries');
-    else if (path.includes('/packages')) setActiveTab('packages');
-    else if (path.includes('/blogs')) setActiveTab('blogs');
-    else if (path.includes('/group-trips')) setActiveTab('group-trips');
-    else if (path.includes('/home-carousel')) setActiveTab('home-carousel');
-    else if (path.includes('/insta-feed')) setActiveTab('insta-feed');
-    else if (path.includes('/branding')) setActiveTab('branding');
-    else if (path.includes('/dashboard')) setActiveTab('dashboard');
+    const path = pathname;
+    if (path && path.includes('/enquiries')) setActiveTab('enquiries');
+    else if (path && path.includes('/packages')) setActiveTab('packages');
+    else if (path && path.includes('/blogs')) setActiveTab('blogs');
+    else if (path && path.includes('/group-trips')) setActiveTab('group-trips');
+    else if (path && path.includes('/home-carousel')) setActiveTab('home-carousel');
+    else if (path && path.includes('/insta-feed')) setActiveTab('insta-feed');
+    else if (path && path.includes('/branding')) setActiveTab('branding');
+    else if (path && path.includes('/destinations')) setActiveTab('destinations');
+    else if (path && path.includes('/dashboard')) setActiveTab('dashboard');
     else setActiveTab('packages');
 
     fetchData();
-  }, [location.pathname]);
+  }, [pathname]);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [pkgsRes, enqRes, statsRes, blogsRes, tripsRes] = await Promise.all([
+      const [pkgsRes, enqRes, statsRes, blogsRes, tripsRes, destsRes] = await Promise.all([
         axios.get('admin/packages'),
         axios.get('admin/enquiries'),
         axios.get('admin/stats'),
         axios.get('blogs'),
-        axios.get('group-trips')
+        axios.get('group-trips'),
+        axios.get('settings/destinations')
       ]);
       setPackages(pkgsRes.data);
       setEnquiries(enqRes.data);
       setStats(statsRes.data);
       setBlogs(blogsRes.data);
       setGroupTrips(tripsRes.data);
+      setDestinations(destsRes.data.destinations || []);
       
       const homeImagesRes = await axios.get('settings/home-images');
       setHomeImages(homeImagesRes.data.images);
@@ -509,6 +513,178 @@ const AdminDashboard = () => {
     </div>
   );
 
+  const handleSaveDestinations = async () => {
+    try {
+      await axios.post('settings/destinations', { destinations });
+      alert('Destinations bar updated successfully!');
+      fetchData();
+    } catch (error) {
+      console.error('Failed to save destinations', error);
+      alert('Failed to save destinations. Check console.');
+    }
+  };
+
+  const handleDestinationImageUpload = async (e, index) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const uploadFormData = new FormData();
+    uploadFormData.append('file', file);
+
+    try {
+      const res = await axios.post('upload', uploadFormData);
+      const filename = res.data.filename;
+      const updated = [...destinations];
+      updated[index].image = filename;
+      setDestinations(updated);
+    } catch (err) {
+      console.error('Upload failed', err);
+    }
+  };
+
+  const handleAddDestination = () => {
+    setDestinations([
+      ...destinations,
+      { name_en: 'New Place', name_gu: 'નવી જગ્યા', searchKey: 'New Place', image: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=150&q=80' }
+    ]);
+  };
+
+  const handleRemoveDestination = (index) => {
+    const updated = [...destinations];
+    updated.splice(index, 1);
+    setDestinations(updated);
+  };
+
+  const handleDestinationChange = (index, field, value) => {
+    const updated = [...destinations];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    };
+    setDestinations(updated);
+  };
+
+  const renderDestinationsManager = () => (
+    <div style={{ backgroundColor: 'white', padding: '45px', borderRadius: '40px', boxShadow: '0 30px 60px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '35px' }}>
+        <div>
+          <h3 style={{ fontSize: '24px', fontWeight: 950, color: 'var(--primary-black)', letterSpacing: '-1px' }}>Quick Destination Bar</h3>
+          <p style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 600 }}>Manage the circular destination shortcuts on the client homepage.</p>
+        </div>
+        <button 
+          onClick={handleAddDestination}
+          style={{ color: 'white', background: '#111', padding: '12px 25px', borderRadius: '50px', fontWeight: 800, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}
+        >
+          <Plus size={16} /> Add Destination
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '40px' }}>
+        {destinations.map((dest, index) => (
+          <motion.div 
+            key={index}
+            style={{ 
+              display: 'grid', 
+              gridTemplateColumns: '80px 1.5fr 1.5fr 1.2fr auto', 
+              alignItems: 'center', 
+              gap: '24px', 
+              padding: '24px', 
+              borderRadius: '24px', 
+              background: '#fcfaf7', 
+              border: '1px solid #f1f5f9' 
+            }}
+          >
+            {/* Image Circle Preview & Upload */}
+            <div style={{ position: 'relative', width: '64px', height: '64px', borderRadius: '50%', overflow: 'hidden', border: '2px solid var(--primary-gold)' }}>
+              <img 
+                src={getImageUrl(dest.image)} 
+                alt={dest.name_en} 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=150&q=80"; }}
+              />
+              <label 
+                style={{ 
+                  position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', 
+                  alignItems: 'center', justifyContent: 'center', color: 'white', cursor: 'pointer',
+                  opacity: 0, transition: '0.3s'
+                }} 
+                className="hover-overlay-upload"
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = 1; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = 0; }}
+              >
+                <Edit size={16} />
+                <input type="file" hidden onChange={(e) => handleDestinationImageUpload(e, index)} />
+              </label>
+            </div>
+
+            {/* English Name Input */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <label style={{ fontSize: '11px', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase' }}>English Name</label>
+              <input 
+                type="text" 
+                value={dest.name_en} 
+                onChange={(e) => handleDestinationChange(index, 'name_en', e.target.value)}
+                style={{ padding: '12px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '14px', fontWeight: 600, background: 'white' }}
+              />
+            </div>
+
+            {/* Gujarati Name Input */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <label style={{ fontSize: '11px', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase' }}>Gujarati Name</label>
+              <input 
+                type="text" 
+                value={dest.name_gu} 
+                onChange={(e) => handleDestinationChange(index, 'name_gu', e.target.value)}
+                style={{ padding: '12px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '14px', fontWeight: 600, background: 'white' }}
+              />
+            </div>
+
+            {/* Search Key Input */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <label style={{ fontSize: '11px', fontWeight: 900, color: '#94a3b8', textTransform: 'uppercase' }}>Search Query Key</label>
+              <input 
+                type="text" 
+                value={dest.searchKey} 
+                onChange={(e) => handleDestinationChange(index, 'searchKey', e.target.value)}
+                style={{ padding: '12px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', fontSize: '14px', fontWeight: 600, background: 'white' }}
+              />
+            </div>
+
+            {/* Delete button */}
+            <button 
+              onClick={() => handleRemoveDestination(index)}
+              style={{ padding: '12px', borderRadius: '12px', background: '#fef2f2', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+            >
+              <Trash size={18} />
+            </button>
+          </motion.div>
+        ))}
+
+        {destinations.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '60px', opacity: 0.3 }}>
+            <MapPin size={48} style={{ margin: '0 auto 20px' }} />
+            <p style={{ fontWeight: 800 }}>No destinations configured.</p>
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'center', borderTop: '1px solid #f1f5f9', paddingTop: '30px' }}>
+        <motion.button 
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={handleSaveDestinations}
+          style={{ 
+            padding: '20px 60px', borderRadius: '100px', fontSize: '16px', fontWeight: 950, 
+            display: 'flex', alignItems: 'center', gap: '15px', background: 'var(--gradient-gold)',
+            color: 'black', border: 'none', cursor: 'pointer', boxShadow: '0 20px 40px rgba(232, 102, 10, 0.2)'
+          }}
+        >
+          <CheckCircle size={20} /> Save & Sync Destinations
+        </motion.button>
+      </div>
+    </div>
+  );
+
   const renderDashboardOverview = () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '40px' }}>
       <div style={{ backgroundColor: 'white', padding: '45px', borderRadius: '40px', boxShadow: '0 30px 60px rgba(0,0,0,0.03)', border: '1px solid #f1f5f9' }}>
@@ -665,7 +841,8 @@ const AdminDashboard = () => {
         {activeTab === 'dashboard' ? renderDashboardOverview() : 
          activeTab === 'home-carousel' ? renderHomeCarouselManager() : 
          activeTab === 'insta-feed' ? renderInstaFeedManager() : 
-         activeTab === 'branding' ? renderBrandingManager() : (
+         activeTab === 'branding' ? renderBrandingManager() : 
+         activeTab === 'destinations' ? renderDestinationsManager() : (
           <div style={{ backgroundColor: 'white', borderRadius: '28px', boxShadow: 'var(--shadow)', padding: '35px', border: '1px solid #f1f5f9' }}>
             {activeTab === 'packages' ? (
               <div style={{ overflowX: 'auto' }}>
