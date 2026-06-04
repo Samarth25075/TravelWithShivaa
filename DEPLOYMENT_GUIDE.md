@@ -46,7 +46,7 @@ Before deploying, ensure you have pushed all your latest changes (including `ren
 3. Set the following configuration:
    - **Name**: `shiv-travel-frontend`
    - **Root Directory**: `react-frontend`
-   - **Build Command**: `npm install && npm run build`
+   - **Build Command**: `npm install --legacy-peer-deps && npm run build`
    - **Publish Directory**: `dist`
 4. Click **Advanced** and find **Redirects/Rewrites**:
    - **Add Rule 1** (API Proxy):
