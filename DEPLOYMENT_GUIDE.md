@@ -39,25 +39,21 @@ Before deploying, ensure you have pushed all your latest changes (including `ren
 
 ---
 
-## 3. Deploy the Frontend (Static Site)
+## 3. Deploy the Frontend (Next.js Web Service)
 
-1. In the Render Dashboard, click **New +** and select **Static Site**.
+Since the frontend has been migrated to Next.js (which requires a Node.js runtime for dynamic sitemap generation, metadata, and server rendering), it should be deployed as a **Web Service** on Render instead of a Static Site.
+
+1. In the Render Dashboard, click **New +** and select **Web Service**.
 2. Connect your GitHub repository.
 3. Set the following configuration:
    - **Name**: `shiv-travel-frontend`
    - **Root Directory**: `react-frontend`
+   - **Runtime**: `Node`
    - **Build Command**: `npm install --legacy-peer-deps && npm run build`
-   - **Publish Directory**: `dist`
-4. Click **Advanced** and find **Redirects/Rewrites**:
-   - **Add Rule 1** (API Proxy):
-     - **Source**: `/api/*`
-     - **Destination**: `https://your-backend-url.onrender.com/api/*` (Replace with your actual backend URL).
-     - **Action**: `Rewrite`
-   - **Add Rule 2** (SPA Routing):
-     - **Source**: `/*`
-     - **Destination**: `/index.html`
-     - **Action**: `Rewrite`
-5. Click **Create Static Site**.
+   - **Start Command**: `npm run start`
+4. Click **Advanced** and add **Environment Variables**:
+   - `NEXT_PUBLIC_API_URL`: `https://your-backend-url.onrender.com/api` (Replace with your actual backend URL).
+5. Click **Create Web Service**.
 6. **Copy your Frontend URL** (e.g., `https://shiv-travel-frontend.onrender.com`).
 
 ---
