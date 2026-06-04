@@ -1,7 +1,9 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { TripCard, DestinationGrid, Testimonials, CounterStats, WhyChooseUs, InstagramFeed, AdventurePlanner } from '../components/HomeComponents';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, ChevronDown, Search } from 'lucide-react';
 import SEO from '../components/SEO';
 
@@ -80,11 +82,14 @@ const Home = ({ isGujarati }) => {
               transition={{ duration: 2.5, ease: "easeInOut" }}
               className="w-full h-full"
             >
-              <img
+              <Image
                 src={getFullImageUrl(heroImages[currentImage])}
                 alt="Shiv Travel Destinations"
-                loading="eager"
-                className="w-full h-full object-cover"
+                priority
+                fill
+                sizes="100vw"
+                className="object-cover"
+                onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1581791534721-e599df4417f7?auto=format&fit=crop&w=1920&q=80"; }}
               />
             </motion.div>
           </AnimatePresence>
@@ -135,13 +140,13 @@ const Home = ({ isGujarati }) => {
             className="mt-[28px] flex flex-wrap justify-center gap-[16px]"
           >
             <Link 
-              to="/packages" 
+              href="/packages" 
               className="bg-[#c9a84c] text-[#1a1200] px-[28px] py-[12px] rounded-[8px] text-[13px] font-medium transition-colors duration-200 hover:bg-[#b8943e] no-underline"
             >
               Explore Packages
             </Link>
             <Link 
-              to="/custom-package" 
+              href="/custom-package" 
               className="bg-transparent text-[#c9a84c] border border-[#c9a84c55] px-[28px] py-[12px] rounded-[8px] text-[13px] font-medium transition-colors duration-200 hover:bg-[#c9a84c14] no-underline"
             >
               Plan My Trip
@@ -172,7 +177,10 @@ const Home = ({ isGujarati }) => {
       </section>
 
       {/* Stats Section */}
+      <CounterStats isGujarati={isGujarati} />
 
+      {/* Bespoke Journey Planner */}
+      <AdventurePlanner isGujarati={isGujarati} />
 
       {/* Featured Destinations Section - Moved up for easier access */}
       <section className="destinations-section" style={{ padding: 'clamp(80px, 12vw, 150px) 0', background: 'var(--primary-black)', position: 'relative' }}>
@@ -208,7 +216,7 @@ const Home = ({ isGujarati }) => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <Link to="/packages" style={{ 
+              <Link href="/packages" style={{ 
                 color: 'white', 
                 fontWeight: 600, 
                 textDecoration: 'none', 

@@ -19,6 +19,8 @@ class PackageBase(BaseModel):
     location: str
     price: float
     description: str
+    slug: Optional[str] = None
+    hotel_options: Optional[str] = None
     itinerary: Optional[str] = None
     inclusions: Optional[str] = None
     exclusions: Optional[str] = None
@@ -40,6 +42,8 @@ class PackageUpdate(BaseModel):
     location: Optional[str] = None
     price: Optional[float] = None
     description: Optional[str] = None
+    slug: Optional[str] = None
+    hotel_options: Optional[str] = None
     itinerary: Optional[str] = None
     inclusions: Optional[str] = None
     exclusions: Optional[str] = None

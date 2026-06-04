@@ -57,7 +57,7 @@ app.add_middleware(
 # Startup event
 @app.on_event("startup")
 async def startup():
-    print(f"🚀 [STARTUP] Running in {app_env} mode with MongoDB")
+    print(f"[STARTUP] Running in {app_env} mode with MongoDB")
 
 # --- Admin Login Route ---
 @app.post("/api/admin/login")
@@ -183,7 +183,15 @@ async def get_featured_packages(db_mongo = Depends(get_mongo_db)):
 
 @app.get("/api/packages/{package_id}", response_model=schemas.Package)
 async def get_package(package_id: str, db_mongo = Depends(get_mongo_db)):
-    package = await db_mongo["packages"].find_one({"_id": to_object_id(package_id)})
+    from bson import ObjectId
+    package = None
+    obj_id = to_object_id(package_id)
+    if isinstance(obj_id, ObjectId):
+        package = await db_mongo["packages"].find_one({"_id": obj_id})
+    
+    if not package:
+        package = await db_mongo["packages"].find_one({"slug": package_id})
+        
     if not package:
         raise HTTPException(status_code=404, detail="Package not found")
     return format_package(package)

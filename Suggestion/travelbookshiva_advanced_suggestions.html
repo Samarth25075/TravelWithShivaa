@@ -1,0 +1,552 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif}
+.page{padding:1rem 0}
+.sec{margin-bottom:2rem}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:0.1em;color:#666;text-transform:uppercase;margin-bottom:12px}
+.divider{height:0.5px;background:#c9a84c11;margin:2rem 0}
+
+/* SCORE HEADER */
+.score-header{background:#0d0d0f;border:0.5px solid #c9a84c22;border-radius:14px;padding:20px 24px;margin-bottom:1.5rem}
+.score-row{display:flex;gap:10px;flex-wrap:wrap}
+.score-card{flex:1;min-width:100px;background:#141416;border-radius:10px;padding:12px 14px;text-align:center;border:0.5px solid #c9a84c22}
+.score-num{font-size:22px;font-weight:500;margin-bottom:3px}
+.score-lbl{font-size:10px;color:#555;letter-spacing:0.04em}
+.score-bad{color:#ff6666}
+.score-ok{color:#f0a500}
+.score-good{color:#4caf7a}
+.score-gold{color:#c9a84c}
+.site-title{font-size:14px;font-weight:500;color:#f5f0e8;margin-bottom:14px}
+.site-url{font-size:11px;color:#c9a84c;margin-bottom:14px}
+
+/* PRIORITY GRID */
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+
+/* SUGGESTION CARD */
+.sug-card{background:#141416;border:0.5px solid #c9a84c22;border-radius:12px;padding:16px 18px}
+.sug-card.critical{border-left:3px solid #ff6666;border-radius:0 12px 12px 0}
+.sug-card.high{border-left:3px solid #f0a500;border-radius:0 12px 12px 0}
+.sug-card.medium{border-left:3px solid #c9a84c;border-radius:0 12px 12px 0}
+.sug-card.new{border-left:3px solid #4caf7a;border-radius:0 12px 12px 0}
+.sug-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.sug-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.sug-icon.c{background:#ff444422}
+.sug-icon.h{background:#f0a50022}
+.sug-icon.m{background:#c9a84c22}
+.sug-icon.n{background:#4caf7a22}
+.sug-badge{font-size:9px;font-weight:500;padding:2px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+.badge-critical{background:#2a0808;color:#ff6666;border:0.5px solid #ff444433}
+.badge-high{background:#1a1200;color:#f0a500;border:0.5px solid #f0a50033}
+.badge-medium{background:#c9a84c14;color:#c9a84c;border:0.5px solid #c9a84c33}
+.badge-new{background:#0a1a0e;color:#4caf7a;border:0.5px solid #4caf7a33}
+.sug-title{font-size:13px;font-weight:500;color:#f5f0e8;margin-bottom:5px}
+.sug-desc{font-size:12px;color:#888;line-height:1.55}
+.sug-impact{font-size:10px;color:#555;margin-top:8px;display:flex;align-items:center;gap:4px}
+.impact-bar{display:flex;gap:2px}
+.impact-dot{width:8px;height:8px;border-radius:50%;background:#c9a84c}
+.impact-dot.empty{background:#333}
+
+/* PERFORMANCE METRICS */
+.metric-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.metric-chip{background:#0d0d0f;border:0.5px solid #c9a84c22;border-radius:8px;padding:8px 12px;flex:1;min-width:120px}
+.metric-name{font-size:10px;color:#555;margin-bottom:3px;letter-spacing:0.05em}
+.metric-val{font-size:16px;font-weight:500}
+.metric-target{font-size:10px;color:#555;margin-top:2px}
+.val-bad{color:#ff6666}
+.val-warn{color:#f0a500}
+.val-good{color:#4caf7a}
+
+/* FEATURE ROADMAP */
+.roadmap-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:0.5px solid #c9a84c11}
+.roadmap-item:last-child{border-bottom:none}
+.roadmap-num{width:28px;height:28px;border-radius:50%;background:#c9a84c22;border:0.5px solid #c9a84c44;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#c9a84c;flex-shrink:0}
+.roadmap-content{flex:1}
+.roadmap-title{font-size:13px;font-weight:500;color:#f5f0e8;margin-bottom:3px}
+.roadmap-desc{font-size:11px;color:#666;line-height:1.5}
+.roadmap-tags{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.rtag{font-size:9px;padding:2px 7px;border-radius:4px;font-weight:500}
+.rtag-effort{background:#1a1a1e;color:#888;border:0.5px solid #33333355}
+.rtag-impact{background:#c9a84c14;color:#c9a84c;border:0.5px solid #c9a84c33}
+.rtag-tool{background:#0a1420;color:#4a9eff;border:0.5px solid #4a9eff33}
+
+/* PROMPT BLOCK */
+.prompt-block{background:#0d0d0f;border:0.5px solid #c9a84c33;border-radius:12px;padding:18px 20px}
+.prompt-title{font-size:12px;font-weight:500;color:#c9a84c;letter-spacing:0.06em;margin-bottom:12px;text-transform:uppercase}
+.prompt-section{margin-bottom:14px}
+.prompt-section-title{font-size:11px;font-weight:500;color:#888;margin-bottom:6px;letter-spacing:0.04em}
+.prompt-code{font-family:'Courier New',monospace;font-size:11px;color:#f5f0e8;line-height:1.6;background:#141416;border:0.5px solid #c9a84c22;border-radius:6px;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+
+/* UX FLOW */
+.flow-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.flow-step{background:#141416;border:0.5px solid #c9a84c33;border-radius:8px;padding:8px 12px;font-size:11px;color:#f5f0e8;text-align:center;min-width:80px}
+.flow-step.bad{border-color:#ff444433;background:#1a0808;color:#ff8888}
+.flow-step.good{border-color:#4caf7a33;background:#0a1a0e;color:#4caf7a}
+.flow-arrow{color:#c9a84c;font-size:14px;flex-shrink:0}
+</style>
+
+<h2 class="sr-only">Advanced performance, UX, and feature suggestions for TravelBookShiva</h2>
+
+<div class="page">
+
+<!-- SITE SCORE -->
+<div class="score-header">
+  <div class="site-title">TravelBookShiva — Advanced Site Audit</div>
+  <div class="site-url">travelbookshiva.in · React SPA · FastAPI · Ahmedabad</div>
+  <div class="score-row">
+    <div class="score-card"><div class="score-num score-bad">~35</div><div class="score-lbl">Mobile Speed</div></div>
+    <div class="score-card"><div class="score-num score-ok">~62</div><div class="score-lbl">Desktop Speed</div></div>
+    <div class="score-card"><div class="score-num score-bad">0</div><div class="score-lbl">SEO Score</div></div>
+    <div class="score-card"><div class="score-num score-ok">~60</div><div class="score-lbl">Accessibility</div></div>
+    <div class="score-card"><div class="score-num score-bad">~2%</div><div class="score-lbl">Est. Conv. Rate</div></div>
+    <div class="score-card"><div class="score-num score-good">8.5/10</div><div class="score-lbl">Design Quality</div></div>
+  </div>
+</div>
+
+<!-- PERFORMANCE METRICS -->
+<div class="sec">
+  <div class="sec-label">Core web vitals — current estimate vs target</div>
+  <div class="metric-row">
+    <div class="metric-chip"><div class="metric-name">LCP (Largest Paint)</div><div class="metric-val val-bad">~5.2s</div><div class="metric-target">Target: under 2.5s</div></div>
+    <div class="metric-chip"><div class="metric-name">FID (Input Delay)</div><div class="metric-val val-warn">~180ms</div><div class="metric-target">Target: under 100ms</div></div>
+    <div class="metric-chip"><div class="metric-name">CLS (Layout Shift)</div><div class="metric-val val-warn">~0.18</div><div class="metric-target">Target: under 0.1</div></div>
+    <div class="metric-chip"><div class="metric-name">FCP (First Paint)</div><div class="metric-val val-bad">~3.8s</div><div class="metric-target">Target: under 1.8s</div></div>
+    <div class="metric-chip"><div class="metric-name">TTI (Interactive)</div><div class="metric-val val-bad">~7s</div><div class="metric-target">Target: under 3.8s</div></div>
+  </div>
+  <div style="background:#141416;border:0.5px solid #ff444422;border-radius:8px;padding:10px 14px">
+    <div style="font-size:11px;color:#ff8888;line-height:1.6">A 0.1s speed improvement = <strong style="color:#ff6666">10.1% more conversions</strong> in travel sites (Deloitte 2025). Your biggest issue: React SPA loads blank → JS executes → content appears. Google sees nothing to index and users wait 5+ seconds on mobile 4G.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CRITICAL FIXES -->
+<div class="sec">
+  <div class="sec-label">🔴 Critical — fix immediately (kills bookings)</div>
+  <div class="grid2">
+
+    <div class="sug-card critical">
+      <div class="sug-top">
+        <div class="sug-icon c"><i class="ti ti-rocket" aria-hidden="true" style="font-size:16px;color:#ff6666"></i></div>
+        <span class="sug-badge badge-critical">Critical</span>
+      </div>
+      <div class="sug-title">Migrate to Next.js for SSR</div>
+      <div class="sug-desc">Your React SPA renders blank on Google. Zero indexing = zero organic traffic. Next.js gives server-side rendering so Google reads your pages and users see content in under 1s. This is the single biggest ROI change.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div></div>Impact: Massive</div>
+    </div>
+
+    <div class="sug-card critical">
+      <div class="sug-top">
+        <div class="sug-icon c"><i class="ti ti-photo" aria-hidden="true" style="font-size:16px;color:#ff6666"></i></div>
+        <span class="sug-badge badge-critical">Critical</span>
+      </div>
+      <div class="sug-title">Convert all images to WebP + lazy load</div>
+      <div class="sug-desc">JPEG/PNG hero images are likely 2–5MB each. Convert everything to WebP (80% smaller). Add loading="lazy" on all below-fold images. Add loading="eager" only on hero. This alone can halve your load time on mobile.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div></div>Impact: Massive</div>
+    </div>
+
+    <div class="sug-card critical">
+      <div class="sug-top">
+        <div class="sug-icon c"><i class="ti ti-brand-whatsapp" aria-hidden="true" style="font-size:16px;color:#ff6666"></i></div>
+        <span class="sug-badge badge-critical">Critical</span>
+      </div>
+      <div class="sug-title">WhatsApp float button missing</div>
+      <div class="sug-desc">70% of your Gujarati audience contacts via WhatsApp. Every page must have a fixed green WhatsApp button. Pre-filled message: "Hi Shiv Travel! I want to enquire about a trip." This is your #1 conversion tool and it's free.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div></div>Impact: Massive</div>
+    </div>
+
+    <div class="sug-card critical">
+      <div class="sug-top">
+        <div class="sug-icon c"><i class="ti ti-search" aria-hidden="true" style="font-size:16px;color:#ff6666"></i></div>
+        <span class="sug-badge badge-critical">Critical</span>
+      </div>
+      <div class="sug-title">No meta tags / SEO structure</div>
+      <div class="sug-desc">Every page needs unique title, description, og:image. Add JSON-LD schema for LocalBusiness. Submit sitemap.xml to Google Search Console. Without this, you will never rank for "travel agent Ahmedabad" or "Manali package Gujarat".</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div></div>Impact: Massive</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- HIGH PRIORITY -->
+<div class="sec">
+  <div class="sec-label">🟠 High priority — do within 2 weeks</div>
+  <div class="grid2">
+
+    <div class="sug-card high">
+      <div class="sug-top">
+        <div class="sug-icon h"><i class="ti ti-package" aria-hidden="true" style="font-size:16px;color:#f0a500"></i></div>
+        <span class="sug-badge badge-high">High</span>
+      </div>
+      <div class="sug-title">Individual package detail pages</div>
+      <div class="sug-desc">Each package needs its own URL (/packages/manali-5-nights). Include full itinerary day-by-day, hotel options, inclusions/exclusions, photo gallery, and a sticky "Book This Trip" sidebar. Shareable on WhatsApp directly from the URL.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div></div>Impact: Very high</div>
+    </div>
+
+    <div class="sug-card high">
+      <div class="sug-top">
+        <div class="sug-icon h"><i class="ti ti-device-mobile" aria-hidden="true" style="font-size:16px;color:#f0a500"></i></div>
+        <span class="sug-badge badge-high">High</span>
+      </div>
+      <div class="sug-title">Mobile bottom navigation bar</div>
+      <div class="sug-desc">Add a 4-tab fixed bottom bar on mobile only: Home | Packages | Plan Trip | Contact. 70% of travel research happens on phones. This removes all friction — users can reach any section in one tap instead of scrolling back to the top.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div></div>Impact: Very high</div>
+    </div>
+
+    <div class="sug-card high">
+      <div class="sug-top">
+        <div class="sug-icon h"><i class="ti ti-forms" aria-hidden="true" style="font-size:16px;color:#f0a500"></i></div>
+        <span class="sug-badge badge-high">High</span>
+      </div>
+      <div class="sug-title">Lead capture form with auto-reply</div>
+      <div class="sug-desc">Add a dark-themed enquiry form on every package page and homepage. On submit: store in DB, email alert to you, auto-reply SMS/email to customer with "We'll WhatsApp you in 2 hours." This follows up automatically and looks ultra-professional.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div></div>Impact: Very high</div>
+    </div>
+
+    <div class="sug-card high">
+      <div class="sug-top">
+        <div class="sug-icon h"><i class="ti ti-filter" aria-hidden="true" style="font-size:16px;color:#f0a500"></i></div>
+        <span class="sug-badge badge-high">High</span>
+      </div>
+      <div class="sug-title">Package filter + smart search</div>
+      <div class="sug-desc">Add filter pills: All | Mountains | Beach | Culture | International | Weekend. Plus a search bar that filters packages by name or destination in real-time. Research shows each extra step to find a package = 10% drop in conversion.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High</div>
+    </div>
+
+    <div class="sug-card high">
+      <div class="sug-top">
+        <div class="sug-icon h"><i class="ti ti-brand-google" aria-hidden="true" style="font-size:16px;color:#f0a500"></i></div>
+        <span class="sug-badge badge-high">High</span>
+      </div>
+      <div class="sug-title">Google Analytics 4 + Meta Pixel</div>
+      <div class="sug-desc">You are flying blind without analytics. Add GA4 to know which packages get most views, where users drop off, which city they're from. Add Meta Pixel to retarget visitors on Instagram. Track: package_view, enquiry_submit, whatsapp_click events.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High</div>
+    </div>
+
+    <div class="sug-card high">
+      <div class="sug-top">
+        <div class="sug-icon h"><i class="ti ti-code" aria-hidden="true" style="font-size:16px;color:#f0a500"></i></div>
+        <span class="sug-badge badge-high">High</span>
+      </div>
+      <div class="sug-title">Code splitting + bundle optimization</div>
+      <div class="sug-desc">Your entire React app loads in one giant JS bundle. Split by route: homepage loads only homepage code. Packages page loads separately. Use Vite's dynamic import(). Also: remove unused Framer Motion variants, tree-shake lucide-react imports.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MEDIUM PRIORITY -->
+<div class="sec">
+  <div class="sec-label">🟡 Medium priority — week 3–4</div>
+  <div class="grid2">
+
+    <div class="sug-card medium">
+      <div class="sug-top">
+        <div class="sug-icon m"><i class="ti ti-calculator" aria-hidden="true" style="font-size:16px;color:#c9a84c"></i></div>
+        <span class="sug-badge badge-medium">Medium</span>
+      </div>
+      <div class="sug-title">Trip cost estimator widget</div>
+      <div class="sug-desc">Interactive calculator: Destination type → Duration → No. of people → Hotel grade → shows price range + "Get Exact Quote" button. Keeps users engaged for 3–5 minutes. Qualified leads who used the calculator convert 3x more than cold enquiries.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High</div>
+    </div>
+
+    <div class="sug-card medium">
+      <div class="sug-top">
+        <div class="sug-icon m"><i class="ti ti-star" aria-hidden="true" style="font-size:16px;color:#c9a84c"></i></div>
+        <span class="sug-badge badge-medium">Medium</span>
+      </div>
+      <div class="sug-title">Google Reviews live embed</div>
+      <div class="sug-desc">92% of customers read reviews before booking. Fetch your top 5 Google reviews via Places API and show them live — name, photo, rating, date. Far more trusted than manually written testimonials. Link to your full Google Business profile.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High</div>
+    </div>
+
+    <div class="sug-card medium">
+      <div class="sug-top">
+        <div class="sug-icon m"><i class="ti ti-map-pin" aria-hidden="true" style="font-size:16px;color:#c9a84c"></i></div>
+        <span class="sug-badge badge-medium">Medium</span>
+      </div>
+      <div class="sug-title">Interactive destination map</div>
+      <div class="sug-desc">Add a clickable India/World map on the packages page. Hovering a state/country shows package count + price range. Clicking zooms in and filters packages. Much more engaging than a list. Use Leaflet.js (free, lightweight, 40KB).</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: Medium–high</div>
+    </div>
+
+    <div class="sug-card medium">
+      <div class="sug-top">
+        <div class="sug-icon m"><i class="ti ti-pencil" aria-hidden="true" style="font-size:16px;color:#c9a84c"></i></div>
+        <span class="sug-badge badge-medium">Medium</span>
+      </div>
+      <div class="sug-title">SEO blog — Gujarati travel guides</div>
+      <div class="sug-desc">Write 1 post/week targeting: "Manali trip from Ahmedabad", "Goa package Gujarat family", "Kedarnath yatra 2026". These rank on Google in 60–90 days and bring free organic traffic forever. Each post ends with your package CTA.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: Very high (long-term)</div>
+    </div>
+
+    <div class="sug-card medium">
+      <div class="sug-top">
+        <div class="sug-icon m"><i class="ti ti-bell" aria-hidden="true" style="font-size:16px;color:#c9a84c"></i></div>
+        <span class="sug-badge badge-medium">Medium</span>
+      </div>
+      <div class="sug-title">Seasonal offer banner (admin-controlled)</div>
+      <div class="sug-desc">Dismissable top bar: "Monsoon Special: Coorg from ₹8,999!" Toggle on/off from admin. Creates urgency. Change it weekly for Diwali, summer, monsoon, New Year deals. Keep it gold-on-dark to match your theme.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: Medium</div>
+    </div>
+
+    <div class="sug-card medium">
+      <div class="sug-top">
+        <div class="sug-icon m"><i class="ti ti-heart" aria-hidden="true" style="font-size:16px;color:#c9a84c"></i></div>
+        <span class="sug-badge badge-medium">Medium</span>
+      </div>
+      <div class="sug-title">Wishlist / save packages</div>
+      <div class="sug-desc">Heart icon on every package card. Saved packages stored in localStorage. A "My Saved Trips" page shows all saved packages. Users who save packages are 4x more likely to enquire later. Prompt: "Share your wishlist with family via WhatsApp."</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: Medium</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- NEW ADVANCED FEATURES -->
+<div class="sec">
+  <div class="sec-label">🟢 Advanced new features — month 2</div>
+  <div class="grid2">
+
+    <div class="sug-card new">
+      <div class="sug-top">
+        <div class="sug-icon n"><i class="ti ti-robot" aria-hidden="true" style="font-size:16px;color:#4caf7a"></i></div>
+        <span class="sug-badge badge-new">AI Feature</span>
+      </div>
+      <div class="sug-title">AI Trip Planner chat (Claude-powered)</div>
+      <div class="sug-desc">Chat widget: "Tell me your budget, dates, and vibe." Claude API responds with 3 personalised package suggestions from your DB. If user likes one, it pre-fills the enquiry form. Makes your site feel like a luxury concierge, not just a brochure.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div></div>Impact: Exceptional</div>
+    </div>
+
+    <div class="sug-card new">
+      <div class="sug-top">
+        <div class="sug-icon n"><i class="ti ti-id-badge" aria-hidden="true" style="font-size:16px;color:#4caf7a"></i></div>
+        <span class="sug-badge badge-new">New</span>
+      </div>
+      <div class="sug-title">Customer portal — "My Bookings"</div>
+      <div class="sug-desc">Simple login (OTP via phone). Customer sees their upcoming trip, documents, hotel info, day-by-day itinerary PDF. Makes you look like a premium agency. Customers refer friends when they feel the service is professional and organised.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div></div>Impact: Very high</div>
+    </div>
+
+    <div class="sug-card new">
+      <div class="sug-top">
+        <div class="sug-icon n"><i class="ti ti-report" aria-hidden="true" style="font-size:16px;color:#4caf7a"></i></div>
+        <span class="sug-badge badge-new">New</span>
+      </div>
+      <div class="sug-title">Admin CRM dashboard</div>
+      <div class="sug-desc">Upgrade admin to show: all enquiries by status (new/contacted/booked/lost), monthly revenue chart, most viewed packages, enquiry source (WhatsApp/form/call). One-click "Send WhatsApp" next to each lead. Turns your admin into a mini-CRM.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High (ops)</div>
+    </div>
+
+    <div class="sug-card new">
+      <div class="sug-top">
+        <div class="sug-icon n"><i class="ti ti-certificate" aria-hidden="true" style="font-size:16px;color:#4caf7a"></i></div>
+        <span class="sug-badge badge-new">New</span>
+      </div>
+      <div class="sug-title">PWA — install as mobile app</div>
+      <div class="sug-desc">Add a manifest.json + service worker. Users get "Add to Home Screen" prompt. Your site becomes an app icon on their phone. Push notifications for offers. Studies show PWA users return 3x more and spend 2x longer than browser users.</div>
+      <div class="sug-impact"><div class="impact-bar"><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot"></div><div class="impact-dot empty"></div><div class="impact-dot empty"></div></div>Impact: High</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- UX FLOW IMPROVEMENT -->
+<div class="sec">
+  <div class="sec-label">Customer journey — current vs improved</div>
+  <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:12px;padding:16px 18px">
+    <div style="font-size:11px;color:#888;margin-bottom:10px;font-weight:500">Current (broken) flow</div>
+    <div class="flow-row">
+      <div class="flow-step bad">User lands</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step bad">Waits 5s</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step bad">Sees hero</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step bad">Scrolls aimlessly</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step bad">No clear CTA</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step bad">Leaves</div>
+    </div>
+    <div style="font-size:11px;color:#888;margin:14px 0 10px;font-weight:500">Target (optimised) flow</div>
+    <div class="flow-row">
+      <div class="flow-step good">Lands &lt;1s</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step good">Sees hero + CTA</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step good">Filters packages</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step good">Opens package</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step good">Taps Enquire</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step good">WhatsApp reply</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- IMPLEMENTATION ROADMAP -->
+<div class="sec">
+  <div class="sec-label">Implementation roadmap — 8 weeks</div>
+  <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:12px;padding:6px 18px">
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">1</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 1 — Performance foundation</div>
+        <div class="roadmap-desc">Convert images to WebP · Add lazy loading · Code-split by route · Add Google Fonts with font-display:swap · Fix CLS by reserving image dimensions</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">2–3 days effort</span>
+          <span class="rtag rtag-impact">+40% speed</span>
+          <span class="rtag rtag-tool">Vite + imagemin</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">2</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 1 — WhatsApp + enquiry form</div>
+        <div class="roadmap-desc">Fixed WhatsApp float button · Enquiry form on homepage + every package card · FastAPI endpoint · Auto-reply email via SMTP · Store all leads in DB</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">2 days effort</span>
+          <span class="rtag rtag-impact">+immediate bookings</span>
+          <span class="rtag rtag-tool">FastAPI + SMTP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">3</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 2 — SEO + meta tags</div>
+        <div class="roadmap-desc">Install react-helmet-async · Unique title + description + og:image per page · JSON-LD LocalBusiness schema · sitemap.xml · robots.txt · Submit to Google Search Console</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">2 days effort</span>
+          <span class="rtag rtag-impact">Google indexing starts</span>
+          <span class="rtag rtag-tool">react-helmet-async</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">4</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 2 — Individual package pages</div>
+        <div class="roadmap-desc">Dynamic route /packages/[slug] · Full itinerary · Photo gallery · Inclusions/exclusions · Sticky sidebar with enquiry form · WhatsApp share button</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">3–4 days effort</span>
+          <span class="rtag rtag-impact">SEO + conversions</span>
+          <span class="rtag rtag-tool">React Router + FastAPI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">5</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 3 — Mobile UX + analytics</div>
+        <div class="roadmap-desc">Mobile bottom nav bar · Filter pills on packages · GA4 + Meta Pixel · Event tracking · Google Business profile setup · Test on real Android device</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">3 days effort</span>
+          <span class="rtag rtag-impact">Data + mobile UX</span>
+          <span class="rtag rtag-tool">GA4 + Meta Pixel</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">6</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 4 — Trust + social proof</div>
+        <div class="roadmap-desc">Google Reviews embed · Verifiable Justdial link · Photo gallery of past trips · Customer video testimonials · Trust badge row</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">2 days effort</span>
+          <span class="rtag rtag-impact">+trust = +bookings</span>
+          <span class="rtag rtag-tool">Google Places API</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">7</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 5–6 — AI chat + cost estimator</div>
+        <div class="roadmap-desc">Trip cost estimator calculator · AI-powered chat using Claude API · Pre-fills enquiry form from chat · Wishlist / saved packages feature</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">5 days effort</span>
+          <span class="rtag rtag-impact">Luxury differentiator</span>
+          <span class="rtag rtag-tool">Claude API + React</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="roadmap-item">
+      <div class="roadmap-num">8</div>
+      <div class="roadmap-content">
+        <div class="roadmap-title">Week 7–8 — Next.js migration + PWA</div>
+        <div class="roadmap-desc">Migrate from Vite to Next.js · All pages SSR/SSG · Lighthouse score 90+ · Add PWA manifest + service worker · "Add to Home Screen" prompt</div>
+        <div class="roadmap-tags">
+          <span class="rtag rtag-effort">1 week effort</span>
+          <span class="rtag rtag-impact">Google ranking boost</span>
+          <span class="rtag rtag-tool">Next.js 15 + Vercel</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- TOOLS TO USE -->
+<div class="sec">
+  <div class="sec-label">Free tools to test your site right now</div>
+  <div class="grid3">
+    <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;font-weight:500;color:#f5f0e8;margin-bottom:4px">PageSpeed Insights</div>
+      <div style="font-size:11px;color:#666;margin-bottom:6px">Google's official speed tester</div>
+      <div style="font-size:10px;color:#c9a84c">pagespeed.web.dev</div>
+    </div>
+    <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;font-weight:500;color:#f5f0e8;margin-bottom:4px">GTmetrix</div>
+      <div style="font-size:11px;color:#666;margin-bottom:6px">Waterfall + Core Web Vitals</div>
+      <div style="font-size:10px;color:#c9a84c">gtmetrix.com</div>
+    </div>
+    <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;font-weight:500;color:#f5f0e8;margin-bottom:4px">Search Console</div>
+      <div style="font-size:11px;color:#666;margin-bottom:6px">See Google indexing status</div>
+      <div style="font-size:10px;color:#c9a84c">search.google.com/console</div>
+    </div>
+    <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;font-weight:500;color:#f5f0e8;margin-bottom:4px">Hotjar (free)</div>
+      <div style="font-size:11px;color:#666;margin-bottom:6px">Heatmaps — see where users tap</div>
+      <div style="font-size:10px;color:#c9a84c">hotjar.com</div>
+    </div>
+    <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;font-weight:500;color:#f5f0e8;margin-bottom:4px">Squoosh</div>
+      <div style="font-size:11px;color:#666;margin-bottom:6px">Convert images to WebP free</div>
+      <div style="font-size:10px;color:#c9a84c">squoosh.app</div>
+    </div>
+    <div style="background:#141416;border:0.5px solid #c9a84c22;border-radius:10px;padding:12px 14px">
+      <div style="font-size:12px;font-weight:500;color:#f5f0e8;margin-bottom:4px">Lighthouse CI</div>
+      <div style="font-size:11px;color:#666;margin-bottom:6px">Auto-test on every deploy</div>
+      <div style="font-size:10px;color:#c9a84c">GitHub Actions</div>
+    </div>
+  </div>
+</div>
+
+</div>

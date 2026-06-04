@@ -1,8 +1,10 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, MapPin, Star, UserCheck, Heart, ArrowRight, Instagram, Phone, MessageCircle, Clock, Users, IndianRupee, Quote } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export const TripCard = ({ isGujarati }) => {
   return (
@@ -151,8 +153,13 @@ export const DestinationGrid = ({ isGujarati }) => {
   );
 
   const getImageUrl = (image) => {
-    if (!image) return 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80';
-    if (image.startsWith('http')) return image;
+    if (!image) return 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&fm=webp';
+    if (image.startsWith('http')) {
+      if (image.includes('unsplash.com') && !image.includes('fm=webp')) {
+        return `${image}&fm=webp`;
+      }
+      return image;
+    }
     return `/api/uploads/${image}`;
   };
 
@@ -170,7 +177,7 @@ export const DestinationGrid = ({ isGujarati }) => {
           transition={{ duration: 1, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
         >
-          <Link to={`/package/${dest.id}`} className="dest-card-premium" style={{ 
+          <Link href={`/packages/${dest.slug || dest.id}`} className="dest-card-premium" style={{ 
             display: 'block', 
             position: 'relative', 
             borderRadius: '40px', 
@@ -181,15 +188,17 @@ export const DestinationGrid = ({ isGujarati }) => {
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
           }}>
             <motion.div 
-              style={{ width: '100%', height: '100%' }}
+              style={{ width: '100%', height: '100%', position: 'relative' }}
               whileHover={{ scale: 1.08 }}
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img 
+              <Image 
                 src={getImageUrl(dest.image)} 
                 alt={dest.title} 
-                loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+                onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80'; }}
               />
             </motion.div>
 
@@ -376,8 +385,15 @@ export const InstagramFeed = ({ isGujarati }) => {
         <div className="insta-marquee-track" style={{ display: 'flex', gap: '20px' }}>
           {/* Double the array for infinite scroll effect */}
           {[...posts, ...posts].map((img, i) => (
-            <div key={i} className="insta-post-card" style={{ flexShrink: 0, width: '300px', height: '300px', borderRadius: '24px', overflow: 'hidden' }}>
-              <img src={getFullImageUrl(img)} alt="Shiv Travel Instagram" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div key={i} className="insta-post-card" style={{ flexShrink: 0, width: '300px', height: '300px', borderRadius: '24px', overflow: 'hidden', position: 'relative' }}>
+              <Image 
+                src={getFullImageUrl(img)} 
+                alt="Shiv Travel Instagram" 
+                fill
+                sizes="300px"
+                className="object-cover"
+                onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80'; }}
+              />
             </div>
           ))}
         </div>
@@ -499,18 +515,22 @@ export const AdventurePlanner = ({ isGujarati }) => {
                 {matches.length > 0 ? (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '30px' }}>
                     {matches.map((match, i) => (
-                      <Link key={i} to={`/package/${match.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Link key={match.slug || match.id || i} href={`/packages/${match.slug || match.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <motion.div 
                           whileHover={{ y: -10 }}
                           className="premium-card"
-                          style={{ padding: '0', borderRadius: '30px' }}
+                          style={{ padding: '0', borderRadius: '30px', overflow: 'hidden' }}
                         >
-                          <img 
-                            src={(match.image || "").startsWith('http') ? match.image : `/api/uploads/${match.image}`} 
-                            style={{ width: '100%', height: '200px', objectFit: 'cover' }} 
-                            loading="lazy"
-                            alt={match.title}
-                          />
+                          <div style={{ position: 'relative', height: '200px', width: '100%', overflow: 'hidden' }}>
+                            <Image 
+                              src={(match.image || "").startsWith('http') ? match.image : `/api/uploads/${match.image}`} 
+                              alt={match.title}
+                              fill
+                              sizes="(max-width: 768px) 100vw, 33vw"
+                              className="object-cover"
+                              onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80'; }}
+                            />
+                          </div>
                           <div style={{ padding: '25px', textAlign: 'left' }}>
                             <h4 style={{ margin: '0 0 10px 0', fontSize: '18px', fontWeight: 500 }}>{match.title}</h4>
                             <p style={{ color: 'var(--primary-gold)', fontWeight: 800, fontSize: '16px' }}>₹{(match.price || 0).toLocaleString()}</p>
@@ -522,7 +542,7 @@ export const AdventurePlanner = ({ isGujarati }) => {
                 ) : (
                   <div style={{ padding: '60px', opacity: 0.5 }}>
                     <p>{isGujarati ? 'તમારી પસંદગી મુજબ અત્યારે કોઈ પેકેજ નથી.' : 'No signature matches found. Perhaps explore our entire collection?'}</p>
-                    <Link to="/packages"><button className="btn-primary-large" style={{ marginTop: '30px' }}>View All Packages</button></Link>
+                    <Link href="/packages"><button className="btn-primary-large" style={{ marginTop: '30px' }}>View All Packages</button></Link>
                   </div>
                 )}
                 <button 

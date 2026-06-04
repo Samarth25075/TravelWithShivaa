@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
@@ -8,9 +9,9 @@ import {
   Sparkles, BookOpen, X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useLocation } from 'react-router-dom';
-import AdminSidebar from '../../components/AdminSidebar';
-import { useSettings } from '../../context/SettingsContext';
+import { usePathname, useRouter } from 'next/navigation';
+import AdminSidebar from '../../../components/AdminSidebar';
+import { useSettings } from '../../../context/SettingsContext';
 
 const AdminDashboard = () => {
   const [packages, setPackages] = useState([]);
@@ -35,8 +36,8 @@ const AdminDashboard = () => {
   
   const { refreshSettings } = useSettings();
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const location = usePathname();
 
   const getImageUrl = (image) => {
     if (!image) return null;
@@ -87,7 +88,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const token = localStorage.getItem('admin_token');
     if (!token) {
-      navigate('/admin/login');
+      router.push('/admin/login');
     }
 
     // Sync tab with URL
@@ -516,7 +517,7 @@ const AdminDashboard = () => {
             <h3 style={{ fontSize: '24px', fontWeight: 950, color: 'var(--primary-black)', letterSpacing: '-1px' }}>Recent Inbound Leads</h3>
             <p style={{ fontSize: '14px', color: '#94a3b8', fontWeight: 600 }}>Clients waiting for your response.</p>
           </div>
-          <button onClick={() => navigate('/admin/enquiries')} style={{ color: 'var(--primary-gold)', background: '#111', padding: '12px 25px', borderRadius: '50px', fontWeight: 800, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}>
+          <button onClick={() => router.push('/admin/enquiries')} style={{ color: 'var(--primary-gold)', background: '#111', padding: '12px 25px', borderRadius: '50px', fontWeight: 800, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', border: 'none' }}>
             Open CRM <ChevronRight size={16} />
           </button>
         </div>

@@ -1,12 +1,14 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
 const Navbar = ({ isGujarati, setIsGujarati }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,7 +39,7 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
         <div className="max-w-[1300px] mx-auto px-[15px] md:px-[25px] h-[56px] md:h-[64px] flex items-center justify-between">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
+          <Link href="/" className="flex items-center gap-2" style={{ textDecoration: 'none' }}>
             <div style={{ fontSize: '18px', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>
               <span style={{ color: '#f5f0e8' }}>Shiv</span>
               <span style={{ color: '#c9a84c' }}> Travel</span>
@@ -47,18 +49,20 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.path;
+              const isActive = pathname === link.path;
               return (
                 <Link 
                   key={link.path} 
-                  to={link.path} 
+                  href={link.path} 
                   style={{
                     fontSize: '13px',
                     fontWeight: 500,
                     textDecoration: 'none',
                     color: isActive ? '#c9a84c' : '#888888',
                     transition: 'color 0.3s ease',
-                    fontFamily: 'var(--font-body)'
+                    fontFamily: 'var(--font-body)',
+                    display: 'inline-block',
+                    padding: '8px 12px'
                   }}
                   onMouseOver={(e) => {
                     if (!isActive) e.currentTarget.style.color = '#e8c97e';
@@ -146,18 +150,20 @@ const Navbar = ({ isGujarati, setIsGujarati }) => {
         >
           <div className="flex flex-col p-6 gap-6">
             {navLinks.map((link) => {
-              const isActive = location.pathname === link.path;
+              const isActive = pathname === link.path;
               return (
                 <Link 
                   key={link.path} 
-                  to={link.path} 
+                  href={link.path} 
                   onClick={() => setIsOpen(false)}
                   style={{
                     fontSize: '18px',
                     fontWeight: 500,
                     textDecoration: 'none',
                     color: isActive ? '#c9a84c' : '#f5f0e8',
-                    fontFamily: 'var(--font-body)'
+                    fontFamily: 'var(--font-body)',
+                    display: 'block',
+                    padding: '12px 16px'
                   }}
                 >
                   {link.name}

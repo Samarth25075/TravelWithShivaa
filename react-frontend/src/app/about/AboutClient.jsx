@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, Target, ShieldCheck, Heart, History, Star, MapPin } from 'lucide-react';
@@ -30,7 +31,12 @@ const About = ({ isGujarati }) => {
         <div className="container">
            <div className="story-grid">
               <div className="story-img">
-                 <img src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&q=80" alt="Founders" className="card" />
+                 <img 
+                   src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&q=80" 
+                   alt="Founders" 
+                   className="card" 
+                   onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"; }}
+                 />
                  <div className="img-badge"><Star size={20} fill="white" /> {isGujarati ? 'અમદાવાદમાં રહેઠાણ' : 'Based in Ahmedabad'}</div>
               </div>
               <div className="story-content">

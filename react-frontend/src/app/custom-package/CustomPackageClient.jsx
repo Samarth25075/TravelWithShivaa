@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
@@ -82,7 +83,12 @@ const CustomPackage = ({ isGujarati }) => {
     <div className="custom-package-page" style={{ background: 'var(--primary-black)', color: 'white' }}>
       {/* Immersive Background Hero */}
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}>
-        <img src="/images/plan_trip_hero.png" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3 }} alt="Bg" />
+        <img 
+          src="/images/plan_trip_hero.png" 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3 }} 
+          alt="Bg" 
+          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"; }}
+        />
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at center, transparent 0%, var(--primary-black) 100%)' }}></div>
       </div>
 
@@ -144,6 +150,8 @@ const CustomPackage = ({ isGujarati }) => {
                     <div className="input-group-premium" style={{ position: 'relative' }}>
                       <MapPin style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary-gold)' }} />
                       <input 
+                        aria-label="Destination"
+                        id="custom-destination"
                         name="destination"
                         style={{ width: '100%', padding: '25px 25px 25px 60px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', color: 'white', fontSize: '18px', outline: 'none' }}
                         placeholder={isGujarati ? 'સ્થળ (દા.ત. કાશ્મીર, દુબઈ)' : 'e.g. Switzerland, Maldives, Luxury Leh...'}
@@ -162,17 +170,31 @@ const CustomPackage = ({ isGujarati }) => {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                       <div className="input-group-premium">
-                        <label style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>TRAVEL DATES</label>
+                        <label htmlFor="custom-dates" style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>TRAVEL DATES</label>
                         <div style={{ position: 'relative' }}>
                           <Calendar style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary-gold)' }} />
-                          <input name="dates" style={{ width: '100%', padding: '20px 20px 20px 55px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none' }} placeholder="Select or type..." value={formData.dates} onChange={handleInput} />
+                          <input 
+                            id="custom-dates"
+                            name="dates" 
+                            style={{ width: '100%', padding: '20px 20px 20px 55px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none' }} 
+                            placeholder="Select or type..." 
+                            value={formData.dates} 
+                            onChange={handleInput} 
+                          />
                         </div>
                       </div>
                       <div className="input-group-premium">
-                        <label style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>GUESTS</label>
+                        <label htmlFor="custom-travellers" style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>GUESTS</label>
                         <div style={{ position: 'relative' }}>
                           <Users style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary-gold)' }} />
-                          <input name="travellers" style={{ width: '100%', padding: '20px 20px 20px 55px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none' }} placeholder="How many?" value={formData.travellers} onChange={handleInput} />
+                          <input 
+                            id="custom-travellers"
+                            name="travellers" 
+                            style={{ width: '100%', padding: '20px 20px 20px 55px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none' }} 
+                            placeholder="How many?" 
+                            value={formData.travellers} 
+                            onChange={handleInput} 
+                          />
                         </div>
                       </div>
                     </div>
@@ -186,10 +208,17 @@ const CustomPackage = ({ isGujarati }) => {
                 {step === 3 && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                     <div className="input-group-premium">
-                      <label style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>ESTIMATED BUDGET</label>
+                      <label htmlFor="custom-budget" style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>ESTIMATED BUDGET</label>
                       <div style={{ position: 'relative' }}>
                         <IndianRupee style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'var(--primary-gold)' }} />
-                        <input name="budget" style={{ width: '100%', padding: '20px 20px 20px 55px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none', fontSize: '18px' }} placeholder="Budget per person..." value={formData.budget} onChange={handleInput} />
+                        <input 
+                          id="custom-budget"
+                          name="budget" 
+                          style={{ width: '100%', padding: '20px 20px 20px 55px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none', fontSize: '18px' }} 
+                          placeholder="Budget per person..." 
+                          value={formData.budget} 
+                          onChange={handleInput} 
+                        />
                       </div>
                     </div>
                     
@@ -225,8 +254,9 @@ const CustomPackage = ({ isGujarati }) => {
                 {step === 4 && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                     <div className="input-group-premium">
-                      <label style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>NOTES TO OUR CONCIERGE</label>
+                      <label htmlFor="custom-requirements" style={{ display: 'block', marginBottom: '12px', fontSize: '13px', fontWeight: 800, color: 'var(--primary-gold)' }}>NOTES TO OUR CONCIERGE</label>
                       <textarea 
+                        id="custom-requirements"
                         name="requirements" 
                         style={{ width: '100%', height: '150px', padding: '20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '15px', color: 'white', outline: 'none', resize: 'none' }}
                         placeholder="Dietary needs, preferred airline, specific hotels, or special occasions..." 

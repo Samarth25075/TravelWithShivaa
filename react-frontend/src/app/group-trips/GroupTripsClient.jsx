@@ -1,7 +1,9 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Calendar, Users, MapPin, CheckCircle, ArrowRight, IndianRupee, Clock, Zap, ShieldCheck, Star, TrendingUp } from 'lucide-react';
+import Image from 'next/image';
 
 const GroupTrips = ({ isGujarati }) => {
   const [trips, setTrips] = useState([]);
@@ -38,10 +40,13 @@ const GroupTrips = ({ isGujarati }) => {
         <motion.div
           style={{ y: y1, position: 'absolute', top: 0, left: 0, width: '100%', height: '120%', zIndex: 0 }}
         >
-          <img
+          <Image
             src="/images/group_trips_hero.png"
             alt="Hero"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.4)' }}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-40"
           />
         </motion.div>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 0%, var(--primary-black) 100%)', zIndex: 1 }}></div>
@@ -173,7 +178,13 @@ const GroupTrips = ({ isGujarati }) => {
                 >
                   {/* Image Section - More Compact */}
                   <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
-                    <img src={`/api/uploads/${trip.image}`} alt={trip.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <Image 
+                      src={`/api/uploads/${trip.image}`} 
+                      alt={trip.title} 
+                      fill
+                      sizes="(max-width: 768px) 100vw, 300px"
+                      className="object-cover"
+                    />
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(10,10,10,0.6), transparent)' }}></div>
 
                     {/* Status Badge */}

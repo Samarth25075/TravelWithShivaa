@@ -1,5 +1,7 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X, MapPin, Calendar, Clock, IndianRupee, Heart, Share2, Info, ChevronDown, ChevronUp, Star, ShieldCheck, Zap } from 'lucide-react';
 

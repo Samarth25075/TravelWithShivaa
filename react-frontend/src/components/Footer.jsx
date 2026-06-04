@@ -1,5 +1,7 @@
+'use client';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Instagram, Facebook, Twitter, Phone, Mail, MapPin, Send, ArrowRight } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
@@ -12,7 +14,16 @@ const Footer = ({ isGujarati }) => {
       <div className="container">
         <div className="footer-grid">
           <div className="footer-logo-area">
-            <img src={siteLogo} alt="Shiv Travel Logo" />
+             <div style={{ position: 'relative', width: '120px', height: '40px', marginBottom: '20px' }}>
+               <Image 
+                 src={siteLogo || '/api/uploads/logo.png'} 
+                 alt="Shiv Travel Logo" 
+                 fill
+                 sizes="120px"
+                 className="object-contain"
+                 onError={(e) => { e.currentTarget.src = '/logo.png'; }}
+               />
+             </div>
             <h5 className="footer-brand-title">EXPERIENCES</h5>
             <p className="footer-tagline">
               {isGujarati ? '"અમે તમને ગમતા પ્રવાસ અનુભવો બનાવીએ છીએ ❤️"' : '"We curate Travel Experiences you love ❤️"'}
@@ -27,11 +38,11 @@ const Footer = ({ isGujarati }) => {
           <div className="footer-col">
             <h4>{isGujarati ? 'ઝડપી લિંક્સ' : 'Explore'}</h4>
             <ul className="footer-links">
-              <li><Link to="/packages"><ArrowRight size={14} /> {isGujarati ? 'ટૂર પેકેજો' : 'Tour Packages'}</Link></li>
-              <li><Link to="/group-trips"><ArrowRight size={14} /> {isGujarati ? 'ગ્રુપ ટ્રિપ્સ' : 'Group Trips'}</Link></li>
-              <li><Link to="/custom-package"><ArrowRight size={14} /> {isGujarati ? 'કસ્ટમાઇઝ ટ્રિપ' : 'Custom Trip'}</Link></li>
-              <li><Link to="/about"><ArrowRight size={14} /> {isGujarati ? 'અમારા વિશે' : 'About Us'}</Link></li>
-              <li><Link to="/blog"><ArrowRight size={14} /> {isGujarati ? 'બ્લોગ' : 'Blog'}</Link></li>
+              <li><Link href="/packages"><ArrowRight size={14} /> {isGujarati ? 'ટૂર પેકેજો' : 'Tour Packages'}</Link></li>
+              <li><Link href="/group-trips"><ArrowRight size={14} /> {isGujarati ? 'ગ્રુપ ટ્રિપ્સ' : 'Group Trips'}</Link></li>
+              <li><Link href="/custom-package"><ArrowRight size={14} /> {isGujarati ? 'કસ્ટમાઇઝ ટ્રિપ' : 'Custom Trip'}</Link></li>
+              <li><Link href="/about"><ArrowRight size={14} /> {isGujarati ? 'અમારા વિશે' : 'About Us'}</Link></li>
+              <li><Link href="/blog"><ArrowRight size={14} /> {isGujarati ? 'બ્લોગ' : 'Blog'}</Link></li>
             </ul>
           </div>
 
@@ -62,12 +73,16 @@ const Footer = ({ isGujarati }) => {
             <div className="newsletter-footer">
               <p>{isGujarati ? 'ઓફર્સ માટે સબ્સ્ક્રાઇબ કરો.' : 'Subscribe for exclusive early-bird offers.'}</p>
               <div className="footer-input-group">
-                <input type="email" placeholder={isGujarati ? 'તમારા ઈમેલ' : 'Email Address'} />
+                <input 
+                  aria-label={isGujarati ? 'ઈમેલ એડ્રેસ' : 'Email Address'}
+                  type="email" 
+                  placeholder={isGujarati ? 'તમારા ઈમેલ' : 'Email Address'} 
+                />
                 <button type="submit"><Send size={18} /></button>
               </div>
             </div>
             <div style={{ marginTop: '30px' }}>
-                <Link to="/admin/login" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none', fontWeight: 700 }}>
+                <Link href="/admin/login" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', textDecoration: 'none', fontWeight: 700 }}>
                     ADMIN LOGIN
                 </Link>
             </div>
@@ -77,8 +92,8 @@ const Footer = ({ isGujarati }) => {
         <div className="footer-bottom">
           <p>&copy; {currentYear} <span style={{ color: 'var(--primary-gold)' }}>TravelBookShiva</span>. All rights reserved.</p>
           <div className="footer-legal-links">
-            <Link to="/privacy">{isGujarati ? 'ગોપનીયતા' : 'Privacy'}</Link>
-            <Link to="/terms">{isGujarati ? 'નિયમો' : 'Terms'}</Link>
+            <Link href="/privacy">{isGujarati ? 'ગોપનીયતા' : 'Privacy'}</Link>
+            <Link href="/terms">{isGujarati ? 'નિયમો' : 'Terms'}</Link>
           </div>
         </div>
       </div>

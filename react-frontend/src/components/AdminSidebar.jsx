@@ -1,4 +1,6 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+'use client';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   LayoutDashboard, Package, MessageSquare, 
   Settings, LogOut, Mountain, Compass, Palette,
@@ -7,8 +9,8 @@ import {
 import { useSettings } from '../context/SettingsContext';
 
 const AdminSidebar = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location = usePathname();
+  const router = useRouter();
   const { siteLogo } = useSettings();
 
   const menuItems = [
@@ -60,11 +62,11 @@ const AdminSidebar = () => {
 
       <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '5px' }}>
         {menuItems.map((item, index) => {
-          const isActive = location.pathname.includes(item.path);
+          const isActive = location ? location.includes(item.path) : false;
           return (
             <Link 
               key={index} 
-              to={item.path}
+              href={item.path}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -91,7 +93,7 @@ const AdminSidebar = () => {
       </nav>
 
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '30px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <Link to="/" style={{ 
+        <Link href="/" style={{ 
           display: 'flex', 
           alignItems: 'center', 
           gap: '15px', 

@@ -1,7 +1,9 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, MapPin, IndianRupee, Clock, Mountain, Palmtree, Compass, Sparkles, Footprints, ShieldCheck, LayoutGrid, List, ChevronRight, Star, Share2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import axios from 'axios';
 
@@ -39,8 +41,13 @@ const Packages = ({ isGujarati }) => {
   ];
 
   const getImageUrl = (image) => {
-    if (!image) return 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80';
-    if (image.startsWith('http')) return image;
+    if (!image) return 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&fm=webp';
+    if (image.startsWith('http')) {
+      if (image.includes('unsplash.com') && !image.includes('fm=webp')) {
+        return `${image}&fm=webp`;
+      }
+      return image;
+    }
     return `/api/uploads/${image}`;
   };
 
@@ -68,13 +75,14 @@ const Packages = ({ isGujarati }) => {
     <div className="packages-page" style={{ backgroundColor: '#0a0a0a', minHeight: '100vh', color: 'white' }}>
       {/* Luxury Hero Section */}
       <section className="relative h-[60vh] flex items-center overflow-hidden" style={{ height: '65vh', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div 
-          style={{ 
-            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, 
-            backgroundImage: 'url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80")',
-            backgroundSize: 'cover', backgroundPosition: 'center', filter: 'brightness(0.3) contrast(1.1)',
-            zIndex: 0
-          }}
+        <Image
+          src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&fm=webp"
+          alt="Hero Background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30 contrast-[1.1]"
+          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80"; }}
         />
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'linear-gradient(to bottom, transparent 0%, #0a0a0a 100%)', zIndex: 1 }} />
         
@@ -176,33 +184,35 @@ const Packages = ({ isGujarati }) => {
                  </div>
 
                  <div style={{ position: 'relative', paddingTop: '10px' }}>
-                    <input 
-                      type="range" min="0" 
-                      max={packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000} 
-                      step="500" value={priceRange} 
-                      onChange={(e) => setPriceRange(parseInt(e.target.value))} 
-                      style={{ 
-                        cursor: 'pointer', width: '100%', height: '4px', borderRadius: '10px', 
-                        accentColor: 'var(--primary-gold)', background: 'rgba(255,255,255,0.05)', outline: 'none'
-                      }}
-                    />
+                     <input 
+                       aria-label="Price Range"
+                       type="range" min="0" 
+                       max={packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000} 
+                       step="500" value={priceRange} 
+                       onChange={(e) => setPriceRange(parseInt(e.target.value))} 
+                       style={{ 
+                         cursor: 'pointer', width: '100%', height: '4px', borderRadius: '10px', 
+                         accentColor: 'var(--primary-gold)', background: 'rgba(255,255,255,0.05)', outline: 'none'
+                       }}
+                     />
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px' }}>
                        <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '1px' }}>₹0</span>
                        <span style={{ fontSize: '10px', fontWeight: 800, color: 'rgba(255,255,255,0.2)', letterSpacing: '1px' }}>₹{(packages.length > 0 ? Math.max(...packages.map(p => p.price)) : 200000).toLocaleString()}</span>
                     </div>
                  </div>
 
-                 <motion.button 
-                  whileHover={{ color: 'white', scale: 1.05 }}
-                  onClick={() => setPriceRange(packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000)}
-                  style={{ 
-                    background: 'none', border: 'none', color: 'rgba(212, 175, 55, 0.6)', 
-                    fontSize: '11px', fontWeight: 900, cursor: 'pointer', 
-                    textTransform: 'uppercase', letterSpacing: '2px', transition: '0.3s' 
-                  }}
-                 >
-                    Reset Filter
-                 </motion.button>
+                  <motion.button 
+                   whileHover={{ color: 'white', scale: 1.05 }}
+                   onClick={() => setPriceRange(packages.length > 0 ? Math.max(...packages.map(p => p.price)) + 1000 : 200000)}
+                   style={{ 
+                     background: 'none', border: 'none', color: 'rgba(212, 175, 55, 0.6)', 
+                     fontSize: '11px', fontWeight: 900, cursor: 'pointer', 
+                     textTransform: 'uppercase', letterSpacing: '2px', transition: '0.3s',
+                     padding: '10px 16px', display: 'inline-block'
+                   }}
+                  >
+                     Reset Filter
+                  </motion.button>
               </div>
             </div>
           </motion.div>
@@ -246,8 +256,15 @@ const Packages = ({ isGujarati }) => {
                         transition: '0.4s', boxShadow: '0 20px 40px rgba(0,0,0,0.3)', display: 'flex', flexDirection: viewMode === 'list' ? 'row' : 'column'
                       }}
                     >
-                       <Link to={`/package/${pkg.id}`} style={{ position: 'relative', width: viewMode === 'list' ? '400px' : '100%', height: viewMode === 'list' ? 'auto' : '280px', overflow: 'hidden', display: 'block' }}>
-                         <img src={getImageUrl(pkg.image)} alt={pkg.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: '0.6s' }} />
+                       <Link href={`/packages/${pkg.slug || pkg.id}`} style={{ position: 'relative', width: viewMode === 'list' ? '400px' : '100%', height: viewMode === 'list' ? 'auto' : '280px', overflow: 'hidden', display: 'block' }}>
+                         <Image 
+                           src={getImageUrl(pkg.image)} 
+                           alt={pkg.title} 
+                           fill
+                           sizes="(max-width: 768px) 100vw, 400px"
+                           className="object-cover transition-transform duration-500 group-hover:scale-110"
+                           onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=800&q=80"; }}
+                         />
                          <div style={{ position: 'absolute', top: '20px', left: '20px', background: 'var(--gradient-gold)', color: 'black', padding: '6px 16px', borderRadius: '50px', fontSize: '11px', fontWeight: 900 }}>
                            {pkg.tag || 'ELITE'}
                          </div>
@@ -256,7 +273,7 @@ const Packages = ({ isGujarati }) => {
                           <div style={{ fontSize: '12px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '12px' }}>
                              {pkg.type}
                           </div>
-                          <Link to={`/package/${pkg.id}`} style={{ textDecoration: 'none' }}>
+                          <Link href={`/packages/${pkg.slug || pkg.id}`} style={{ textDecoration: 'none' }}>
                             <h3 style={{ fontSize: '24px', fontWeight: 900, color: 'white', marginBottom: '15px', fontFamily: 'var(--font-heading)' }}>{pkg.title}</h3>
                           </Link>
                           
@@ -271,10 +288,10 @@ const Packages = ({ isGujarati }) => {
                                 <span style={{ fontSize: '28px', fontWeight: 950, color: 'white' }}><IndianRupee size={22} style={{ color: 'var(--primary-gold)' }} />{pkg.price.toLocaleString()}</span>
                              </div>
                              <div style={{ display: 'flex', gap: '10px' }}>
-                               <a href={`https://wa.me/?text=${encodeURIComponent(`Check out this trip: ${pkg.title} at ${window.location.origin}/package/${pkg.id}`)}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(37, 211, 102, 0.1)', color: '#25d366', padding: '14px', borderRadius: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Share on WhatsApp">
+                               <a href={`https://wa.me/?text=${encodeURIComponent(`Check out this trip: ${pkg.title} at ${typeof window !== 'undefined' ? window.location.origin : ''}/packages/${pkg.slug || pkg.id}`)}`} target="_blank" rel="noreferrer" style={{ background: 'rgba(37, 211, 102, 0.1)', color: '#25d366', padding: '14px', borderRadius: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} title="Share on WhatsApp">
                                  <Share2 size={16} />
                                </a>
-                               <Link to={`/package/${pkg.id}?enquire=true`} className="btn-primary" style={{ padding: '14px 28px', borderRadius: '50px', fontSize: '13px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                               <Link href={`/packages/${pkg.slug || pkg.id}?enquire=true`} className="btn-primary" style={{ padding: '14px 28px', borderRadius: '50px', fontSize: '13px', fontWeight: 900, display: 'flex', alignItems: 'center', gap: '10px' }}>
                                  Enquire Now <ChevronRight size={16} />
                                </Link>
                              </div>

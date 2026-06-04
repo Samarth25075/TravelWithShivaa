@@ -1,16 +1,17 @@
+'use client';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Lock, User, ShieldCheck, ArrowRight, Sparkles } from 'lucide-react';
-import { useSettings } from '../../context/SettingsContext';
+import { useSettings } from '../../../context/SettingsContext';
 
 const AdminLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter();
   const { siteLogo } = useSettings();
 
   const handleLogin = async (e) => {
@@ -20,7 +21,7 @@ const AdminLogin = () => {
     try {
       const res = await axios.post('admin/login', { username, password });
       localStorage.setItem('admin_token', res.data.token);
-      navigate('/admin/dashboard');
+      router.push('/admin/dashboard');
     } catch (err) {
       setError('Access Denied. Check your credentials.');
     } finally {

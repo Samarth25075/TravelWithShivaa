@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, Instagram, Facebook, Twitter, ShieldCheck, Globe, Star, MessageSquare } from 'lucide-react';
@@ -50,6 +51,7 @@ const Contact = ({ isGujarati }) => {
           src="/images/contact_hero.png" 
           alt="Luxury Office" 
           style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.4 }} 
+          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"; }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent, var(--primary-black))' }}></div>
         <div className="container" style={{ position: 'relative', zIndex: 10 }}>
@@ -113,7 +115,7 @@ const Contact = ({ isGujarati }) => {
                       whileHover={{ y: -5, color: 'var(--primary-gold)' }}
                       href={social.url} 
                       target="_blank"
-                      style={{ color: 'white', opacity: 0.8 }}
+                      style={{ color: 'white', opacity: 0.8, padding: '8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
                     >
                       {social.icon}
                     </motion.a>
@@ -149,8 +151,9 @@ const Contact = ({ isGujarati }) => {
                   
                   <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '25px' }}>
-                      <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Full Name</label>
+                      <label htmlFor="contact-name" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Full Name</label>
                       <input 
+                        id="contact-name"
                         name="name" 
                         value={formData.name} 
                         onChange={handleInput} 
@@ -163,8 +166,9 @@ const Contact = ({ isGujarati }) => {
                     
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px' }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Email Address</label>
+                        <label htmlFor="contact-email" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Email Address</label>
                         <input 
+                          id="contact-email"
                           name="email" 
                           value={formData.email} 
                           onChange={handleInput} 
@@ -175,8 +179,9 @@ const Contact = ({ isGujarati }) => {
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Phone Number</label>
+                        <label htmlFor="contact-phone" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Phone Number</label>
                         <input 
+                          id="contact-phone"
                           name="phone" 
                           value={formData.phone} 
                           onChange={handleInput} 
@@ -189,8 +194,9 @@ const Contact = ({ isGujarati }) => {
                     </div>
 
                     <div style={{ marginBottom: '25px' }}>
-                      <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Destination Interest</label>
+                      <label htmlFor="contact-destination" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Destination Interest</label>
                       <input 
+                        id="contact-destination"
                         name="destination_interest" 
                         value={formData.destination_interest} 
                         onChange={handleInput} 
@@ -202,8 +208,9 @@ const Contact = ({ isGujarati }) => {
 
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px' }}>
                       <div>
-                        <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Travel Date (Approx)</label>
+                        <label htmlFor="contact-date" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Travel Date (Approx)</label>
                         <input 
+                          id="contact-date"
                           name="travel_date" 
                           value={formData.travel_date} 
                           onChange={handleInput} 
@@ -212,8 +219,9 @@ const Contact = ({ isGujarati }) => {
                         />
                       </div>
                       <div>
-                        <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Number of Travellers</label>
+                        <label htmlFor="contact-travellers" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Number of Travellers</label>
                         <input 
+                          id="contact-travellers"
                           name="number_of_travellers" 
                           value={formData.number_of_travellers} 
                           onChange={handleInput} 
@@ -226,8 +234,9 @@ const Contact = ({ isGujarati }) => {
                     </div>
 
                     <div style={{ marginBottom: '35px' }}>
-                      <label style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Inquiry Details</label>
+                      <label htmlFor="contact-message" style={{ display: 'block', fontSize: '11px', fontWeight: 900, color: 'var(--primary-gold)', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Inquiry Details</label>
                       <textarea 
+                        id="contact-message"
                         name="message" 
                         value={formData.message} 
                         onChange={handleInput} 
