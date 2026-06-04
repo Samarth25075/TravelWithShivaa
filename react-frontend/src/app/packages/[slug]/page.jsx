@@ -2,10 +2,11 @@ import PackageDetailsClient from './PackageDetailsClient';
 import axios from 'axios';
 
 const defaultApiUrl = process.env.NODE_ENV === 'production'
-  ? 'https://travelwithshivaa.onrender.com/api'
-  : 'http://localhost:8000/api';
+  ? 'https://travelwithshivaa.onrender.com/api/'
+  : 'http://localhost:8000/api/';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
+axios.defaults.baseURL = rawApiUrl.endsWith('/') ? rawApiUrl : `${rawApiUrl}/`;
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;

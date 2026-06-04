@@ -22,6 +22,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'travelbookshiva.in',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.travelbookshiva.in',
       }
     ],
     formats: ['image/avif', 'image/webp'],

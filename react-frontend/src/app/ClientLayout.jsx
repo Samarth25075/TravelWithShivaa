@@ -12,10 +12,11 @@ import WhatsAppButton from '../components/WhatsAppButton';
 import IntroLoader from '../components/IntroLoader';
 
 const defaultApiUrl = process.env.NODE_ENV === 'production'
-  ? 'https://travelwithshivaa.onrender.com/api'
-  : '/api';
+  ? 'https://travelwithshivaa.onrender.com/api/'
+  : '/api/';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
+axios.defaults.baseURL = rawApiUrl.endsWith('/') ? rawApiUrl : `${rawApiUrl}/`;
 
 function MainApp({ children }) {
   const { isGujarati, setIsGujarati } = useLanguage();

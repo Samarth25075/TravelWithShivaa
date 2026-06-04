@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 const defaultApiUrl = process.env.NODE_ENV === 'production'
-  ? 'https://travelwithshivaa.onrender.com/api'
-  : 'http://localhost:8000/api';
+  ? 'https://travelwithshivaa.onrender.com/api/'
+  : 'http://localhost:8000/api/';
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || defaultApiUrl;
+axios.defaults.baseURL = rawApiUrl.endsWith('/') ? rawApiUrl : `${rawApiUrl}/`;
 
 export default async function sitemap() {
   const baseUrl = 'https://travelbookshiva.in';
