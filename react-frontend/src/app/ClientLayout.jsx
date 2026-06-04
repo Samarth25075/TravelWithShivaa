@@ -11,7 +11,7 @@ import Footer from '../components/Footer';
 import WhatsAppButton from '../components/WhatsAppButton';
 import IntroLoader from '../components/IntroLoader';
 
-axios.defaults.baseURL = '/api';
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || '/api';
 
 function MainApp({ children }) {
   const { isGujarati, setIsGujarati } = useLanguage();
